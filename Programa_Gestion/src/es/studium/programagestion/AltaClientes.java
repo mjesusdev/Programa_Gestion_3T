@@ -136,9 +136,7 @@ public class AltaClientes extends Frame implements ActionListener, WindowListene
 			{
 				try
 				{
-					//Cargar los controladores para el acceso a la BD
 					Class.forName(driver);
-					//Establecer la conexión con la BD Empresa
 					connection = DriverManager.getConnection(url, login, password);
 					//Crear una sentencia
 					statement = connection.createStatement();

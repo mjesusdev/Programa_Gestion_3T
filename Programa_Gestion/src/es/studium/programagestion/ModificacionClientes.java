@@ -3,7 +3,6 @@ package es.studium.programagestion;
 import java.awt.Button;
 import java.awt.Choice;
 import java.awt.Dialog;
-import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -15,14 +14,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.swing.JOptionPane;
 
 public class ModificacionClientes extends Frame implements ActionListener, WindowListener{
 
 	private static final long serialVersionUID = 1L;
 	
 	// Crear componentes
-	Choice choseleccion = new Choice();
+	static Choice seleccionarCliente = new Choice();
 	Button btnMod = new Button("Modificación");
 	
 	// Panel para el Choice y el botón
@@ -31,18 +36,6 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 	
 	// Crear diálogo
 	Dialog DialogoMod = new Dialog(this, true);
-	// Diálogo Modificación Correcta
-	Dialog DialogoCorrecto = new Dialog(this, true);
-	// Diálogo Modificación Incorrecta
-	Dialog DialogoIncorrecto = new Dialog(this, true);
-	
-	// Componentes para el diálogo correcto
-	Label lblCorrecto = new Label("Modificación Correcta");
-	Button btnAceptar = new Button("Aceptar");
-	
-	// Componentes Diálogo Incorrecto
-	Label lblAltaIn = new Label("Se ha producido un error en la Modificación");
-	Button btnAceptarIn = new Button("Aceptar");
 	
 	// Crear componentes
 	Label lblNombre = new Label("Nombre:");
@@ -51,26 +44,37 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 	TextField txtApellidos = new TextField();
 	Label lblDNI = new Label("DNI:");
 	TextField txtDNI = new TextField();
-	Button btnModificacion = new Button("Modificación Clientes");
+	Button btnModificacion = new Button("Modificar Cliente");
 	Button btnLimpiar = new Button("Limpiar");
+	
+	// Base De datos
+	static String driver = "com.mysql.jdbc.Driver";
+	static String url = "jdbc:mysql://localhost:3306/farmaciapr2?autoReconnect=true&useSSL=false";
+	static String login = "admin";
+	static String password = "Studium2018;";
+	static String sentencia = null;
+	static Connection connection = null;
+	static Statement statement = null;
+	static ResultSet rs = null;
 	
 	ModificacionClientes()
 	{
-		// Almacenamos en mipantalla el sistema nativo de pantallas, el tamaño por defecto de la pantalla, nos servira para poner el icono
-		Toolkit mipantalla = Toolkit.getDefaultToolkit();
-		
+		// Título e icono
 		setTitle("Modificación Clientes");
-		// Posición a los dos paneles el panel del Choice al NORTE y el del botón al CENTRO
+		Toolkit mipantalla = Toolkit.getDefaultToolkit();
+		Image miIcono = mipantalla.getImage("src//farmacia.png");
+		setIconImage(miIcono);
+		
+		// Añadir elementos
+		pnlChoice.add(seleccionarCliente);
+		pnlBoton.add(btnMod);
+		seleccionarCliente.add("Seleccione cliente a modificar");
 		add(pnlChoice, "North");
 		add(pnlBoton, "Center");
-		// Añadir elementos al choice (lista)
-		choseleccion.add("Pepito Pepito");
-		choseleccion.add("Manuel Rojas");
-		choseleccion.add("Alberto Menéndez");
-		// Añadir la lista
-		pnlChoice.add(choseleccion);
-		// Añadir el botón al panel
-		pnlBoton.add(btnMod);
+		
+		// Llamar al método que selecciona los Clientes
+		introducirClientes();
+		
 		// Añadir Windowlistener
 		addWindowListener(this);
 		// Añadir un Actionlistener al botón de Modificación 
@@ -95,40 +99,43 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 		DialogoMod.addWindowListener(this);
 		DialogoMod.setVisible(false);
 		
-		DialogoCorrecto.setTitle("Modificación Cliente");
-		DialogoCorrecto.setLayout(new FlowLayout());
-		DialogoCorrecto.add(lblCorrecto);
-		DialogoCorrecto.add(btnAceptar);
-		DialogoCorrecto.setSize(200,100);
-		DialogoCorrecto.setLocationRelativeTo(null);
-		DialogoCorrecto.setResizable(false);
-		DialogoCorrecto.addWindowListener(this);
-		DialogoCorrecto.setVisible(false);
-		
-		DialogoIncorrecto.setTitle("Modificación Cliente");
-		DialogoIncorrecto.setLayout(new FlowLayout());
-		DialogoIncorrecto.add(lblAltaIn);
-		DialogoIncorrecto.add(btnAceptarIn);
-		DialogoIncorrecto.setSize(280,100);
-		DialogoIncorrecto.setLocationRelativeTo(null);
-		DialogoIncorrecto.setResizable(false);
-		DialogoIncorrecto.addWindowListener(this);
-		DialogoIncorrecto.setVisible(false);
-		
-		// Demás botones con su Listener
-		btnAceptar.addActionListener(this);
-		btnAceptarIn.addActionListener(this);
-		
-		// Establecer un icono a la aplicación
-		Image miIcono = mipantalla.getImage("src//farmacia.png");
-		// Colocar Icono
-		setIconImage(miIcono);
-
-		// Para que aparezca el frame en centro de la pantalla 
+		setSize(300,150);
 		setLocationRelativeTo(null);
-		setBounds(550,250,300,150);
 		setResizable(false);
 		setVisible(true);
+	}
+	
+	public static void introducirClientes() {
+		sentencia = "SELECT * FROM clientes;";
+
+		try{
+			Class.forName(driver);				
+			connection = DriverManager.getConnection(url, login, password);
+			statement = connection.createStatement();
+			rs = statement.executeQuery(sentencia);
+			while (rs.next()) {
+				String nombreCliente = rs.getString("nombreCliente");
+				String apellidosCliente = rs.getString("apellidosCliente");
+				String dniCliente = rs.getString("dniCliente");
+				seleccionarCliente.add(nombreCliente + " " + apellidosCliente + " " + "(" + dniCliente + ")");
+			}
+		} 
+
+		catch (ClassNotFoundException e) {
+			System.out.println("Se produjo un error al cargar el Driver");
+		}
+
+		catch(SQLException e) {
+			System.out.println("Se produjo un error al conectar con la BD");
+		}
+
+		try {
+			if (connection!=null) {
+				connection.close();
+			}	
+		}catch(SQLException sqle) {
+			System.out.println("No se puede cerrar la conexión con la Base de Datos");
+		}
 	}
 	
 	@Override
@@ -139,12 +146,10 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 		
 		if (btnModificacion.equals(ae.getSource())) {
 			// Si el contenido de los tres TEXT FIELD están vacíos que lanze la ventana de ALTA INCORRECTA
-			if (Nombre.equals("") &&  (Apellidos.equals("")) && (DNI.equals(""))){
-				this.setVisible(false);
-				DialogoIncorrecto.setVisible(true);
+			if (Nombre.equals("") |  (Apellidos.equals("")) | (DNI.equals(""))){
+				JOptionPane.showMessageDialog(null, "Tienes que introducir todos los datos.", "Error", JOptionPane.ERROR_MESSAGE);
 			}else{
-				this.setVisible(false);
-				DialogoCorrecto.setVisible(true);
+				JOptionPane.showMessageDialog(null, "Modificación Correcta", "Éxito en la Modificación", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 
@@ -167,22 +172,16 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 			DialogoMod.setVisible(true);
 		}
 		
+		/*
 		if (btnAceptar.equals(ae.getSource())) {
 			Guardar_Movimientos f = new Guardar_Movimientos();
 			try {
 				f.registrar("admin]" + "[Modificación Clientes");
 			} catch (IOException e) {
 				e.printStackTrace();
-			}		
-			
-			DialogoCorrecto.setVisible(false);
-			DialogoMod.setVisible(true);
+			}
 		}
-		
-		if (btnAceptarIn.equals(ae.getSource())) {
-			DialogoIncorrecto.setVisible(false);
-			DialogoMod.setVisible(true);
-		}
+		*/
 	}
 	
 	@Override
@@ -194,16 +193,6 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 		else if(DialogoMod.isActive()) {
 			DialogoMod.setVisible(false);
 			new ModificacionClientes();
-		}
-
-		else if (DialogoCorrecto.isActive()) {
-			DialogoCorrecto.setVisible(false);
-			DialogoMod.setVisible(true);
-		}
-		
-		else if (DialogoIncorrecto.isActive()) {
-			DialogoIncorrecto.setVisible(false);
-			DialogoMod.setVisible(true);
 		}
 	}
 
