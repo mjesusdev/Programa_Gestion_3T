@@ -192,7 +192,7 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 		}
 		else if(DialogoMod.isActive()) {
 			DialogoMod.setVisible(false);
-			new ModificacionClientes();
+			setVisible(true);
 		}
 	}
 
