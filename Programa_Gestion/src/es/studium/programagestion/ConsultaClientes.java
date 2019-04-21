@@ -5,6 +5,7 @@ import java.awt.Button;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.Image;
+import java.awt.Label;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,11 +23,15 @@ import javax.swing.JTable;
 public class ConsultaClientes extends Frame implements ActionListener, WindowListener{
 
 	private static final long serialVersionUID = 1L;
+
+	Label lblConsulta = new Label("Consulta Clientes");
 	
 	static JTable tablaClientes = new JTable();
-	
+
 	Button btnVolver = new Button("Volver");
-	
+
+	String [] titulos= {"DNI","Nombre","Apellidos"};
+
 	// Base de Datos
 	static String driver = "com.mysql.jdbc.Driver";
 	static String url = "jdbc:mysql://localhost:3306/farmaciapr2?autoReconnect=true&useSSL=false";
@@ -39,46 +44,49 @@ public class ConsultaClientes extends Frame implements ActionListener, WindowLis
 
 	ConsultaClientes()
 	{
-		Toolkit mipantalla = Toolkit.getDefaultToolkit();
-		Image miIcono = mipantalla.getImage("src//farmacia.png");
-		setIconImage(miIcono);
 		setTitle("Consulta Clientes");
+		// Llamar al método que coloca el icono a la ventana
+		colocarIcono();
 		setLayout(new FlowLayout());
+		add(lblConsulta);
+		tablaClientes = new JTable(rellenarTabla(),titulos);
 		add(new JScrollPane(tablaClientes), BorderLayout.CENTER);
 		add(btnVolver);
-		setSize(290,150);
+		setSize(500,600);
 		setLocationRelativeTo(null);
 		addWindowListener(this);
 		btnVolver.addActionListener(this);
 		setResizable(false);
 		setVisible(true);
 	}
-	
-	public static void rellenarTabla() {
+
+	public void colocarIcono() {
+		Toolkit mipantalla = Toolkit.getDefaultToolkit();
+		Image miIcono = mipantalla.getImage("src//farmacia.png");
+		setIconImage(miIcono);
+	}
+
+	public Object[][] rellenarTabla() {
 		try 
 		{
-			//Cargar los controladores para el acceso a la BD
 			Class.forName(driver);
-			//Establecer la conexión con la BD Empresa
 			connection = DriverManager.getConnection(url, login, password);
-			//Crear una sentencia
 			statement = connection.createStatement();						
-			//Crear un objeto ResultSet para guardar lo obtenido y ejecutar la sentencia SQL
 			rs = statement.executeQuery(sentencia);
-			rs.next();
-			
-			String dniCliente = rs.getString("dniCliente");
-			String nombreCliente = rs.getString("nombreCliente");
-			String apellidosCliente = rs.getString("apellidosCliente");
-			
-			String [] nombreColumnas= {"dniCliente","nombreCliente","apellidosCliente"};
-			
-			Object [][] datosFila={
-					{dniCliente, nombreCliente, apellidosCliente},
-			};
-			tablaClientes(datosFila, nombreColumnas);
+
+			if (rs.next()) {
+				String dniCliente = rs.getString("dniCliente");
+				String nombreCliente = rs.getString("nombreCliente");
+				String apellidosCliente = rs.getString("apellidosCliente");
+
+				Object [][] datosFilaFinal= {
+						{dniCliente, nombreCliente, apellidosCliente}
+				};
+
+				return datosFilaFinal;
+			}
 		}
-		
+
 		catch (ClassNotFoundException cnfe)
 		{
 			System.out.println("Error 1: "+cnfe.getMessage());
@@ -103,11 +111,7 @@ public class ConsultaClientes extends Frame implements ActionListener, WindowLis
 				System.out.println("Error 3: "+e.getMessage());
 			}
 		}
-	}
-
-	private static void tablaClientes(Object[][] datosFila, String[] nombreColumnas) {
-		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 	@Override
@@ -127,32 +131,20 @@ public class ConsultaClientes extends Frame implements ActionListener, WindowLis
 	}
 
 	@Override
-	public void windowActivated(WindowEvent arg0) {
-		// TODO Auto-generated method stub	
-	}
+	public void windowActivated(WindowEvent arg0) {}
 
 	@Override
-	public void windowClosed(WindowEvent arg0) {
-		// TODO Auto-generated method stub
-	}
+	public void windowClosed(WindowEvent arg0) {}
 
 	@Override
-	public void windowDeactivated(WindowEvent arg0) {
-		// TODO Auto-generated method stub	
-	}
+	public void windowDeactivated(WindowEvent arg0) {}
 
 	@Override
-	public void windowDeiconified(WindowEvent arg0) {
-		// TODO Auto-generated method stub
-	}
+	public void windowDeiconified(WindowEvent arg0) {}
 
 	@Override
-	public void windowIconified(WindowEvent arg0) {
-		// TODO Auto-generated method stub
-	}
+	public void windowIconified(WindowEvent arg0) {}
 
 	@Override
-	public void windowOpened(WindowEvent arg0) {
-		// TODO Auto-generated method stub
-	}
+	public void windowOpened(WindowEvent arg0) {}
 }
