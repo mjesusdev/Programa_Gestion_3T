@@ -26,7 +26,7 @@ public class ConsultaClientes extends Frame implements ActionListener, WindowLis
 
 	Label lblConsulta = new Label("Consulta Clientes");
 	
-	static JTable tablaClientes = new JTable();
+	JTable tablaClientes = new JTable();
 
 	Button btnVolver = new Button("Volver");
 
@@ -73,16 +73,16 @@ public class ConsultaClientes extends Frame implements ActionListener, WindowLis
 			connection = DriverManager.getConnection(url, login, password);
 			statement = connection.createStatement();						
 			rs = statement.executeQuery(sentencia);
-
-			if (rs.next()) {
+			
+			while (rs.next()) {
 				String dniCliente = rs.getString("dniCliente");
 				String nombreCliente = rs.getString("nombreCliente");
 				String apellidosCliente = rs.getString("apellidosCliente");
-
+				
 				Object [][] datosFilaFinal= {
 						{dniCliente, nombreCliente, apellidosCliente}
 				};
-
+				
 				return datosFilaFinal;
 			}
 		}

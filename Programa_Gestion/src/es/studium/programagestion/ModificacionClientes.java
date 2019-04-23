@@ -27,7 +27,7 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 	private static final long serialVersionUID = 1L;
 	
 	// Crear componentes
-	static Choice seleccionarCliente = new Choice();
+	Choice seleccionarCliente = new Choice();
 	Button btnMod = new Button("Modificación");
 	
 	// Panel para el Choice y el botón
@@ -61,9 +61,7 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 	{
 		// Título e icono
 		setTitle("Modificación Clientes");
-		Toolkit mipantalla = Toolkit.getDefaultToolkit();
-		Image miIcono = mipantalla.getImage("src//farmacia.png");
-		setIconImage(miIcono);
+		colocarIcono();
 		
 		// Añadir elementos
 		pnlChoice.add(seleccionarCliente);
@@ -73,14 +71,14 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 		add(pnlBoton, "Center");
 		
 		// Llamar al método que selecciona los Clientes
-		introducirClientes();
+		introducirClientes(seleccionarCliente);
 		
 		// Añadir Windowlistener
 		addWindowListener(this);
 		// Añadir un Actionlistener al botón de Modificación 
 		btnMod.addActionListener(this);
-		btnLimpiar.addActionListener(this);
 		btnModificacion.addActionListener(this);
+		btnLimpiar.addActionListener(this);
 		
 		// Diálogo donde se realiza la modificación
 		DialogoMod.setTitle("Modificación Clientes");
@@ -105,7 +103,13 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 		setVisible(true);
 	}
 	
-	public static void introducirClientes() {
+	public void colocarIcono() {
+		Toolkit mipantalla = Toolkit.getDefaultToolkit();
+		Image miIcono = mipantalla.getImage("src//farmacia.png");
+		setIconImage(miIcono);
+	}
+	
+	public static void introducirClientes(Choice seleccionarCliente) {
 		sentencia = "SELECT * FROM clientes;";
 
 		try{
