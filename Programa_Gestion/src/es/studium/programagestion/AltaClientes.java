@@ -35,18 +35,6 @@ public class AltaClientes extends Frame implements ActionListener, WindowListene
 	TextField txtDNI = new TextField();
 	Button btnAlta = new Button("Alta");
 	Button btnLimpiar = new Button("Limpiar");
-
-	// Diálogo Alta Correcta y AltaIncorrecta
-	Dialog AltClientes = new Dialog(this, true);
-	Dialog AltIn = new Dialog(this, true);
-
-	// Componentes Diálogo Correcto
-	Label lblAltCorrecta = new Label("Alta Correcta");
-	Button btnAceptar = new Button("Aceptar");
-
-	// Componentes Diálogo Incorrecto
-	Label lblAltIncorrecta = new Label("Se ha producido un error en el Alta");
-	Button btnAceptar1 = new Button("Aceptar");
 	
 	// Necesario para conectar con la BD
 	String driver = "com.mysql.jdbc.Driver";
@@ -73,40 +61,13 @@ public class AltaClientes extends Frame implements ActionListener, WindowListene
 		add(txtDNI);
 		add(btnAlta);
 		add(btnLimpiar);
-		
-		// Diálogo AltaClientes CORRECTA
-		AltClientes.setTitle("Alta Clientes");
-		// Distribución centrada
-		AltClientes.setLayout(new FlowLayout());
-		AltClientes.add(lblAltCorrecta);
-		AltClientes.add(btnAceptar);
-		AltClientes.setSize(150,100);
-		AltClientes.setLocationRelativeTo(null);
-		AltClientes.setResizable(false);
-		AltClientes.setVisible(false);
 
-		// Diálogo AltaClientes INCORRECTA
-		AltIn.setTitle("Alta Clientes");
-		// Distribución centrada
-		AltIn.setLayout(new FlowLayout());
-		AltIn.add(lblAltIncorrecta);
-		AltIn.add(btnAceptar1);
-		AltIn.setSize(250,100);
-		AltIn.setLocationRelativeTo(null);
-		AltIn.setResizable(false);
-		AltIn.setVisible(false);
-
-		// Añadir los Listeners (WINDOWLISTENER) a las ventanas, frame y diálogos
+		// Añadir los Listeners (WINDOWLISTENER) al frame
 		addWindowListener(this);
-		AltClientes.addWindowListener(this);
-		AltIn.addWindowListener(this);
 		
 		// Action Listeners a los botones del Frame de la clase Principal (ALTACLIENTES)
 		btnAlta.addActionListener(this);
 		btnLimpiar.addActionListener(this);
-		// BTN ALTACLIENTES Correcta Y ALTACLIENTES Incorrecta
-		btnAceptar.addActionListener(this);
-		btnAceptar1.addActionListener(this);
 		
 		// Establecer un icono a la aplicación
 		Image miIcono = mipantalla.getImage("src//farmacia.png");
@@ -144,6 +105,14 @@ public class AltaClientes extends Frame implements ActionListener, WindowListene
 					// Ejecutar la sentencia
 					statement.executeUpdate(sentencia);
 					JOptionPane.showMessageDialog(null, "El Alta se ha realizado", "Alta Correcta", JOptionPane.INFORMATION_MESSAGE);
+
+					Guardar_Movimientos gm = new Guardar_Movimientos();
+					try {
+						gm.registrar("admin]" + "["+sentencia+"");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 				
 				catch (ClassNotFoundException cnfe)
@@ -184,41 +153,13 @@ public class AltaClientes extends Frame implements ActionListener, WindowListene
 			txtDNI.selectAll();
 			txtDNI.setText("");
 		}
-
-		if(btnAceptar.equals(arg0.getSource())) {
-			Guardar_Movimientos gm = new Guardar_Movimientos();
-			try {
-				gm.registrar("admin]" + "[Alta Clientes");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			AltClientes.setVisible(false);
-			new AltaClientes();
-		}
-		
-		if(btnAceptar1.equals(arg0.getSource())) {
-			AltIn.setVisible(false);
-			new AltaClientes();
-		}
 	}
 
 	@Override
 	public void windowClosing(WindowEvent arg0) {
-		if(AltClientes.isActive()) {
-			// Hacer visible la pantalla principal (AltaClientes) y que desaparezca el diálogo (AltClientes)
-			AltClientes.setVisible(false);
-			new AltaClientes();
-		}
-		else if(this.isActive()) {
+		if(this.isActive()) {
 			this.setVisible(false);
 			new MenuPrincipal(null);
-		}
-		else if(AltIn.isActive()) {
-			// Hacer visible la pantalla principal (AltaClientes) y que desaparezca el diálogo (AltIn) "Alta Incorrecta"
-			AltIn.setVisible(false);
-			new AltaClientes();
 		}
 	}
 
