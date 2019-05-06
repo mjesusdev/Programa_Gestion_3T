@@ -226,53 +226,98 @@ public class Programa_Gestion implements WindowListener, ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if (btnLogin.equals(arg0.getSource())){
-			sentencia = "SELECT * FROM usuarios WHERE nombreUsuario = '"+txtUsuario.getText()+"' AND claveUsuario = MD5('" + txtClave.getText()+"');";
 
-			//Cargar los controladores para el acceso a la BD
-			try{
-				Class.forName(driver);				
-				//Establecer la conexión con la BD Empresa
-				connection = DriverManager.getConnection(url, login, password);
-				//Crear una sentencia
-				statement = connection.createStatement();
-				//Crear un objeto ResultSet para guardar lo obtenido y ejecutar la sentencia SQL
-				rs = statement.executeQuery(sentencia);
-				if(rs.next()){
-					new MenuPrincipal(null);
-					miPrograma.setVisible(false);
-				}
-			
-				else{
-					JOptionPane.showMessageDialog(null, "Se ha esquivocado en el usuario o la contraseña", "Error", JOptionPane.ERROR_MESSAGE);
-				}
-			} 
+			String usuario = txtUsuario.getText();
 
-			catch (ClassNotFoundException e) {
-				System.out.println("Se produjo un error al cargar el Driver");
+			if (usuario.equals("administrador")) {
+				sentencia = "SELECT * FROM usuarios WHERE nombreUsuario = '"+txtUsuario.getText()+"' AND claveUsuario = MD5('" + txtClave.getText()+"');";
+
+				//Cargar los controladores para el acceso a la BD
+				try{
+					Class.forName(driver);				
+					//Establecer la conexión con la BD Empresa
+					connection = DriverManager.getConnection(url, login, password);
+					//Crear una sentencia
+					statement = connection.createStatement();
+					//Crear un objeto ResultSet para guardar lo obtenido y ejecutar la sentencia SQL
+					rs = statement.executeQuery(sentencia);
+					if(rs.next()){
+						new MenuPrincipal(null);
+						miPrograma.setVisible(false);
+					}
+
+					else{
+						JOptionPane.showMessageDialog(null, "Se ha esquivocado en el usuario o la contraseña", "Error", JOptionPane.ERROR_MESSAGE);
+					}
+				} 
+
+				catch (ClassNotFoundException e) {
+					System.out.println("Se produjo un error al cargar el Driver");
+				}
+
+				catch(SQLException e) {
+					System.out.println("Se produjo un error al conectar con la BD");
+				}
+
+				// Bloque para intentar cerrar la conexión la BD
+				try {
+					if (connection!=null) {
+						connection.close();
+					}	
+				}catch(SQLException sqle) {
+					System.out.println("No se puede cerrar la conexión con la Base de Datos");
+				}
 			}
 
-			catch(SQLException e) {
-				System.out.println("Se produjo un error al conectar con la BD");
+			else {
+				sentencia = "SELECT * FROM usuarios WHERE nombreUsuario = '"+txtUsuario.getText()+"' AND claveUsuario = MD5('" + txtClave.getText()+"');";
+
+				//Cargar los controladores para el acceso a la BD
+				try{
+					Class.forName(driver);				
+					//Establecer la conexión con la BD Empresa
+					connection = DriverManager.getConnection(url, login, password);
+					//Crear una sentencia
+					statement = connection.createStatement();
+					//Crear un objeto ResultSet para guardar lo obtenido y ejecutar la sentencia SQL
+					rs = statement.executeQuery(sentencia);
+					if(rs.next()){
+						new MenuPrincipalUsuario();
+						miPrograma.setVisible(false);
+					}
+
+					else{
+						JOptionPane.showMessageDialog(null, "Se ha esquivocado en el usuario o la contraseña", "Error", JOptionPane.ERROR_MESSAGE);
+					}
+				} 
+
+				catch (ClassNotFoundException e) {
+					System.out.println("Se produjo un error al cargar el Driver");
+				}
+
+				catch(SQLException e) {
+					System.out.println("Se produjo un error al conectar con la BD");
+				}
+
+				// Bloque para intentar cerrar la conexión la BD
+				try {
+					if (connection!=null) {
+						connection.close();
+					}	
+				}catch(SQLException sqle) {
+					System.out.println("No se puede cerrar la conexión con la Base de Datos");
+				}
 			}
 
-			// Bloque para intentar cerrar la conexión la BD
+			// Crear objeto de la clase Fecha_Y_Hora para poder trabajar con el para guardar lo que se pone en el usuario (texto)
+			Guardar_Movimientos f = new Guardar_Movimientos();
 			try {
-				if (connection!=null) {
-					connection.close();
-				}	
-			}catch(SQLException sqle) {
-				System.out.println("No se puede cerrar la conexión con la Base de Datos");
+				// Llamando al método de fecha y mandarle lo que se escribe en el texto de inicio de sesión 
+				f.registrar(txtUsuario.getText()+"]"+"[Login");
+			}catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		}
-
-		// Crear objeto de la clase Fecha_Y_Hora para poder trabajar con el para guardar lo que se pone en el usuario (texto)
-		Guardar_Movimientos f = new Guardar_Movimientos();
-		try {
-			// Llamando al método de fecha y mandarle lo que se escribe en el texto de inicio de sesión 
-			f.registrar(txtUsuario.getText()+"]"+"[Login");
-		}catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 
 		if (btnLimpiar.equals(arg0.getSource())){

@@ -4,6 +4,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import javax.swing.JOptionPane;
 
@@ -91,7 +94,7 @@ public class AltaProductos extends Frame implements ActionListener, WindowListen
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
+	public void actionPerformed(ActionEvent arg0) {		
 		String Nombre = txtNombre.getText();
 		String Marca = txtMarca.getText();
 		String Precio = txtPrecio.getText();	
@@ -128,6 +131,7 @@ public class AltaProductos extends Frame implements ActionListener, WindowListen
 			{
 				JOptionPane.showMessageDialog(null, "Error, en el Alta", "Error", JOptionPane.ERROR_MESSAGE);
 			}
+			
 			finally
 			{
 				try
