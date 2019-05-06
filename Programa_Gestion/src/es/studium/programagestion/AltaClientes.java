@@ -1,12 +1,11 @@
 package es.studium.programagestion;
 
+import java.awt.BorderLayout;
 import java.awt.Button;
-import java.awt.Dialog;
-import java.awt.FlowLayout;
 import java.awt.Frame;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Label;
+import java.awt.Panel;
 import java.awt.TextField;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -27,14 +26,20 @@ public class AltaClientes extends Frame implements ActionListener, WindowListene
 	private static final long serialVersionUID = 1L;
 
 	// Crear componentes 
-	Label lblNombre = new Label("Nombre:");
-	TextField txt = new TextField();
+	Label lblAlta = new Label("Alta Clientes");
+	Label lblNombre = new Label("Nombre:  ");
 	Label lblApellidos = new Label("Apellidos:");
-	TextField txtApellidos = new TextField();
-	Label lblDNI = new Label("DNI:");
-	TextField txtDNI = new TextField();
+	Label lblDNI = new Label("DNI:        ");
+	TextField txtNombre = new TextField(15);
+	TextField txtApellidos = new TextField(15);
+	TextField txtDNI = new TextField(15         );
 	Button btnAlta = new Button("Alta");
 	Button btnLimpiar = new Button("Limpiar");
+	
+	// Paneles
+	Panel pnlSuperior = new Panel();
+	Panel pnlComponentes = new Panel();
+	Panel pnlBotones = new Panel();
 	
 	// Necesario para conectar con la BD
 	String driver = "com.mysql.jdbc.Driver";
@@ -52,22 +57,26 @@ public class AltaClientes extends Frame implements ActionListener, WindowListene
 		Toolkit mipantalla = Toolkit.getDefaultToolkit();
 		
 		setTitle("Alta Clientes");
-		setLayout(new GridLayout(4,2));
-		add(lblNombre);
-		add(txt);
-		add(lblApellidos);
-		add(txtApellidos);
-		add(lblDNI);
-		add(txtDNI);
-		add(btnAlta);
-		add(btnLimpiar);
+		pnlSuperior.add(lblAlta);
+		lblAlta.setFont(new java.awt.Font("Times New Roman", 1, 18)); 
+		pnlComponentes.add(lblNombre);
+		lblNombre.setFont(new java.awt.Font("Times New Roman", 0, 14)); 
+		pnlComponentes.add(txtNombre);
+		pnlComponentes.add(lblApellidos);
+		lblApellidos.setFont(new java.awt.Font("Times New Roman", 0, 14)); 
+		pnlComponentes.add(txtApellidos);
+		pnlComponentes.add(lblDNI);
+		lblDNI.setFont(new java.awt.Font("Times New Roman", 0, 14)); 
+		pnlComponentes.add(txtDNI);
+		pnlBotones.add(btnAlta);
+		btnAlta.setFont(new java.awt.Font("Times New Roman", 0, 14)); 
+		pnlBotones.add(btnLimpiar);
+		btnLimpiar.setFont(new java.awt.Font("Times New Roman", 0, 14)); 
 
-		// Añadir los Listeners (WINDOWLISTENER) al frame
-		addWindowListener(this);
-		
-		// Action Listeners a los botones del Frame de la clase Principal (ALTACLIENTES)
-		btnAlta.addActionListener(this);
-		btnLimpiar.addActionListener(this);
+		// Añadir los paneles
+		add(pnlSuperior, BorderLayout.NORTH);
+		add(pnlComponentes, BorderLayout.CENTER);
+		add(pnlBotones, BorderLayout.SOUTH);
 		
 		// Establecer un icono a la aplicación
 		Image miIcono = mipantalla.getImage("src//farmacia.png");
@@ -75,22 +84,26 @@ public class AltaClientes extends Frame implements ActionListener, WindowListene
 		setIconImage(miIcono);
 		
 		// Tamaño al frame principal AltaClientes
-		setSize(300,300);
+		setSize(250,210);
 		// Localización al centro de la pantalla
 		setLocationRelativeTo(null);
+		// Añadir los Listeners 
+		addWindowListener(this);
+		btnAlta.addActionListener(this);
+		btnLimpiar.addActionListener(this);
 		setResizable(false);
 		setVisible(true);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		String Nombre = txt.getText();
+		String Nombre = txtNombre.getText();
 		String Apellidos = txtApellidos.getText();
 		String DNI = txtDNI.getText();
 
 		if (btnAlta.equals(arg0.getSource())) {
 			if (Nombre.equals("") | Apellidos.equals("") | DNI.equals("")) {
-				JOptionPane.showMessageDialog(null, "Error, en el Alta", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Error, en el Alta por favor corrija los errores", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			
 			else
@@ -142,8 +155,8 @@ public class AltaClientes extends Frame implements ActionListener, WindowListene
 
 		if(btnLimpiar.equals(arg0.getSource())) {
 			// Seleccionar los text field y limpiarlos
-			txt.selectAll();
-			txt.setText("");
+			txtNombre.selectAll();
+			txtNombre.setText("");
 
 			// Apellidos
 			txtApellidos.selectAll();

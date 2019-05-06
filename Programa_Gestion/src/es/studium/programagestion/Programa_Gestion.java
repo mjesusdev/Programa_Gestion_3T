@@ -240,7 +240,9 @@ public class Programa_Gestion implements WindowListener, ActionListener{
 				if(rs.next()){
 					new MenuPrincipal(null);
 					miPrograma.setVisible(false);
-				}else{
+				}
+			
+				else{
 					JOptionPane.showMessageDialog(null, "Se ha esquivocado en el usuario o la contraseña", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			} 

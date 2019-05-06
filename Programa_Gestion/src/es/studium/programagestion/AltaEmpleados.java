@@ -1,12 +1,11 @@
 package es.studium.programagestion;
 
+import java.awt.BorderLayout;
 import java.awt.Button;
-import java.awt.Dialog;
-import java.awt.FlowLayout;
 import java.awt.Frame;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Label;
+import java.awt.Panel;
 import java.awt.TextField;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -14,32 +13,41 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.swing.JOptionPane;
 
 public class AltaEmpleados extends Frame implements ActionListener, WindowListener{
 
 	private static final long serialVersionUID = 1L;
 	
-	// Crear componentes 
-	Label lblNombre = new Label("Nombre:");
-	TextField txt = new TextField();
+	// Crear componentes
+	Label lblAlta = new Label("Alta Empleados");
+	Label lblNombre = new Label("Nombre:  ");
 	Label lblApellidos = new Label("Apellidos:");
-	TextField txtApellidos = new TextField();
+	TextField txtNombre = new TextField(15);
+	TextField txtApellidos = new TextField(15);
 	Button btnAlta = new Button("Alta");
 	Button btnLimpiar = new Button("Limpiar");
 	
-	// Alta Correcta
-	Dialog AltaCorrecta = new Dialog(this, true);
+	// Paneles
+	Panel pnlSuperior = new Panel();
+	Panel pnlComponentes = new Panel();
+	Panel pnlBotones = new Panel();
 	
-	// Alta Incorrecta
-	Dialog AltaInCorrecta = new Dialog(this, true);
-	
-	// Componentes Diálogo CORRECTO
-	Label CAlta = new Label("Alta Correcta");
-	Button btnAceptar = new Button("Aceptar");
-	
-	// Componentes Diálogo Incorrecto
-	Label AltaIn = new Label("Se ha producido un error en el Alta");
-	Button btnAceptar1 = new Button("Aceptar");
+	// Necesario para conectar con la BD
+	String driver = "com.mysql.jdbc.Driver";
+	String url = "jdbc:mysql://localhost:3306/farmaciapr2?autoReconnect=true&useSSL=false";
+	String login = "admin";
+	String password = "Studium2018;";
+	String sentencia = null;
+	Connection connection = null;
+	Statement statement = null;
+	ResultSet rs = null;
 	
 	AltaEmpleados()
 	{
@@ -47,46 +55,34 @@ public class AltaEmpleados extends Frame implements ActionListener, WindowListen
 		Toolkit mipantalla = Toolkit.getDefaultToolkit();
 		
 		setTitle("Alta Empleados");
-		setLayout(new GridLayout(3,2));
-		add(lblNombre);
-		add(txt);
-		add(lblApellidos);
-		add(txtApellidos);
-		add(btnAlta);
-		add(btnLimpiar);
+		pnlSuperior.add(lblAlta);
+		// Aplicarle una fuente a la etiqueta y tamaño
+		lblAlta.setFont(new java.awt.Font("Times New Roman", 1, 18)); 
+		pnlComponentes.add(lblNombre);
+		lblNombre.setFont(new java.awt.Font("Times New Roman", 0, 14));
+		pnlComponentes.add(txtNombre);
+		pnlComponentes.add(lblApellidos);
+		lblApellidos.setFont(new java.awt.Font("Times New Roman", 0, 14));
+		pnlComponentes.add(txtApellidos);
+		pnlBotones.add(btnAlta);
+		btnAlta.setFont(new java.awt.Font("Times New Roman", 0, 14));
+		pnlBotones.add(btnLimpiar);
+		btnLimpiar.setFont(new java.awt.Font("Times New Roman", 0, 14));
 		
-		// Diálogo Correcto
-		AltaCorrecta.setTitle("Alta Empleados");
-		AltaCorrecta.setLayout(new FlowLayout());
-		AltaCorrecta.add(CAlta);
-		AltaCorrecta.add(btnAceptar);
-		AltaCorrecta.setSize(140,100);
-		AltaCorrecta.setLocationRelativeTo(null);
-		AltaCorrecta.setResizable(false);
-		AltaCorrecta.setVisible(false);
-		
-		// Diálogo Incorrecto
-		AltaInCorrecta.setTitle("Alta Empleados");
-		AltaInCorrecta.setLayout(new FlowLayout());
-		AltaInCorrecta.add(AltaIn);
-		AltaInCorrecta.add(btnAceptar1);
-		AltaInCorrecta.setSize(250,100);
-		AltaInCorrecta.setLocationRelativeTo(null);
-		AltaInCorrecta.setResizable(false);
-		AltaInCorrecta.setVisible(false);
-		
+		// Añadir los paneles
+		add(pnlSuperior, BorderLayout.NORTH);
+		add(pnlComponentes, BorderLayout.CENTER);
+		add(pnlBotones, BorderLayout.SOUTH);
+
 		// Establecer un icono a la aplicación
 		Image miIcono = mipantalla.getImage("src//farmacia.png");
 		// Colocar Icono
 		setIconImage(miIcono);
-		setSize(300,300);
+		setSize(270,180);
 		setLocationRelativeTo(null);
+		// Añadir Listeners
 		btnAlta.addActionListener(this);
 		btnLimpiar.addActionListener(this);
-		btnAceptar.addActionListener(this);
-		btnAceptar1.addActionListener(this);
-		AltaCorrecta.addWindowListener(this);
-		AltaInCorrecta.addWindowListener(this);
 		addWindowListener(this);
 		setResizable(false);
 		setVisible(true);
@@ -94,46 +90,72 @@ public class AltaEmpleados extends Frame implements ActionListener, WindowListen
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		String Nombre = txt.getText();
-		String Apellidos = txtApellidos.getText();
+		String NombreEmpleado = txtNombre.getText();
+		String ApellidosEmpleado = txtApellidos.getText();
 
 		if (btnAlta.equals(arg0.getSource())) {
-			// Si el contenido de los tres TEXT FIELD están vacíos que lanze la ventana de ALTA INCORRECTA
-			if (Nombre.equals("") &&  (Apellidos.equals(""))){
-				AltaInCorrecta.setVisible(true);
-				this.setVisible(false);
-			}else{
-				AltaCorrecta.setVisible(true);
-				this.setVisible(false);
+			// Si están vacíos los campos
+			if (NombreEmpleado.equals("") | ApellidosEmpleado.equals("")) {
+				JOptionPane.showMessageDialog(null, "Error, en el Alta", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			
+			else
+			{
+				try
+				{
+					Class.forName(driver);
+					connection = DriverManager.getConnection(url, login, password);
+					//Crear una sentencia
+					statement = connection.createStatement();
+					sentencia = "INSERT INTO empleados VALUES(NULL, '"+NombreEmpleado+"', '"+ApellidosEmpleado+"');";
+					// Ejecutar la sentencia
+					statement.executeUpdate(sentencia);
+					JOptionPane.showMessageDialog(null, "El Alta se ha realizado", "Alta Correcta", JOptionPane.INFORMATION_MESSAGE);
+
+					Guardar_Movimientos gm = new Guardar_Movimientos();
+					try {
+						gm.registrar("admin]" + "["+sentencia+"");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+				catch (ClassNotFoundException cnfe)
+				{
+					System.out.println("Error 1: "+cnfe.getMessage());
+				}
+				
+				catch (SQLException sqle)
+				{
+					JOptionPane.showMessageDialog(null, "Error, en el Alta", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				
+				finally
+				{
+					try
+					{
+						if(connection!=null)
+						{
+							connection.close();
+						}
+					}
+					catch (SQLException se)
+					{
+						System.out.println("No se puede cerrar la conexión la Base De Datos");
+					}
+				}
 			}
 		}
 		
 		if (btnLimpiar.equals(arg0.getSource())){
 			// Seleccionar contenido del textField Nombre y limpiarlo
-			txt.selectAll();
-			txt.setText("");
+			txtNombre.selectAll();
+			txtNombre.setText("");
 
 			// Seleccionar contenido del textField APELLIDOS Y limpiarlo
 			txtApellidos.selectAll();
 			txtApellidos.setText("");
-		}
-		
-		if (btnAceptar.equals(arg0.getSource())) {
-			AltaCorrecta.setVisible(false);
-			new AltaEmpleados();
-			
-			Guardar_Movimientos gm = new Guardar_Movimientos();
-			try {
-				gm.registrar("admin]" + "[Alta Empleados");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}	
-		}
-		
-		if (btnAceptar1.equals(arg0.getSource())) {
-			AltaInCorrecta.setVisible(false);
-			new AltaEmpleados();
 		}
 	}
 	
@@ -142,12 +164,6 @@ public class AltaEmpleados extends Frame implements ActionListener, WindowListen
 		if (this.isActive()) {
 			this.setVisible(false);
 			new MenuPrincipal(null);
-		}else if(AltaCorrecta.isActive()){
-			AltaCorrecta.setVisible(false);
-			new AltaEmpleados();
-		}else if(AltaInCorrecta.isActive()) {
-			AltaInCorrecta.setVisible(false);
-			new AltaEmpleados();
 		}
 	}
 
