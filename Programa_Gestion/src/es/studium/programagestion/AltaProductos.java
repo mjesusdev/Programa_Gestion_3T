@@ -4,9 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 import javax.swing.JOptionPane;
 
@@ -116,7 +113,7 @@ public class AltaProductos extends Frame implements ActionListener, WindowListen
 
 				Guardar_Movimientos gm = new Guardar_Movimientos();
 				try {
-					gm.registrar("admin]" + "["+sentencia+"");
+					gm.registrar("administrador]" + "["+sentencia+"");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

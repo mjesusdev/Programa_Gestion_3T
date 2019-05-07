@@ -121,7 +121,7 @@ public class AltaClientes extends Frame implements ActionListener, WindowListene
 
 					Guardar_Movimientos gm = new Guardar_Movimientos();
 					try {
-						gm.registrar("admin]" + "["+sentencia+"");
+						gm.registrar("administrador]" + "["+sentencia+"");
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

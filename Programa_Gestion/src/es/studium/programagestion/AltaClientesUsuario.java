@@ -1,22 +1,9 @@
 package es.studium.programagestion;
 
-import java.awt.Button;
-import java.awt.Frame;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Label;
-import java.awt.TextField;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 import javax.swing.JOptionPane;
 
@@ -25,24 +12,26 @@ public class AltaClientesUsuario extends Frame implements ActionListener, Window
 	private static final long serialVersionUID = 1L;
 
 	// Crear componentes 
-	Label lblNombre = new Label("Nombre:");
+	Label lblAlta = new Label("Alta Clientes");
+	Label lblNombre = new Label("Nombre:  ");
 	Label lblApellidos = new Label("Apellidos:");
-	Label lblDNI = new Label("DNI:");
-	
-	// TextField 
-	TextField txtNombre = new TextField();
-	TextField txtApellidos = new TextField();
-	TextField txtDNI = new TextField();
-
-	// Botones
+	Label lblDNI = new Label("DNI:        ");
+	TextField txtNombre = new TextField(15);
+	TextField txtApellidos = new TextField(15);
+	TextField txtDNI = new TextField(15         );
 	Button btnAlta = new Button("Alta");
 	Button btnLimpiar = new Button("Limpiar");
+	
+	// Paneles
+	Panel pnlSuperior = new Panel();
+	Panel pnlComponentes = new Panel();
+	Panel pnlBotones = new Panel();
 	
 	// Necesario para conectar con la BD
 	String driver = "com.mysql.jdbc.Driver";
 	String url = "jdbc:mysql://localhost:3306/farmaciapr2?autoReconnect=true&useSSL=false";
-	String login = "usuario";
-	String password = "usuario";
+	String login = "admin";
+	String password = "Studium2018;";
 	String sentencia = null;
 	Connection connection = null;
 	Statement statement = null;
@@ -50,26 +39,30 @@ public class AltaClientesUsuario extends Frame implements ActionListener, Window
 	
 	AltaClientesUsuario()
 	{
-		// Almacenamos en mipantalla el sistema nativo de pantallas, el tamaño por defecto de la pantalla, nos servirá para poner el icono
+		// Almacenamos en mipantalla el sistema nativo de pantallas, el tamaño por defecto de la pantalla, nos servira para poner el icono
 		Toolkit mipantalla = Toolkit.getDefaultToolkit();
 		
 		setTitle("Alta Clientes");
-		setLayout(new GridLayout(4,2));
-		add(lblNombre);
-		add(txtNombre);
-		add(lblApellidos);
-		add(txtApellidos);
-		add(lblDNI);
-		add(txtDNI);
-		add(btnAlta);
-		add(btnLimpiar);
+		pnlSuperior.add(lblAlta);
+		lblAlta.setFont(new java.awt.Font("Times New Roman", 1, 18)); 
+		pnlComponentes.add(lblNombre);
+		lblNombre.setFont(new java.awt.Font("Times New Roman", 0, 14)); 
+		pnlComponentes.add(txtNombre);
+		pnlComponentes.add(lblApellidos);
+		lblApellidos.setFont(new java.awt.Font("Times New Roman", 0, 14)); 
+		pnlComponentes.add(txtApellidos);
+		pnlComponentes.add(lblDNI);
+		lblDNI.setFont(new java.awt.Font("Times New Roman", 0, 14)); 
+		pnlComponentes.add(txtDNI);
+		pnlBotones.add(btnAlta);
+		btnAlta.setFont(new java.awt.Font("Times New Roman", 0, 14)); 
+		pnlBotones.add(btnLimpiar);
+		btnLimpiar.setFont(new java.awt.Font("Times New Roman", 0, 14)); 
 
-		// Añadir los Listeners (WINDOWLISTENER) al frame
-		addWindowListener(this);
-		
-		// Action Listeners a los botones del Frame de la clase Principal (ALTACLIENTES)
-		btnAlta.addActionListener(this);
-		btnLimpiar.addActionListener(this);
+		// Añadir los paneles
+		add(pnlSuperior, BorderLayout.NORTH);
+		add(pnlComponentes, BorderLayout.CENTER);
+		add(pnlBotones, BorderLayout.SOUTH);
 		
 		// Establecer un icono a la aplicación
 		Image miIcono = mipantalla.getImage("src//farmacia.png");
@@ -77,9 +70,13 @@ public class AltaClientesUsuario extends Frame implements ActionListener, Window
 		setIconImage(miIcono);
 		
 		// Tamaño al frame principal AltaClientes
-		setSize(300,300);
+		setSize(250,210);
 		// Localización al centro de la pantalla
 		setLocationRelativeTo(null);
+		// Añadir los Listeners 
+		addWindowListener(this);
+		btnAlta.addActionListener(this);
+		btnLimpiar.addActionListener(this);
 		setResizable(false);
 		setVisible(true);
 	}
@@ -92,7 +89,7 @@ public class AltaClientesUsuario extends Frame implements ActionListener, Window
 
 		if (btnAlta.equals(arg0.getSource())) {
 			if (Nombre.equals("") | Apellidos.equals("") | DNI.equals("")) {
-				JOptionPane.showMessageDialog(null, "Error, en el Alta", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Error, en el Alta por favor corrija los errores", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			
 			else
@@ -110,7 +107,7 @@ public class AltaClientesUsuario extends Frame implements ActionListener, Window
 
 					Guardar_Movimientos gm = new Guardar_Movimientos();
 					try {
-						gm.registrar("admin]" + "["+sentencia+"");
+						gm.registrar("usuario]" + "["+sentencia+"");
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

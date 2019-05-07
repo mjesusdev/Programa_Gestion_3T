@@ -3,6 +3,7 @@ package es.studium.programagestion;
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Choice;
+import java.awt.Color;
 import java.awt.Dialog;
 import java.awt.FlowLayout;
 import java.awt.Frame;
@@ -28,10 +29,12 @@ public class BajaClientes extends Frame implements ActionListener, WindowListene
 	private static final long serialVersionUID = 1L;
 
 	// Crear componentes 
+	Label lblBaja = new Label("Baja Clientes");
 	Choice chcSeleccion = new Choice();
 	Button btnBaja = new Button("Baja");
 
-	// Paneles para BAJA CLIENTES
+	// Paneles 
+	Panel pnlSuperior = new Panel();
 	Panel pnlChoice = new Panel(); 
 	Panel pnlBaja = new Panel();
 
@@ -41,13 +44,7 @@ public class BajaClientes extends Frame implements ActionListener, WindowListene
 	Label lblConfirmacion = new Label("¿Estás seguro de realizar la Baja?");
 	Button btnSi = new Button("Sí");
 	Button btnNo = new Button("No");
-
-	// Diálogo Baja Correcta
-	Dialog bajaCorrecta = new Dialog(this, true);
-	//Componentes Baja Correcta
-	Label lblBajaCorrecta = new Label("Baja Correcta");
-	Button btnAceptar = new Button("Aceptar");
-
+	
 	// Base de Datos
 	String driver = "com.mysql.jdbc.Driver";
 	String url = "jdbc:mysql://localhost:3306/farmaciapr2?autoReconnect=true&useSSL=false";
@@ -64,20 +61,27 @@ public class BajaClientes extends Frame implements ActionListener, WindowListene
 		Toolkit mipantalla = Toolkit.getDefaultToolkit();
 
 		setTitle("Baja Clientes");
+		pnlSuperior.add(lblBaja);
+		lblBaja.setFont(new java.awt.Font("Times New Roman", 1, 18)); 
 		chcSeleccion.add("Elige uno...");
 		insertarClientes();
 		pnlChoice.add(chcSeleccion);
 		pnlBaja.add(btnBaja);
-		add(pnlChoice, "North");
-		add(pnlBaja, BorderLayout.CENTER);
+		add(pnlSuperior, BorderLayout.NORTH);
+		add(pnlChoice, BorderLayout.CENTER);
+		add(pnlBaja, BorderLayout.SOUTH);
 
 		// Componentes diálogo informativo
-		diainformativo.setTitle("Comprobación");
+		diainformativo.setTitle("Comprobación Baja");
 		diainformativo.setLayout(new FlowLayout());
+		diainformativo.setBackground(Color.decode("#d9d9d9"));
 		diainformativo.add(lblConfirmacion);
+		lblConfirmacion.setFont(new java.awt.Font("Times New Roman", 0, 15)); 
 		diainformativo.add(btnSi);
 		diainformativo.add(btnNo);
-		diainformativo.setSize(230,100);
+		btnSi.setFont(new java.awt.Font("Times New Roman", 0, 15));
+		btnNo.setFont(new java.awt.Font("Times New Roman", 0, 15)); 
+		diainformativo.setSize(280,110);
 		diainformativo.addWindowListener(this);
 		btnBaja.addActionListener(this);
 		btnSi.addActionListener(this);
@@ -85,18 +89,6 @@ public class BajaClientes extends Frame implements ActionListener, WindowListene
 		diainformativo.setLocationRelativeTo(null);
 		diainformativo.setResizable(false);
 		diainformativo.setVisible(false);
-
-		// Componentes diálogo Baja Correcta
-		bajaCorrecta.setTitle("Baja Correcta");
-		bajaCorrecta.setLayout(new FlowLayout());
-		bajaCorrecta.add(lblBajaCorrecta);
-		bajaCorrecta.add(btnAceptar);
-		btnAceptar.addActionListener(this);
-		bajaCorrecta.setSize(150,110);
-		bajaCorrecta.addWindowListener(this);
-		bajaCorrecta.setLocationRelativeTo(null);
-		bajaCorrecta.setResizable(false);
-		bajaCorrecta.setVisible(false);		
 
 		// Establecer un icono a la aplicación
 		Image miIcono = mipantalla.getImage("src//farmacia.png");
@@ -160,26 +152,17 @@ public class BajaClientes extends Frame implements ActionListener, WindowListene
 		}
 
 		else if (btnSi.equals(arg0.getSource())) {
-			bajaCorrecta.setVisible(true);
-		}
-
-		else if (btnNo.equals(arg0.getSource())) {
-			diainformativo.setVisible(false);
-			setVisible(true);
-		}
-
-		else if (btnAceptar.equals(arg0.getSource())) {
-			
 			String [] eliminarespacios = chcSeleccion.getSelectedItem().split(" ");
-			
-			String dniCliente = eliminarespacios[2];
-			
+
+			String dniCliente = eliminarespacios[3];
+
 			try {
 				Class.forName(driver);
 				connection = DriverManager.getConnection(url, login, password);
 				//Crear una sentencia
 				sentencia = "DELETE FROM clientes WHERE dniCliente = '"+dniCliente+"';";
 				statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
+				System.out.println(sentencia);
 				statement.executeUpdate(sentencia);
 			}
 
@@ -208,13 +191,16 @@ public class BajaClientes extends Frame implements ActionListener, WindowListene
 
 			Guardar_Movimientos gm = new Guardar_Movimientos();
 			try {
-				gm.registrar("admin]" + "["+sentencia+"");
+				gm.registrar("administrador]" + "["+sentencia+"");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}	
+			}
 			
-			bajaCorrecta.setVisible(false);
+			JOptionPane.showMessageDialog(null, "Baja Correcta", "Baja Realizada", JOptionPane.OK_CANCEL_OPTION);
+		}
+
+		else if (btnNo.equals(arg0.getSource())) {
 			diainformativo.setVisible(false);
 			setVisible(true);
 		}
@@ -228,10 +214,6 @@ public class BajaClientes extends Frame implements ActionListener, WindowListene
 		}else if(diainformativo.isActive()){
 			diainformativo.setVisible(false);
 			this.setVisible(true);
-		}else if(bajaCorrecta.isActive()){
-			bajaCorrecta.setVisible(false);
-			diainformativo.setVisible(false);
-			setVisible(true);
 		}
 	}
 

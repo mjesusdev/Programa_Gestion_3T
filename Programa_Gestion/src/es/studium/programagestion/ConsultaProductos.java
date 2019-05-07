@@ -1,159 +1,167 @@
 package es.studium.programagestion;
 
-import java.awt.Button;
-import java.awt.Choice;
-import java.awt.Dialog;
-import java.awt.FlowLayout;
-import java.awt.Frame;
-import java.awt.Image;
-import java.awt.Label;
-import java.awt.Panel;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.io.IOException;
+import java.awt.*;
+import java.awt.event.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class ConsultaProductos extends Frame implements ActionListener, WindowListener{
 
 	private static final long serialVersionUID = 1L;
-	
-	// Crear componentes 
-	Choice choseleccion = new Choice();
-	Button btnConsultar = new Button("Consulta");
-	Button btnVolver = new Button("Volver");
-	
-	// Paneles
-	Panel pnlChoice = new Panel();
-	Panel pnlCentral = new Panel();
-	
-	// Diálogo donde aparecen los campos
-	Dialog diaProductos = new Dialog(this,true);
-	
-	// Componentes para el diálogo
-	Label lblNombre = new Label("Nombre:");
-	Label Nombre = new Label("Aquí aparece el Nombre");
-	Label lblPrecio = new Label("Precio:");
-	Label Precio = new Label("Aquí aparece el Precio");
-	Label lblFC = new Label("Fecha Caducidad:");
-	Label FechaC = new Label("Aquí aparece la Fecha");
-	Label lblCT = new Label("Contenido Total:");
-	Label ContenidoT = new Label("Aquí aparece el Contenido");
-	Button Volver = new Button("Volver");
-	
+
+	Label lblConsulta = new Label("Consulta Productos");
+
+	Button btnImprimir = new Button("Imprimir");
+
+	JTable tablaProductos = new JTable();
+
+	String [] titulos= {};
+
+	DefaultTableModel modelo = new DefaultTableModel();
+
+	// Base de Datos
+	static String driver = "com.mysql.jdbc.Driver";
+	static String url = "jdbc:mysql://localhost:3306/farmaciapr2?autoReconnect=true&useSSL=false";
+	static String login = "admin";
+	static String password = "Studium2018;";
+	static String sentencia = "SELECT idProducto AS 'Nº Producto', contenidototalProducto AS 'Contenido Total', nombreProducto AS 'Nombre del Producto',\r\n" + 
+			"marcaProducto AS 'Marca', precioProducto AS 'Precio', fechacaducidadProducto AS 'Fecha de Caducidad' FROM productos;";
+	static Connection connection = null;
+	static Statement statement = null;
+	static ResultSet rs = null;
+
 	ConsultaProductos()
 	{
-		// Almacenamos en mipantalla el sistema nativo de pantallas, el tamaño por defecto de la pantalla, nos servira para poner el icono
-		Toolkit mipantalla = Toolkit.getDefaultToolkit();
-		
 		setTitle("Consulta Productos");
-		choseleccion.add("1. Producto");
-		choseleccion.add("2. Producto");
-		pnlChoice.add(choseleccion);
-		pnlCentral.add(btnConsultar);
-		pnlCentral.add(btnVolver);
-		// Añadir los paneles
-		add(pnlChoice, "North");
-		add(pnlCentral, "Center");
-
-		// Diálogo
-		diaProductos.setTitle("Consulta Productos");
-		diaProductos.setLayout(new FlowLayout());
-		diaProductos.add(lblNombre);
-		diaProductos.add(Nombre);
-		diaProductos.add(lblPrecio);
-		diaProductos.add(Precio);
-		diaProductos.add(lblFC);
-		diaProductos.add(FechaC);
-		diaProductos.add(lblCT);
-		diaProductos.add(ContenidoT);
-		diaProductos.add(Volver);
-		diaProductos.setSize(185,300);
-		diaProductos.setLocationRelativeTo(null);
-		diaProductos.addWindowListener(this);
-		Volver.addActionListener(this);
-		diaProductos.setResizable(false);
-		diaProductos.setVisible(false);		
-		
-		// Establecer un icono a la aplicación
-		Image miIcono = mipantalla.getImage("src//farmacia.png");
-		// Colocar Icono
-		setIconImage(miIcono);
-		setSize(290,150);
+		// Llamar al método que coloca el icono a la ventana
+		colocarIcono();
+		setLayout(new FlowLayout());
+		add(lblConsulta);
+		tablaProductos = new JTable(rellenarTabla(),titulos);
+		tablaProductos.setModel(modelo);
+		add(new JScrollPane(tablaProductos), BorderLayout.CENTER);
+		add(btnImprimir);
+		setSize(500,600);
 		setLocationRelativeTo(null);
 		addWindowListener(this);
-		btnConsultar.addActionListener(this);
-		btnVolver.addActionListener(this);
+		btnImprimir.addActionListener(this);
 		setResizable(false);
 		setVisible(true);
 	}
-	
+
+	public void colocarIcono() {
+		Toolkit mipantalla = Toolkit.getDefaultToolkit();
+		Image miIcono = mipantalla.getImage("src//farmacia.png");
+		setIconImage(miIcono);
+	}
+
+	public Object[][] rellenarTabla() {
+		try 
+		{
+			Class.forName(driver);
+			connection = DriverManager.getConnection(url, login, password);
+			statement = connection.createStatement();						
+			rs = statement.executeQuery(sentencia);
+
+			ResultSetMetaData rsMd = rs.getMetaData();
+			// Guardar en una variable las columnas que hay
+			int cantidadColumnas = rsMd.getColumnCount();
+
+			// Bucle para ir de 1 hasta las columnas que existen
+			for (int i=1;i<=cantidadColumnas;i++) {
+				// Añadir los títulos de las columnas
+				modelo.addColumn(rsMd.getColumnLabel(i));
+			}
+
+			while (rs.next()) {
+				Object [] fila = new Object[cantidadColumnas];
+				for (int i=0;i<cantidadColumnas;i++) {
+					// Coger los objetos de la bd	
+					fila[i] = rs.getObject(i+1);
+				}
+				// Añadir las columnas
+				modelo.addRow(fila);
+			}
+		}
+
+		catch (ClassNotFoundException cnfe)
+		{
+			System.out.println("Error 1: "+cnfe.getMessage());
+		}
+
+		catch (SQLException sqle)
+		{
+			System.out.println("Error 2: "+sqle.getMessage());
+		}
+
+		finally
+		{
+			try
+			{
+				if(connection!=null)
+				{
+					connection.close();
+				}
+			}
+			catch (SQLException e)
+			{
+				System.out.println("Error 3: "+e.getMessage());
+			}
+		}
+		return null;
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		if (btnConsultar.equals(arg0.getSource())) {
-			Guardar_Movimientos f = new Guardar_Movimientos();
+		if(btnImprimir.equals(arg0.getSource())){
 			try {
-				f.registrar("admin]" + "[Consulta Productos");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}		
-			
-			this.setVisible(false);
-			diaProductos.setVisible(true);
-		}
-		
-		else if(btnVolver.equals(arg0.getSource())){
-			this.setVisible(false);
-			new MenuPrincipal(null);
-		}
-		
-		else if(Volver.equals(arg0.getSource())) {
-			diaProductos.setVisible(false);
-			setVisible(true);
+				String prueba = btnImprimir.getLabel();
+				System.out.println(prueba);
+				//Se obtiene el objeto PrintJob
+				PrintJob pjob = this.getToolkit().getPrintJob(this, prueba, null);
+				//Se obtiene el objeto graphics sobre el que pintar
+				Graphics pg = pjob.getGraphics();
+				//Se fija la fuente de caracteres con la que escribir
+				pg.setFont(new Font("Arial",Font.PLAIN,12));
+				//Se escribe el mensaje del Cuadro de Texto indicando
+				//posición con respecto a la parte superior izquierda
+				pg.drawString(prueba,100,100);
+				//Se finaliza la página
+				pg.dispose();
+				//Se hace que la impresora termine el trabajo y suelte la página
+				pjob.end();
+			}catch(NullPointerException npe) {
+				npe.printStackTrace();
+			}
 		}
 	}
-	
+
 	@Override
 	public void windowClosing(WindowEvent arg0) {
-		if (diaProductos.isActive()) {
-			diaProductos.setVisible(false);
-			setVisible(true);
-		}
-		
-		else if(this.isActive()){
+		if(this.isActive()){
 			this.setVisible(false);
 			new MenuPrincipal(null);
 		}
 	}
 
 	@Override
-	public void windowActivated(WindowEvent arg0) {
-		// TODO Auto-generated method stub	
-	}
-
+	public void windowActivated(WindowEvent arg0) {}
 	@Override
-	public void windowClosed(WindowEvent arg0) {
-		// TODO Auto-generated method stub
-	}
-
+	public void windowClosed(WindowEvent arg0) {}
 	@Override
-	public void windowDeactivated(WindowEvent arg0) {
-		// TODO Auto-generated method stub	
-	}
-
+	public void windowDeactivated(WindowEvent arg0) {}
 	@Override
-	public void windowDeiconified(WindowEvent arg0) {
-		// TODO Auto-generated method stub
-	}
-
+	public void windowDeiconified(WindowEvent arg0) {}
 	@Override
-	public void windowIconified(WindowEvent arg0) {
-		// TODO Auto-generated method stub
-	}
-
+	public void windowIconified(WindowEvent arg0) {}
 	@Override
-	public void windowOpened(WindowEvent arg0) {
-		// TODO Auto-generated method stub
-	}
+	public void windowOpened(WindowEvent arg0) {}
 }
