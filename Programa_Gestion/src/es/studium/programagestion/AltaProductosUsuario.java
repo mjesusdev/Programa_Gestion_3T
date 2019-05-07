@@ -81,7 +81,7 @@ public class AltaProductosUsuario extends Frame implements ActionListener, Windo
 		// Colocar Icono
 		setIconImage(miIcono);
 
-		setSize(280,300);
+		setSize(280,270);
 		setLocationRelativeTo(null);
 		btnAlta.addActionListener(this);
 		btnLimpiar.addActionListener(this);
