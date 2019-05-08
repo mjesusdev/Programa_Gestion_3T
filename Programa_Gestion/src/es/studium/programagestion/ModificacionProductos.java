@@ -1,223 +1,252 @@
 package es.studium.programagestion;
 
-import java.awt.Button;
-import java.awt.Choice;
-import java.awt.Dialog;
-import java.awt.FlowLayout;
-import java.awt.Frame;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Label;
-import java.awt.Panel;
-import java.awt.TextField;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.swing.JOptionPane;
 
 public class ModificacionProductos extends Frame implements ActionListener, WindowListener{
 
 	private static final long serialVersionUID = 1L;
 
 	// Crear componentes
-	Choice choseleccion = new Choice();
-	Button btnModificar = new Button("Modificar");
+	Choice seleccionarProducto = new Choice();
+	Button btnModificacion = new Button("Modificación");
+
 	// Panel para el Choice y el botón
 	Panel pnlChoice = new Panel();
 	Panel pnlBoton = new Panel();
-	
-	// Crear diálogo DONDE SE REALIZA LA MODIFICACIÓN
+
+	// Crear diálogo
 	Dialog DialogoMod = new Dialog(this, true);
-	
-	// Diálogo Modificación Correcta
-	Dialog DialogoCorrecto = new Dialog(this, true);
-	
-	// Diálogo Modificación Incorrecta
-	Dialog DialogoIncorrecto = new Dialog(this, true);
-	
-	// Componentes para el DIÁLOGO CORRECTO
-	Label lblCorrecto = new Label("Modificación Correcta");
-	Button btnAceptar = new Button("Aceptar");
-	
-	// Componentes Diálogo Incorrecto
-	Label lblModIn = new Label("Se ha producido un error en la Modificación");
-	Button btnAceptarIn = new Button("Aceptar");
-	
+
 	// Crear componentes (DIALOGOMOD)
+	Label lblModificacion = new Label("Modificación Productos");
 	Label lblNombre = new Label("Nombre:");
-	TextField txt = new TextField();
-	Label lblPrecio = new Label("Precio");
-	TextField txtPrecio = new TextField();
-	Label lblFC = new Label("Fecha Caducidad:");
-	TextField txtFC = new TextField();
-	Label lblCT = new Label("Contenido Total:");
-	TextField txtCT = new TextField();
-	Button btnModificacion = new Button("Modificación");
+	Label lblMarca = new Label("Marca:   ");
+	Label lblPrecio = new Label("Precio:   ");
+	Label lblContenidoTotal = new Label("Contenido Total:  ");
+	Label lblFechaCaducidad = new Label("Fecha Caducidad:");
+	TextField txtNombre = new TextField(15);
+	TextField txtMarca = new TextField(15);
+	TextField txtPrecio = new TextField(15);
+	TextField txtContenidoTotal = new TextField(10);
+	TextField txtFechaCaducidad = new TextField(10);
+	Button btnRealizarModificacion = new Button("Modificación");
 	Button btnLimpiar = new Button("Limpiar");
-	
-	
+
+	// Paneles para el Díalogo Mod
+	Panel pnlModificacion = new Panel();
+	Panel pnlComponentes = new Panel();
+	Panel pnlBotones = new Panel();
+
+	// Base De datos
+	static String driver = "com.mysql.jdbc.Driver";
+	static String url = "jdbc:mysql://localhost:3306/farmaciapr2?autoReconnect=true&useSSL=false";
+	static String login = "admin";
+	static String password = "Studium2018;";
+	static String sentencia = null;
+	static Connection connection = null;
+	static Statement statement = null;
+	static ResultSet rs = null;
+
 	ModificacionProductos()
 	{
-		// Almacenamos en mipantalla el sistema nativo de pantallas el tamaño por defecto de la pantalla, nos servirá para poner el icono
-		Toolkit mipantalla = Toolkit.getDefaultToolkit();
-		
 		setTitle("Modificación Productos");
-		// Posición a los dos paneles el panel del Choice al NORTE y el del botón al CENTRO
+		colocarIcono();
+
+		// Añadir elementos
+		pnlChoice.add(seleccionarProducto);
+		pnlBoton.add(btnModificacion);
+		seleccionarProducto.add("Seleccione producto a modificar");
+		introducirProductos(seleccionarProducto);
 		add(pnlChoice, "North");
 		add(pnlBoton, "Center");
-		// Añadir elementos al choice (lista)
-		choseleccion.add("Paracetamol");
-		choseleccion.add("Ibuprofeno");
-		// Añadir la lista
-		pnlChoice.add(choseleccion);
-		// Añadir el botón al panel
-		pnlBoton.add(btnModificar);
 		// Añadir Windowlistener
 		addWindowListener(this);
-		// Añadir un Actionlistener al botón de Modificación 
-		btnModificar.addActionListener(this);
-		
+		// Añadir Actionlistener al botón de Modificación 
+		btnModificacion.addActionListener(this);
+
 		// Diálogo donde se realiza la modificación
 		DialogoMod.setTitle("Modificación Productos");
-		DialogoMod.setLayout(new GridLayout(5,2));
-		DialogoMod.add(lblNombre);
-		DialogoMod.add(txt);
-		DialogoMod.add(lblPrecio);
-		DialogoMod.add(txtPrecio);
-		DialogoMod.add(lblFC);
-		DialogoMod.add(txtFC);
-		DialogoMod.add(lblCT);
-		DialogoMod.add(txtCT);
-		DialogoMod.add(btnModificacion);
-		DialogoMod.add(btnLimpiar);
-		DialogoMod.setSize(300,250);
-		DialogoMod.setLocationRelativeTo(null);
-		DialogoMod.addWindowListener(this);
+		pnlModificacion.add(lblModificacion);
+		pnlComponentes.add(lblNombre);
+		pnlComponentes.add(txtNombre);
+		pnlComponentes.add(lblMarca);
+		pnlComponentes.add(txtMarca);
+		pnlComponentes.add(lblPrecio);
+		pnlComponentes.add(txtPrecio);
+		pnlComponentes.add(lblContenidoTotal);
+		pnlComponentes.add(txtContenidoTotal);
+		pnlComponentes.add(lblFechaCaducidad);
+		pnlComponentes.add(txtFechaCaducidad);
+		pnlBotones.add(btnRealizarModificacion);
+		pnlBotones.add(btnLimpiar);
+		DialogoMod.add(pnlModificacion, BorderLayout.NORTH);
+		DialogoMod.add(pnlComponentes, BorderLayout.CENTER);
+		DialogoMod.add(pnlBotones, BorderLayout.SOUTH);
+		pnlModificacion.setFont(new java.awt.Font("Times New Roman", 1, 18));
+		pnlComponentes.setFont(new java.awt.Font("Times New Roman", 0, 14));
+		pnlBotones.setFont(new java.awt.Font("Times New Roman", 0, 14));
+		DialogoMod.setSize(280,250);
 		DialogoMod.setResizable(false);
-		DialogoMod.setVisible(false);
-		
-		// Action Listners de DialogoMod
+		DialogoMod.setLocationRelativeTo(null);
+		btnRealizarModificacion.addActionListener(this);
 		btnLimpiar.addActionListener(this);
-		btnModificacion.addActionListener(this);
-		
-		// Diálogo CORRECTO
-		DialogoCorrecto.setTitle("Modificación Productos");
-		DialogoCorrecto.setLayout(new FlowLayout());
-		DialogoCorrecto.add(lblCorrecto);
-		DialogoCorrecto.add(btnAceptar);
-		DialogoCorrecto.setSize(190,100);
-		DialogoCorrecto.setLocationRelativeTo(null);
-		DialogoCorrecto.setResizable(false);
-		DialogoCorrecto.addWindowListener(this);
-		DialogoCorrecto.setVisible(false);
-		
-		// Diálogo Incorrecto
-		DialogoIncorrecto.setTitle("Modificación Productos");
-		DialogoIncorrecto.setLayout(new FlowLayout());
-		DialogoIncorrecto.add(lblModIn);
-		DialogoIncorrecto.add(btnAceptarIn);
-		DialogoIncorrecto.setSize(280,100);
-		DialogoIncorrecto.setLocationRelativeTo(null);
-		DialogoIncorrecto.setResizable(false);
-		DialogoIncorrecto.addWindowListener(this);
-		DialogoIncorrecto.setVisible(false);
-		
-		// Action Listener para botones de los diálogos
-		btnAceptar.addActionListener(this);
-		btnAceptarIn.addActionListener(this);
-		
-		// Establecer un icono a la aplicación
-		Image miIcono = mipantalla.getImage("src//farmacia.png");
-		// Colocar Icono
-		setIconImage(miIcono);
-		// Para que aparezca el frame en centro de la pantalla 
-		setSize(300,100);
+		DialogoMod.addWindowListener(this);
+		DialogoMod.setVisible(false);
+
+		setSize(350,170);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
 	}
-	
+
+	public void colocarIcono() {
+		Toolkit mipantalla = Toolkit.getDefaultToolkit();
+		Image miIcono = mipantalla.getImage("src//farmacia.png");
+		setIconImage(miIcono);
+	}
+
+	public static void introducirProductos(Choice seleccionarProducto) {
+		sentencia = "SELECT * FROM productos;";
+
+		try{
+			Class.forName(driver);				
+			connection = DriverManager.getConnection(url, login, password);
+			statement = connection.createStatement();
+			rs = statement.executeQuery(sentencia);
+			while (rs.next()) {
+				int idProducto = rs.getInt("idProducto");
+				String nombreProducto = rs.getString("nombreProducto");
+				String marcaProducto = rs.getString("marcaProducto");
+				int contenidototalProducto = rs.getInt("contenidototalProducto");
+				float precioProducto = rs.getFloat("precioProducto");
+				String fechacaducidadProducto = rs.getString("fechacaducidadProducto");
+				seleccionarProducto.add(idProducto + " " + nombreProducto + " " + marcaProducto + " " + precioProducto
+						+ " " + contenidototalProducto  + " " + fechacaducidadProducto);
+			}
+		} 
+
+		catch (ClassNotFoundException e) {
+			System.out.println("Se produjo un error al cargar el Driver");
+		}
+
+		catch(SQLException e) {
+			System.out.println("Se produjo un error al conectar con la BD");
+		}
+
+		desconectar();
+	}
+
+	public static void desconectar() {
+		try {
+			if (connection!=null) {
+				connection.close();
+			}	
+		}catch(SQLException sqle) {
+			System.out.println("No se puede cerrar la conexión con la Base de Datos");
+		}
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		String Nombre = txt.getText();
-		String Precio = txtPrecio.getText();
-		String CTotal = txtCT.getText();
-		String Fecha = txtFC.getText();
-		
-		if (btnModificar.equals(arg0.getSource())) {
-			this.setVisible(false);
-			DialogoMod.setVisible(true);
-		}
-	
 		if (btnModificacion.equals(arg0.getSource())) {
-			// Si el contenido de los tres TEXT FIELD están vacíos que lanze la ventana de ALTA INCORRECTA
-			if (Nombre.equals("") &&  (Precio.equals("")) && (CTotal.equals("") && (Fecha.equals("")))){
-				this.setVisible(false);
-				DialogoIncorrecto.setVisible(true);
+			if (seleccionarProducto.getSelectedItem().equals("Seleccione producto a modificar")) {
+				JOptionPane.showMessageDialog(null, "No puede seleccionar ese elemento, ya que es informativo", "Error", JOptionPane.INFORMATION_MESSAGE);
 			}else{
+				String [] escoger = seleccionarProducto.getSelectedItem().split(" ");
+
+				String nombreProducto = escoger[1];
+				String nombreProductoseguido = escoger[2];
+				txtNombre.setText(nombreProducto + " " + nombreProductoseguido);
+
+				String marcaProducto = escoger[3];
+				txtMarca.setText(marcaProducto);
+				
+				String precioProducto = escoger[4];
+				txtPrecio.setText(precioProducto);
+
+				String contenidototalProducto = escoger[5];
+				txtContenidoTotal.setText(contenidototalProducto);
+				
+				String fechacaducidadProducto = escoger[6];
+				txtFechaCaducidad.setText(fechacaducidadProducto);
+				
 				this.setVisible(false);
-				DialogoCorrecto.setVisible(true);
+				DialogoMod.setVisible(true);
 			}
 		}
 		
-		if (btnLimpiar.equals(arg0.getSource())){
-			// Seleccionar contenido del textField Nombre y limpiarlo
-			txt.selectAll();
-			txt.setText("");
+		else if (btnRealizarModificacion.equals(arg0.getSource())) {
+			String [] escoger = seleccionarProducto.getSelectedItem().split(" ");
 
-			// Seleccionar contenido del textField APELLIDOS Y limpiarlo
-			txtPrecio.selectAll();
-			txtPrecio.setText("");
-			
-			// Seleccionar contendio del textField DNI Y limpiarlo
-			txtFC.selectAll();
-			txtFC.setText("");
-			
-			// Seleccionar contendio del textField DNI Y limpiarlo
-			txtCT.selectAll();
-			txtCT.setText("");
-		}
-		
-		if (btnAceptar.equals(arg0.getSource())) {
+			String idProducto = escoger[0];
+
+			try{
+				Class.forName(driver);				
+				connection = DriverManager.getConnection(url, login, password);
+				statement = connection.createStatement();
+				sentencia = "UPDATE productos SET contenidototalProducto= '"+txtContenidoTotal.getText()+"', nombreProducto= '"+txtNombre.getText()+"', "
+						+ "marcaProducto='"+txtMarca.getText()+"', precioProducto= '"+txtPrecio.getText()+"', "
+								+ "fechacaducidadProducto= '"+txtFechaCaducidad.getText()+"' WHERE idProducto = '"+idProducto+"';";
+				System.out.println(sentencia);
+				statement.executeUpdate(sentencia);
+			} 
+
+			catch (ClassNotFoundException e) {
+				System.out.println("Se produjo un error al cargar el Driver");
+			}
+
+			catch(SQLException e) {
+				System.out.println("Se produjo un error al conectar con la BD");
+			}
+
+			desconectar();
+			JOptionPane.showMessageDialog(null, "Modificación Correcta", "Éxito en la Modificación", JOptionPane.INFORMATION_MESSAGE);
+
 			Guardar_Movimientos f = new Guardar_Movimientos();
 			try {
-				f.registrar("admin]" + "[Modificación Productos");
+				f.registrar("administrador]" + "["+sentencia+"");
 			} catch (IOException e) {
 				e.printStackTrace();
-			}		
+			}
+		}
+
+		else if (btnLimpiar.equals(arg0.getSource())){
+			txtNombre.selectAll();
+			txtNombre.setText("");
+
+			txtMarca.selectAll();
+			txtMarca.setText("");
 			
-			DialogoCorrecto.setVisible(false);
-			DialogoMod.setVisible(true);
-		}
-		
-		if (btnAceptarIn.equals(arg0.getSource())) {
-			DialogoIncorrecto.setVisible(false);
-			DialogoMod.setVisible(true);
-		}
+			txtPrecio.selectAll();
+			txtPrecio.setText("");
+
+			txtFechaCaducidad.selectAll();
+			txtFechaCaducidad.setText("");
+
+			txtContenidoTotal.selectAll();
+			txtContenidoTotal.setText("");
+		}	
 	}
-	
+
 	@Override
 	public void windowClosing(WindowEvent arg0) {
 		if (this.isActive()) {
 			this.setVisible(false);
 			new MenuPrincipal(null);
 		}
-		
-		else if(DialogoCorrecto.isActive()){
-			DialogoCorrecto.setVisible(false);
-			DialogoMod.setVisible(true);
-		}
-		
-		else if(DialogoIncorrecto.isActive()) {
-			DialogoIncorrecto.setVisible(false);
-			DialogoMod.setVisible(true);
-		}
-		
+
 		else if(DialogoMod.isActive()){
 			DialogoMod.setVisible(false);
-			new ModificacionProductos();
+			setVisible(true);
 		}
 	}
 

@@ -47,6 +47,8 @@ public class ConsultaClientes extends Frame implements ActionListener, WindowLis
 		add(lblConsulta);
 		tablaClientes = new JTable(rellenarTabla(),titulos);
 		tablaClientes.setModel(modelo);
+		// No editar la tabla
+		tablaClientes.setEnabled(false);
 		add(new JScrollPane(tablaClientes), BorderLayout.CENTER);
 		add(btnImprimir);
 		setSize(500,600);

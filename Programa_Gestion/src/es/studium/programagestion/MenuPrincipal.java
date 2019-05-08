@@ -123,6 +123,13 @@ public class MenuPrincipal extends WindowAdapter implements ActionListener{
 	public void windowClosing(WindowEvent e) {
 		// Cierra la ventana
 		System.exit(0);
+		
+		Guardar_Movimientos f = new Guardar_Movimientos();
+		try {
+			f.registrar("administrador]" + "[Logout");
+		} catch (IOException ie) {
+			ie.printStackTrace();
+		}	
 	}
 
 	@Override
@@ -132,65 +139,65 @@ public class MenuPrincipal extends WindowAdapter implements ActionListener{
 			miMenu.setVisible(false);
 		}
 		
-		if (mnimenuClientesMod.equals(arg0.getSource())) {
+		else if (mnimenuClientesMod.equals(arg0.getSource())) {
 			new ModificacionClientes();
 			miMenu.setVisible(false);
 		}
 		
-		if (mnimenuClientesBaja.equals(arg0.getSource())) {
+		else if (mnimenuClientesBaja.equals(arg0.getSource())) {
 			new BajaClientes();
 			miMenu.setVisible(false);
 		}
 		
-		if (mnimenuClientesConsulta.equals(arg0.getSource())) {
+		else if (mnimenuClientesConsulta.equals(arg0.getSource())) {
 			new ConsultaClientes();
 			miMenu.setVisible(false);
 		}
 		
-		if (mnimenuEmpleadosAlta.equals(arg0.getSource())) {
+		else if (mnimenuEmpleadosAlta.equals(arg0.getSource())) {
 			new AltaEmpleados();
 			miMenu.setVisible(false);
 		}
 		
-		if (mnimenuEmpleadosMod.equals(arg0.getSource())) {
+		else if (mnimenuEmpleadosMod.equals(arg0.getSource())) {
 			new ModificacionEmpleados();
 			miMenu.setVisible(false);
 		}
 		
-		if (mnimenuEmpleadosBaja.equals(arg0.getSource())) {
+		else if (mnimenuEmpleadosBaja.equals(arg0.getSource())) {
 			new BajaEmpleados();
 			miMenu.setVisible(false);
 		}
 		
-		if (mnimenuEmpleadosConsulta.equals(arg0.getSource())) {
+		else if (mnimenuEmpleadosConsulta.equals(arg0.getSource())) {
 			new ConsultaEmpleados();
 			miMenu.setVisible(false);
 		}
 		
-		if (mnimenuProductosAlta.equals(arg0.getSource())) {
+		else if (mnimenuProductosAlta.equals(arg0.getSource())) {
 			new AltaProductos();
 			miMenu.setVisible(false);
 		}
 		
-		if (mnimenuProductosMod.equals(arg0.getSource())) {
+		else if (mnimenuProductosMod.equals(arg0.getSource())) {
 			new ModificacionProductos();
 			miMenu.setVisible(false);
 		}
 		
-		if (mnimenuProductosBaja.equals(arg0.getSource())) {
+		else if (mnimenuProductosBaja.equals(arg0.getSource())) {
 			new BajaProductos();
 			miMenu.setVisible(false);
 		}
 		
-		if (mnimenuProductosConsulta.equals(arg0.getSource())) {
+		else if (mnimenuProductosConsulta.equals(arg0.getSource())) {
 			new ConsultaProductos();
 			miMenu.setVisible(false);
 		}
 		
-		if (mnimenuAyudaVer.equals(arg0.getSource())) {
+		else if (mnimenuAyudaVer.equals(arg0.getSource())) {
 			Guardar_Movimientos f = new Guardar_Movimientos();
 			try {
-				f.registrar("admin]" + "[Ayuda");
+				f.registrar("administrador]" + "[Ayuda");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}		

@@ -1,15 +1,7 @@
 package es.studium.programagestion;
 
-import java.awt.Frame;
-import java.awt.Image;
-import java.awt.Menu;
-import java.awt.MenuBar;
-import java.awt.MenuItem;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.*;
+import java.awt.event.*;
 import java.io.IOException;
 
 public class MenuPrincipalUsuario extends WindowAdapter implements ActionListener{
@@ -19,25 +11,22 @@ public class MenuPrincipalUsuario extends WindowAdapter implements ActionListene
 	// Crear barra de Menú
 	MenuBar barraMenu = new MenuBar();
 
-	// Crear menús
+	// Crear varios Menús
 	Menu menuClientes = new Menu("Clientes");
 	Menu menuEmpleados = new Menu("Empleados");
 	Menu menuProductos = new Menu("Productos");
 	Menu menuAyuda = new Menu("Ayuda");
 
-	// Crear menú item dentro del menú Clientes
+	// Crear Menú Item
 	MenuItem mnimenuClientesAlta = new MenuItem("Alta");
-	// Crear menú item dentro del menú Clientes
 	MenuItem mnimenuEmpleadosAlta = new MenuItem("Alta");
-	// Crear menú item dentro del menú Clientes
 	MenuItem mnimenuProductosAlta = new MenuItem("Alta");
-	// Crear menú item dentro del menú Ayuda
 	MenuItem mnimenuAyudaVer = new MenuItem("Ver ayuda");
 	
 	MenuPrincipalUsuario()
 	{
-		// Almacenamos en mipantalla el sistema nativo de pantallas, el tamaño por defecto de la pantalla
-		Toolkit mipantalla = Toolkit.getDefaultToolkit();
+		// Llamar al método que añade el icono a la aplicación
+		colocarIcono();
 		
 		// Añadir la barra de Menú
 		MenuUsuario.setMenuBar(barraMenu);
@@ -46,13 +35,10 @@ public class MenuPrincipalUsuario extends WindowAdapter implements ActionListene
 		barraMenu.add(menuProductos);
 		barraMenu.add(menuAyuda);
 
-		// Añadir al menú Clientes los item para que se vean
+		// Añadir a los menús los submenús (MenuItem)
 		menuClientes.add(mnimenuClientesAlta);
-		// Añadir al menú Empleados los item para que se vean
 		menuEmpleados.add(mnimenuEmpleadosAlta);
-		// Añadir al menú Productos los item para que se vean
 		menuProductos.add(mnimenuProductosAlta);
-		// Añadir al menú Productos los item para que se vean
 		menuAyuda.add(mnimenuAyudaVer);
 		
 		// Listeners a las opciones del menú
@@ -60,23 +46,22 @@ public class MenuPrincipalUsuario extends WindowAdapter implements ActionListene
 		mnimenuEmpleadosAlta.addActionListener(this);
 		mnimenuProductosAlta.addActionListener(this);
 		mnimenuAyudaVer.addActionListener(this);
-		
+			
 		// Establecer tamaño a la ventana y localización en pantalla
 		MenuUsuario.setSize(450,250);
 		// Establecer al medio la ventana, dependiendo de cual sea la resolución.
 		MenuUsuario.setLocationRelativeTo(null);
 		MenuUsuario.addWindowListener(this);
-		
-		// Establecer un icono a la aplicación
-		Image miIcono = mipantalla.getImage("src//farmacia.png");
-		// Colocar Icono
-		MenuUsuario.setIconImage(miIcono);
 		MenuUsuario.setResizable(false);
-		
-		// No hacer visible el menú ya que se tiene iniciar el la otra clase de Programa_Gestion (Inicio de sesión)
 		MenuUsuario.setVisible(true);
 	}
 
+	public void colocarIcono() {
+		Toolkit mipantalla = Toolkit.getDefaultToolkit();
+		Image miIcono = mipantalla.getImage("src//farmacia.png");
+		MenuUsuario.setIconImage(miIcono);
+	}
+	
 	@Override
 	public void windowClosing(WindowEvent e) {
 		// Cierra la ventana
@@ -90,27 +75,27 @@ public class MenuPrincipalUsuario extends WindowAdapter implements ActionListene
 			new AltaClientesUsuario();
 			// No hacer visible el Menú
 			MenuUsuario.setVisible(false);
-		}else if(mnimenuEmpleadosAlta.equals(arg0.getSource())) {
-			// Llamar a la clase AltaEmpleadosUsuario
+		}
+		
+		else if(mnimenuEmpleadosAlta.equals(arg0.getSource())) {
 			new AltaEmpleadosUsuario();
-			// No hacer visible el Menú
 			MenuUsuario.setVisible(false);
-		}else if(mnimenuProductosAlta.equals(arg0.getSource())) {
-			// Llamar a la clase AltaProductosUsuario
+		}
+		
+		else if(mnimenuProductosAlta.equals(arg0.getSource())) {
 			new AltaProductosUsuario();
-			// No hacer visible el Menú
 			MenuUsuario.setVisible(false);
-		}else if(mnimenuAyudaVer.equals(arg0.getSource())) {
+		}
+		
+		else if(mnimenuAyudaVer.equals(arg0.getSource())) {
 			Guardar_Movimientos f = new Guardar_Movimientos();
 			try {
-				f.registrar("Usuario]" + "[Ayuda");
+				f.registrar("usuario]" + "[Ayuda");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}		
 			
-			// Llamar a la clase Ayuda
 			new AyudaUsuario();
-			// No hacer visible el Menú
 			MenuUsuario.setVisible(false);
 		}
 	}

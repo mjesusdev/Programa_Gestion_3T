@@ -58,9 +58,9 @@ public class AltaClientes extends Frame implements ActionListener, WindowListene
 		
 		setTitle("Alta Clientes");
 		pnlSuperior.add(lblAlta);
-		lblAlta.setFont(new java.awt.Font("Times New Roman", 1, 18)); 
+		lblAlta.setFont(new java.awt.Font("Times New Roman", 1, 18));
 		pnlComponentes.add(lblNombre);
-		lblNombre.setFont(new java.awt.Font("Times New Roman", 0, 14)); 
+		lblNombre.setFont(new java.awt.Font("Times New Roman", 0, 14));
 		pnlComponentes.add(txtNombre);
 		pnlComponentes.add(lblApellidos);
 		lblApellidos.setFont(new java.awt.Font("Times New Roman", 0, 14)); 

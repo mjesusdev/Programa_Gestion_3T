@@ -1,26 +1,9 @@
 package es.studium.programagestion;
 
-import java.awt.Button;
-import java.awt.Choice;
-import java.awt.Dialog;
-import java.awt.FlowLayout;
-import java.awt.Frame;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Label;
-import java.awt.Panel;
-import java.awt.TextField;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 import javax.swing.JOptionPane;
 
@@ -40,12 +23,18 @@ public class ModificacionEmpleados extends Frame implements ActionListener, Wind
 	Dialog DialogoMod = new Dialog(this, true);
 
 	// Crear componentes
-	Label lblNombre = new Label("Nombre:");
-	TextField txtNombre = new TextField();
-	Label lblApellidos = new Label("Apellidos");
-	TextField txtApellidos = new TextField();
+	Label lblModificacion = new Label("Modificación Empleados");
+	Label lblNombre = new Label("Nombre:  ");
+	Label lblApellidos = new Label("Apellidos:");
+	TextField txtNombre = new TextField(15);
+	TextField txtApellidos = new TextField(15);
 	Button btnRealizarModificacion = new Button("Modificación Empleados");
 	Button btnLimpiar = new Button("Limpiar");
+
+	// Paneles para el Díalogo Mod
+	Panel pnlModificacion = new Panel();
+	Panel pnlComponentes = new Panel();
+	Panel pnlBotones = new Panel();
 
 	// Base De datos
 	static String driver = "com.mysql.jdbc.Driver";
@@ -75,22 +64,28 @@ public class ModificacionEmpleados extends Frame implements ActionListener, Wind
 
 		// Diálogo donde se realiza la modificación
 		DialogoMod.setTitle("Modificación Empleados");
-		DialogoMod.setLayout(new GridLayout(4,2));
-		DialogoMod.add(lblNombre);
-		DialogoMod.add(txtNombre);
-		DialogoMod.add(lblApellidos);
-		DialogoMod.add(txtApellidos);
-		DialogoMod.add(btnRealizarModificacion);
-		DialogoMod.add(btnLimpiar);
-		DialogoMod.setSize(300,250);
+		pnlModificacion.add(lblModificacion);
+		pnlComponentes.add(lblNombre);
+		pnlComponentes.add(txtNombre);
+		pnlComponentes.add(lblApellidos);
+		pnlComponentes.add(txtApellidos);
+		pnlBotones.add(btnRealizarModificacion);
+		pnlBotones.add(btnLimpiar);
+		DialogoMod.add(pnlModificacion, BorderLayout.NORTH);
+		DialogoMod.add(pnlComponentes, BorderLayout.CENTER);
+		DialogoMod.add(pnlBotones, BorderLayout.SOUTH);
+		pnlModificacion.setFont(new java.awt.Font("Times New Roman", 1, 18));
+		pnlComponentes.setFont(new java.awt.Font("Times New Roman", 0, 14));
+		pnlBotones.setFont(new java.awt.Font("Times New Roman", 0, 14));
+		DialogoMod.setSize(250,190);
 		DialogoMod.setResizable(false);
 		DialogoMod.setLocationRelativeTo(null);
-		DialogoMod.addWindowListener(this);
 		btnRealizarModificacion.addActionListener(this);
 		btnLimpiar.addActionListener(this);
+		DialogoMod.addWindowListener(this);
 		DialogoMod.setVisible(false);
 
-		setSize(300,100);
+		setSize(300,170);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
@@ -143,8 +138,20 @@ public class ModificacionEmpleados extends Frame implements ActionListener, Wind
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		if (btnModificacion.equals(ae.getSource())) {
-			this.setVisible(false);
-			DialogoMod.setVisible(true);
+			if (seleccionarEmpleado.getSelectedItem().equals("Seleccione empleado a modificar")) {
+				JOptionPane.showMessageDialog(null, "No puede seleccionar ese elemento, ya que es informativo", "Error", JOptionPane.INFORMATION_MESSAGE);
+			}else{
+				String [] escoger = seleccionarEmpleado.getSelectedItem().split(" ");
+
+				String nombreEmpleado = escoger[1];
+				txtNombre.setText(nombreEmpleado);
+
+				String apellidosEmpleado = escoger[2];
+				txtApellidos.setText(apellidosEmpleado);
+
+				this.setVisible(false);
+				DialogoMod.setVisible(true);
+			}
 		}
 
 		else if (btnRealizarModificacion.equals(ae.getSource())) {
@@ -155,7 +162,9 @@ public class ModificacionEmpleados extends Frame implements ActionListener, Wind
 				Class.forName(driver);				
 				connection = DriverManager.getConnection(url, login, password);
 				statement = connection.createStatement();
-				sentencia = "DELETE * FROM empleados WHERE idEmpleado = '"+idEmpleado+"';";
+				sentencia = "UPDATE empleados SET nombreEmpleado= '"+txtNombre.getText()+"', "
+						+ "apellidosEmpleado= '"+txtApellidos.getText()+"' "
+						+ "WHERE idEmpleado = '"+idEmpleado+"';";
 				System.out.println(sentencia);
 				statement.executeUpdate(sentencia);
 			} 
@@ -170,9 +179,16 @@ public class ModificacionEmpleados extends Frame implements ActionListener, Wind
 
 			desconectar();
 			JOptionPane.showMessageDialog(null, "Modificación Correcta", "Éxito en la Modificación", JOptionPane.INFORMATION_MESSAGE);
+
+			Guardar_Movimientos f = new Guardar_Movimientos();
+			try {
+				f.registrar("administrador]" + "["+sentencia+"");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
-		if (btnLimpiar.equals(ae.getSource())) {
+		else if (btnLimpiar.equals(ae.getSource())) {
 			// Seleccionar Nombre y limpiarlo
 			txtNombre.selectAll();
 			txtNombre.setText("");

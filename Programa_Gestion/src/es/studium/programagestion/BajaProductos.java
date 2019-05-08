@@ -27,45 +27,45 @@ import javax.swing.JOptionPane;
 public class BajaProductos extends Frame implements ActionListener, WindowListener{
 
 	private static final long serialVersionUID = 1L;
-	
+
 	// Crear componentes 
 	Label lblBaja = new Label("Baja Productos");
-	Choice chcSeleccion = new Choice();
+	Choice chcSeleccionarProducto = new Choice();
 	Button btnBaja = new Button("Baja");
-	
+
 	// Paneles
 	Panel pnlSuperior = new Panel();
 	Panel pnlChoice = new Panel(); 
 	Panel pnlBaja = new Panel();
-	
+
 	// Dialogo Informativo 
 	Dialog diainformativo = new Dialog(this, true);
 	// Componentes
 	Label lblConfirmacion = new Label("¿Estás seguro de realizar la Baja?");
 	Button btnSi = new Button("Sí");
 	Button btnNo = new Button("No");
-	
+
 	// Base de Datos
 	String driver = "com.mysql.jdbc.Driver";
 	String url = "jdbc:mysql://localhost:3306/farmaciapr2?autoReconnect=true&useSSL=false";
 	String login = "admin";
 	String password = "Studium2018;";
 	String sentencia = null;
-	Connection connection = null;
+	static Connection connection = null;
 	Statement statement = null;
 	ResultSet rs = null;
-	
+
 	BajaProductos()
 	{
 		// Almacenamos en mipantalla el sistema nativo de pantallas, el tamaño por defecto de la pantalla, nos servirá para poner el icono
 		Toolkit mipantalla = Toolkit.getDefaultToolkit();
-		
+
 		setTitle("Baja Productos");
 		pnlSuperior.add(lblBaja);
 		lblBaja.setFont(new java.awt.Font("Times New Roman", 1, 18));
-		chcSeleccion.add("Elige uno...");
+		chcSeleccionarProducto.add("Seleccione producto a dar de Baja");
 		insertarProductos();
-		pnlChoice.add(chcSeleccion);
+		pnlChoice.add(chcSeleccionarProducto);
 		pnlBaja.add(btnBaja);
 		add(pnlSuperior, BorderLayout.NORTH);
 		add(pnlChoice, BorderLayout.CENTER);
@@ -81,26 +81,27 @@ public class BajaProductos extends Frame implements ActionListener, WindowListen
 		diainformativo.add(btnNo);
 		btnSi.setFont(new java.awt.Font("Times New Roman", 0, 15));
 		btnNo.setFont(new java.awt.Font("Times New Roman", 0, 15)); 
-		diainformativo.setSize(220,100);
+		diainformativo.setSize(250,100);
 		diainformativo.addWindowListener(this);
 		btnBaja.addActionListener(this);
 		btnSi.addActionListener(this);
+		btnNo.addActionListener(this);
 		diainformativo.setLocationRelativeTo(null);
 		diainformativo.setResizable(false);
 		diainformativo.setVisible(false);	
-		
+
 		// Establecer un icono a la aplicación
 		Image miIcono = mipantalla.getImage("src//farmacia.png");
 		// Colocar Icono
 		setIconImage(miIcono);
-		
-		setSize(300,130);
+
+		setSize(300,250);
 		addWindowListener(this);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
 	}
-	
+
 	public void insertarProductos() {
 		sentencia = "SELECT * FROM productos ORDER BY 1;";
 
@@ -118,7 +119,7 @@ public class BajaProductos extends Frame implements ActionListener, WindowListen
 				String nombreProducto = rs.getString("nombreProducto");
 				String marcaProducto = rs.getString("marcaProducto");
 				String precioProducto = rs.getString("precioProducto");
-				chcSeleccion.add(idProducto + " " + contenidototalProducto + " " + nombreProducto + " " + marcaProducto + " " + precioProducto);
+				chcSeleccionarProducto.add(idProducto + " " + contenidototalProducto + " " + nombreProducto + " " + marcaProducto + " " + precioProducto);
 			}
 		}
 
@@ -130,38 +131,43 @@ public class BajaProductos extends Frame implements ActionListener, WindowListen
 		{
 			JOptionPane.showMessageDialog(null, "Error, en la Baja", "Error", JOptionPane.ERROR_MESSAGE);
 		}
-		finally
+		desconectar();
+	}
+
+	public static void desconectar() {
+		try
 		{
-			try
+			if(connection!=null)
 			{
-				if(connection!=null)
-				{
-					connection.close();
-				}
-			}
-			catch (SQLException se)
-			{
-				System.out.println("No se puede cerrar la conexión la Base De Datos");
+				connection.close();
 			}
 		}
+		catch (SQLException se)
+		{
+			System.out.println("No se puede cerrar la conexión la Base De Datos");
+		}
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if (btnBaja.equals(arg0.getSource())){
-			diainformativo.setVisible(true);
+			if (chcSeleccionarProducto.getSelectedItem().equals("Seleccione producto a dar de Baja")) {
+				JOptionPane.showMessageDialog(null, "No puede seleccionar ese elemento, ya que es informativo", "Error", JOptionPane.INFORMATION_MESSAGE);
+			}else{
+				diainformativo.setVisible(true);
+			}
 		}
-		
-		else if (btnSi.equals(arg0.getSource())) {
-			String [] eliminarespacios = chcSeleccion.getSelectedItem().split(" ");
 
-			String dniCliente = eliminarespacios[3];
+		else if (btnSi.equals(arg0.getSource())) {
+			String [] eliminarespacios = chcSeleccionarProducto.getSelectedItem().split(" ");
+
+			String idProducto = eliminarespacios[0];
 
 			try {
 				Class.forName(driver);
 				connection = DriverManager.getConnection(url, login, password);
 				//Crear una sentencia
-				sentencia = "DELETE FROM clientes WHERE dniCliente = '"+dniCliente+"';";
+				sentencia = "DELETE FROM productos WHERE idProducto = '"+idProducto+"';";
 				statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
 				System.out.println(sentencia);
 				statement.executeUpdate(sentencia);
@@ -175,38 +181,23 @@ public class BajaProductos extends Frame implements ActionListener, WindowListen
 			{
 				JOptionPane.showMessageDialog(null, "Error, en la Baja", "Error", JOptionPane.ERROR_MESSAGE);
 			}
-			finally
-			{
-				try
-				{
-					if(connection!=null)
-					{
-						connection.close();
-					}
-				}
-				catch (SQLException se)
-				{
-					System.out.println("No se puede cerrar la conexión la Base De Datos");
-				}
-			}
+			desconectar();
 
 			Guardar_Movimientos gm = new Guardar_Movimientos();
 			try {
 				gm.registrar("administrador]" + "["+sentencia+"");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
 			JOptionPane.showMessageDialog(null, "Baja Correcta", "Baja Realizada", JOptionPane.OK_CANCEL_OPTION);
 		}
-		
+
 		else if (btnNo.equals(arg0.getSource())) {
 			diainformativo.setVisible(false);
 			setVisible(true);
 		}
 	}
-	
+
 	@Override
 	public void windowClosing(WindowEvent arg0) {
 		if (this.isActive()) {

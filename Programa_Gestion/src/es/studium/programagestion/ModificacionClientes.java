@@ -1,25 +1,9 @@
 package es.studium.programagestion;
 
-import java.awt.Button;
-import java.awt.Choice;
-import java.awt.Dialog;
-import java.awt.Frame;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Label;
-import java.awt.Panel;
-import java.awt.TextField;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 import javax.swing.JOptionPane;
 
@@ -39,14 +23,20 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 	Dialog DialogoMod = new Dialog(this, true);
 
 	// Crear componentes
-	Label lblNombre = new Label("Nombre:");
-	TextField txtNombre = new TextField();
-	Label lblApellidos = new Label("Apellidos");
-	TextField txtApellidos = new TextField();
-	Label lblDNI = new Label("DNI:");
-	TextField txtDNI = new TextField();
+	Label lblModificacion = new Label("Modificación Clientes");
+	Label lblNombre = new Label("Nombre:  ");
+	Label lblApellidos = new Label("Apellidos:");
+	Label lblDNI = new Label(" DNI:        ");
+	TextField txtNombre = new TextField(15);
+	TextField txtApellidos = new TextField(15);
+	TextField txtDNI = new TextField(15);
 	Button btnRealizarModificacion = new Button("Modificar Cliente");
 	Button btnLimpiar = new Button("Limpiar");
+
+	// Paneles para el Díalogo Mod
+	Panel pnlModificacion = new Panel();
+	Panel pnlComponentes = new Panel();
+	Panel pnlBotones = new Panel();
 
 	// Base De datos
 	static String driver = "com.mysql.jdbc.Driver";
@@ -74,21 +64,27 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 		add(pnlBoton, "Center");
 		// Añadir Windowlistener
 		addWindowListener(this);
-		// Añadir un Actionlistener al botón de Modificación 
+		// Añadir Actionlistener al botón de Modificación 
 		btnModificacion.addActionListener(this);
 
 		// Diálogo donde se realiza la modificación
 		DialogoMod.setTitle("Modificación Clientes");
-		DialogoMod.setLayout(new GridLayout(4,2));
-		DialogoMod.add(lblNombre);
-		DialogoMod.add(txtNombre);
-		DialogoMod.add(lblApellidos);
-		DialogoMod.add(txtApellidos);
-		DialogoMod.add(lblDNI);
-		DialogoMod.add(txtDNI);
-		DialogoMod.add(btnRealizarModificacion);
-		DialogoMod.add(btnLimpiar);
-		DialogoMod.setSize(300,250);
+		pnlModificacion.add(lblModificacion);
+		pnlComponentes.add(lblNombre);
+		pnlComponentes.add(txtNombre);
+		pnlComponentes.add(lblApellidos);
+		pnlComponentes.add(txtApellidos);
+		pnlComponentes.add(lblDNI);
+		pnlComponentes.add(txtDNI);
+		pnlBotones.add(btnRealizarModificacion);
+		pnlBotones.add(btnLimpiar);
+		DialogoMod.add(pnlModificacion, BorderLayout.NORTH);
+		DialogoMod.add(pnlComponentes, BorderLayout.CENTER);
+		DialogoMod.add(pnlBotones, BorderLayout.SOUTH);
+		pnlModificacion.setFont(new java.awt.Font("Times New Roman", 1, 18));
+		pnlComponentes.setFont(new java.awt.Font("Times New Roman", 0, 14));
+		pnlBotones.setFont(new java.awt.Font("Times New Roman", 0, 14));
+		DialogoMod.setSize(250,230);
 		DialogoMod.setResizable(false);
 		DialogoMod.setLocationRelativeTo(null);
 		btnRealizarModificacion.addActionListener(this);
@@ -147,45 +143,57 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		if (btnModificacion.equals(ae.getSource())) {
-			this.setVisible(false);
-			DialogoMod.setVisible(true);
+		if (btnModificacion.equals(ae.getSource())) {	
+			if (seleccionarCliente.getSelectedItem().equals("Seleccione cliente a modificar")) {
+				JOptionPane.showMessageDialog(null, "No puede seleccionar ese elemento, ya que es informativo", "Error", JOptionPane.INFORMATION_MESSAGE);
+			}else{
+				String [] escoger = seleccionarCliente.getSelectedItem().split(" ");
+
+				String nombreCliente = escoger[1];
+				txtNombre.setText(nombreCliente);
+
+				String apellidosCliente = escoger[2];
+				txtApellidos.setText(apellidosCliente);
+
+				String dniCliente = escoger[3];
+				txtDNI.setText(dniCliente);
+
+				this.setVisible(false);
+				DialogoMod.setVisible(true);
+			}
 		}
 
 		else if (btnRealizarModificacion.equals(ae.getSource())) {
-			if (txtNombre.getText().equals("") | txtApellidos.getText().equals("") | txtDNI.getText().equals("")) {
-				JOptionPane.showMessageDialog(null, "Error", "Tiene que especificar los datos", JOptionPane.INFORMATION_MESSAGE);
-			}else{
-				String [] escogerdniCliente = seleccionarCliente.getSelectedItem().split(" ");
-				String dniCliente = escogerdniCliente[3];
+			String [] escoger = seleccionarCliente.getSelectedItem().split(" ");
 
-				try{
-					Class.forName(driver);				
-					connection = DriverManager.getConnection(url, login, password);
-					statement = connection.createStatement();
-					sentencia = "UPDATE clientes SET dniCliente= '"+txtDNI.getText()+"', nombreCliente= '"+txtNombre.getText()+"', "
-							+ "apellidosCliente='"+txtApellidos.getText()+"' WHERE dniCliente = '"+dniCliente+"';";
-					System.out.println(sentencia);
-					statement.executeUpdate(sentencia);
-				} 
+			String dniCliente = escoger[3];
 
-				catch (ClassNotFoundException e) {
-					System.out.println("Se produjo un error al cargar el Driver");
-				}
+			try{
+				Class.forName(driver);				
+				connection = DriverManager.getConnection(url, login, password);
+				statement = connection.createStatement();
+				sentencia = "UPDATE clientes SET dniCliente= '"+txtDNI.getText()+"', nombreCliente= '"+txtNombre.getText()+"', "
+						+ "apellidosCliente='"+txtApellidos.getText()+"' WHERE dniCliente = '"+dniCliente+"';";
+				System.out.println(sentencia);
+				statement.executeUpdate(sentencia);
+			} 
 
-				catch(SQLException e) {
-					System.out.println("Se produjo un error al conectar con la BD");
-				}
+			catch (ClassNotFoundException e) {
+				System.out.println("Se produjo un error al cargar el Driver");
+			}
 
-				desconectar();
-				JOptionPane.showMessageDialog(null, "Modificación Correcta", "Éxito en la Modificación", JOptionPane.INFORMATION_MESSAGE);
+			catch(SQLException e) {
+				System.out.println("Se produjo un error al conectar con la BD");
+			}
 
-				Guardar_Movimientos f = new Guardar_Movimientos();
-				try {
-					f.registrar("administrador]" + "["+sentencia+"");
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+			desconectar();
+			JOptionPane.showMessageDialog(null, "Modificación Correcta", "Éxito en la Modificación", JOptionPane.INFORMATION_MESSAGE);
+
+			Guardar_Movimientos f = new Guardar_Movimientos();
+			try {
+				f.registrar("administrador]" + "["+sentencia+"");
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 

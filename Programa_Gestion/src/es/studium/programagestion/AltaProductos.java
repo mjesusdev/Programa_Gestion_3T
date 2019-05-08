@@ -20,8 +20,8 @@ public class AltaProductos extends Frame implements ActionListener, WindowListen
 	Label lblFechaCaducidad = new Label("Fecha Caducidad:");
 	TextField txtNombre = new TextField(15);
 	TextField txtMarca = new TextField(15);
-	TextField txtContenidoTotal = new TextField(10);
 	TextField txtPrecio = new TextField(15);
+	TextField txtContenidoTotal = new TextField(10);
 	TextField txtFechaCaducidad = new TextField(10);
 	Button btnAlta = new Button("Alta");
 	Button btnLimpiar = new Button("Limpiar");
@@ -81,7 +81,7 @@ public class AltaProductos extends Frame implements ActionListener, WindowListen
 		// Colocar Icono
 		setIconImage(miIcono);
 
-		setSize(280,300);
+		setSize(280,270);
 		setLocationRelativeTo(null);
 		btnAlta.addActionListener(this);
 		btnLimpiar.addActionListener(this);
