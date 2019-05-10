@@ -103,22 +103,22 @@ public class ConsultaClientes extends Frame implements ActionListener, WindowLis
 		{
 			System.out.println("Error 2: "+sqle.getMessage());
 		}
-
-		finally
+		desconectar();
+		return null;
+	}
+	
+	public static void desconectar() {
+		try
 		{
-			try
+			if(connection!=null)
 			{
-				if(connection!=null)
-				{
-					connection.close();
-				}
-			}
-			catch (SQLException e)
-			{
-				System.out.println("Error 3: "+e.getMessage());
+				connection.close();
 			}
 		}
-		return null;
+		catch (SQLException e)
+		{
+			System.out.println("Error 3: "+e.getMessage());
+		}
 	}
 
 	@Override
