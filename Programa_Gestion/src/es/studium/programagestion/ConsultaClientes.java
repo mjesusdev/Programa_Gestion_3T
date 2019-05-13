@@ -1,7 +1,21 @@
 package es.studium.programagestion;
 
+import com.itextpdf.*;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.print.PrinterException;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -106,7 +120,7 @@ public class ConsultaClientes extends Frame implements ActionListener, WindowLis
 		desconectar();
 		return null;
 	}
-	
+
 	public static void desconectar() {
 		try
 		{
@@ -125,23 +139,51 @@ public class ConsultaClientes extends Frame implements ActionListener, WindowLis
 	public void actionPerformed(ActionEvent arg0) {
 		if(btnImprimir.equals(arg0.getSource())){
 			try {
-				String prueba = btnImprimir.getLabel();
-				System.out.println(prueba);
-				//Se obtiene el objeto PrintJob
-				PrintJob pjob = this.getToolkit().getPrintJob(this, prueba, null);
-				//Se obtiene el objeto graphics sobre el que pintar
-				Graphics pg = pjob.getGraphics();
-				//Se fija la fuente de caracteres con la que escribir
-				pg.setFont(new Font("Arial",Font.PLAIN,12));
-				//Se escribe el mensaje del Cuadro de Texto indicando
-				//posición con respecto a la parte superior izquierda
-				pg.drawString(prueba,100,100);
-				//Se finaliza la página
-				pg.dispose();
-				//Se hace que la impresora termine el trabajo y suelte la página
-				pjob.end();
-			}catch(NullPointerException npe) {
-				npe.printStackTrace();
+				Document documento = new Document(PageSize.LETTER);
+				PdfWriter.getInstance(documento, new FileOutputStream("ConsultaClientes.pdf"));
+				documento.setMargins(50f, 50f, 50f, 50f);
+				documento.open();
+				
+				Paragraph titulo = new Paragraph("**Consulta Clientes**", FontFactory.getFont(FontFactory.TIMES_ROMAN,18, Font.BOLD, BaseColor.BLACK));
+				titulo.setAlignment(Paragraph.ALIGN_CENTER);
+				documento.add(titulo);
+				
+				Paragraph saltolinea1 = new Paragraph();
+				saltolinea1.add("\n\n");
+				
+				documento.add(saltolinea1);
+				
+				PdfPTable pdfTable = new PdfPTable(tablaClientes.getColumnCount());
+				
+				for (int i = 0; i < tablaClientes.getColumnCount(); i++) {
+	                pdfTable.addCell(tablaClientes.getColumnName(i));
+	            }
+				
+	            // Extraer filas y columnas de la tabla
+	            for (int rows = 0; rows < tablaClientes.getRowCount() - 1; rows++) {
+	                for (int cols = 0; cols < tablaClientes.getColumnCount(); cols++) {
+	                    pdfTable.addCell(tablaClientes.getModel().getValueAt(rows, cols).toString());
+	                }
+	            }
+	            // Añadir la tabla
+	            documento.add(pdfTable);
+	            
+				Paragraph saltolinea2 = new Paragraph();
+				saltolinea2.add("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+				documento.add(saltolinea2);
+				
+				Paragraph author = new Paragraph("By: Manuel Jesús Ojeda Salvador 1-DAW");
+				author.setAlignment(Paragraph.ALIGN_CENTER);
+				documento.add(author);
+				
+				// Cerramos el objeto
+				documento.close();
+
+			}catch (DocumentException e) {
+				e.printStackTrace();
+			}catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}
