@@ -1,21 +1,15 @@
 package es.studium.programagestion;
 
-import com.itextpdf.*;
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.*;
 import com.itextpdf.text.Font;
-import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.*;
 
 import java.awt.*;
+import java.awt.Image;
 import java.awt.event.*;
-import java.awt.print.PrinterException;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -23,6 +17,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -46,8 +41,7 @@ public class ConsultaClientes extends Frame implements ActionListener, WindowLis
 	static String url = "jdbc:mysql://localhost:3306/farmaciapr2?autoReconnect=true&useSSL=false";
 	static String login = "admin";
 	static String password = "Studium2018;";
-	static String sentencia = "SELECT dniCliente AS 'DNI', nombreCliente AS 'Nombre', apellidosCliente AS 'Apellidos'\r\n" + 
-			"FROM clientes ORDER BY 1;";
+	static String sentencia = "SELECT dniCliente AS 'DNI', nombreCliente AS 'Nombre', apellidosCliente AS 'Apellidos' FROM clientes ORDER BY 1;";
 	static Connection connection = null;
 	static Statement statement = null;
 	static ResultSet rs = null;
@@ -182,15 +176,23 @@ public class ConsultaClientes extends Frame implements ActionListener, WindowLis
 			}catch (DocumentException e) {
 				e.printStackTrace();
 			}catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Problemas con el Fichero, puede ser que este abierto por otro programa o algo por el estilo", "Error Fatal", JOptionPane.ERROR_MESSAGE);
 			}
+			JOptionPane.showMessageDialog(null, "Se imprimió la tabla Clientes en PDF", "Consulta Exportada", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
 	@Override
 	public void windowClosing(WindowEvent arg0) {
 		if(this.isActive()){
+			Guardar_Movimientos gm = new Guardar_Movimientos();
+			try {
+				gm.registrar("administrador]" + "["+sentencia+"");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			this.setVisible(false);
 			new MenuPrincipal(null);
 		}

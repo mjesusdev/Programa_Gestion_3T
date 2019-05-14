@@ -23,3 +23,34 @@
 [08/05/2019 12:08:08][admin][Ayuda]
 [13/05/2019 18:47:24][administrador][Login]
 [13/05/2019 18:49:06][administrador][Login]
+[14/05/2019 18:29:09][administrador][Login]
+[14/05/2019 18:29:17][administrador][SELECT dniCliente AS 'DNI', nombreCliente AS 'Nombre', apellidosCliente AS 'Apellidos' 
+FROM clientes ORDER BY 1;]
+[14/05/2019 18:30:05][administrador][Login]
+[14/05/2019 18:30:10][administrador][SELECT idEmpleado AS 'Nº Empleado', nombreEmpleado AS 'Nombre', apellidosEmpleado AS 'Apellidos'
+FROM empleados;]
+[14/05/2019 18:42:51][administrador][SELECT idProducto AS 'Nº', contenidototalProducto AS 'Contenido Total', nombreProducto AS 'Nombre',
+marcaProducto AS 'Marca', precioProducto AS 'Precio', fechacaducidadProducto AS 'Fecha de Caducidad' FROM productos;]
+[14/05/2019 18:43:21][administrador][Login]
+[14/05/2019 18:43:25][administrador][SELECT idProducto AS 'Nº', contenidototalProducto AS 'Contenido Total', nombreProducto AS 'Nombre',
+marcaProducto AS 'Marca', precioProducto AS 'Precio', fechacaducidadProducto AS 'Fecha de Caducidad' FROM productos;]
+[14/05/2019 18:43:39][administrador][Login]
+[14/05/2019 18:43:43][administrador][SELECT idProducto AS 'Nº', contenidototalProducto AS 'Contenido Total', nombreProducto AS 'Nombre',
+marcaProducto AS 'Marca', precioProducto AS 'Precio', fechacaducidadProducto AS 'Fecha de Caducidad' FROM productos;]
+[14/05/2019 18:43:55][administrador][Login]
+[14/05/2019 18:44:01][administrador][SELECT idProducto AS 'Nº', contenidototalProducto AS 'Contenido Total', nombreProducto AS 'Nombre',
+marcaProducto AS 'Marca', precioProducto AS 'Precio', fechacaducidadProducto AS 'Fecha de Caducidad' FROM productos;]
+[14/05/2019 18:44:45][administrador][Login]
+[14/05/2019 18:45:09][administrador][SELECT idProducto AS 'Nº', contenidototalProducto AS 'Contenido Total', nombreProducto AS 'Nombre',
+marcaProducto AS 'Marca', precioProducto AS 'Precio', fechacaducidadProducto AS 'Fecha de Caducidad' FROM productos;]
+[14/05/2019 18:45:33][administrador][Login]
+[14/05/2019 18:47:02][administrador][Login]
+[14/05/2019 18:47:13][administrador][SELECT idProducto AS 'Nº', contenidototalProducto AS 'Contenido', nombreProducto AS 'Nombre',
+marcaProducto AS 'Marca', precioProducto AS 'Precio', fechacaducidadProducto AS 'Fecha de Caducidad' FROM productos;]
+[14/05/2019 18:48:56][administrador][Login]
+[14/05/2019 18:49:53][administrador][Login]
+[14/05/2019 18:53:01][administrador][Login]
+[14/05/2019 18:58:02][administrador][Login]
+[14/05/2019 18:58:17][administrador][SELECT idProducto AS 'Nº', contenidototalProducto AS 'Contenido', nombreProducto AS 'Nombre',
+marcaProducto AS 'Marca', precioProducto AS 'Precio', fechacaducidadProducto AS 'Fecha de Caducidad' FROM productos;]
+[14/05/2019 18:58:21][administrador][SELECT idEmpleado AS 'Nº Empleado', nombreEmpleado AS 'Nombre', apellidosEmpleado AS 'Apellidos' FROM empleados;]

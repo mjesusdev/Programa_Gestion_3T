@@ -5,6 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -12,9 +15,20 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 public class ConsultaEmpleados extends Frame implements ActionListener, WindowListener{
 
@@ -35,8 +49,7 @@ public class ConsultaEmpleados extends Frame implements ActionListener, WindowLi
 	static String url = "jdbc:mysql://localhost:3306/farmaciapr2?autoReconnect=true&useSSL=false";
 	static String login = "admin";
 	static String password = "Studium2018;";
-	static String sentencia = "SELECT idEmpleado AS 'Nº Empleado', nombreEmpleado AS 'Nombre', apellidosEmpleado AS 'Apellidos'\r\n" + 
-			"FROM empleados;";
+	static String sentencia = "SELECT idEmpleado AS 'Nº Empleado', nombreEmpleado AS 'Nombre', apellidosEmpleado AS 'Apellidos' FROM empleados;";
 	static Connection connection = null;
 	static Statement statement = null;
 	static ResultSet rs = null;
@@ -65,7 +78,7 @@ public class ConsultaEmpleados extends Frame implements ActionListener, WindowLi
 		Image miIcono = mipantalla.getImage("src//farmacia.png");
 		setIconImage(miIcono);
 	}
-	
+
 	public Object[][] rellenarTabla() {
 		try 
 		{
@@ -126,30 +139,66 @@ public class ConsultaEmpleados extends Frame implements ActionListener, WindowLi
 	public void actionPerformed(ActionEvent arg0) {
 		if(btnImprimir.equals(arg0.getSource())){
 			try {
-				String prueba =  btnImprimir.getLabel();
-				System.out.println(prueba);
-				//Se obtiene el objeto PrintJob
-				PrintJob pjob = this.getToolkit().getPrintJob(this, prueba, null);
-				//Se obtiene el objeto graphics sobre el que pintar
-				Graphics pg = pjob.getGraphics();
-				//Se fija la fuente de caracteres con la que escribir
-				pg.setFont(new Font("Arial",Font.PLAIN,12));
-				//Se escribe el mensaje del Cuadro de Texto indicando
-				//posición con respecto a la parte superior izquierda
-				pg.drawString(prueba,100,100);
-				//Se finaliza la página
-				pg.dispose();
-				//Se hace que la impresora termine el trabajo y suelte la página
-				pjob.end();
-			}catch(NullPointerException npe) {
-				npe.printStackTrace();
+				Document documento = new Document(PageSize.LETTER);
+				PdfWriter.getInstance(documento, new FileOutputStream("ConsultaEmpleados.pdf"));
+				documento.setMargins(50f, 50f, 50f, 50f);
+				documento.open();
+
+				Paragraph titulo = new Paragraph("**Consulta Empleados**", FontFactory.getFont(FontFactory.TIMES_ROMAN,18, Font.BOLD, BaseColor.BLACK));
+				titulo.setAlignment(Paragraph.ALIGN_CENTER);
+				documento.add(titulo);
+
+				Paragraph saltolinea1 = new Paragraph();
+				saltolinea1.add("\n\n");
+
+				documento.add(saltolinea1);
+
+				PdfPTable pdfTable = new PdfPTable(tablaEmpleados.getColumnCount());
+				
+				for (int i = 0; i < tablaEmpleados.getColumnCount(); i++) {
+					pdfTable.addCell(tablaEmpleados.getColumnName(i));
+				}
+
+				// Extraer filas y columnas de la tabla
+				for (int rows = 0; rows < tablaEmpleados.getRowCount() - 1; rows++) {
+					for (int cols = 0; cols < tablaEmpleados.getColumnCount(); cols++) {
+						pdfTable.addCell(tablaEmpleados.getModel().getValueAt(rows, cols).toString());
+					}
+				}
+				// Añadir la tabla
+				documento.add(pdfTable);
+
+				Paragraph saltolinea2 = new Paragraph();
+				saltolinea2.add("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+				documento.add(saltolinea2);
+
+				Paragraph author = new Paragraph("By: Manuel Jesús Ojeda Salvador 1-DAW");
+				author.setAlignment(Paragraph.ALIGN_CENTER);
+				documento.add(author);
+
+				// Cerramos el objeto
+				documento.close();
+
+			}catch (DocumentException e) {
+				e.printStackTrace();
+			}catch (FileNotFoundException e) {
+				JOptionPane.showMessageDialog(null, "Problemas con el Fichero, puede ser que este abierto por otro programa o algo por el estilo", "Error Fatal", JOptionPane.ERROR_MESSAGE);
 			}
+			JOptionPane.showMessageDialog(null, "Se imprimió la tabla Empleados en PDF", "Consulta Exportada", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
 	@Override
 	public void windowClosing(WindowEvent arg0) {
 		if(this.isActive()){
+			Guardar_Movimientos gm = new Guardar_Movimientos();
+			try {
+				gm.registrar("administrador]" + "["+sentencia+"");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			this.setVisible(false);
 			new MenuPrincipal(null);
 		}
