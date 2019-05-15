@@ -25,27 +25,32 @@ public class MenuPrincipal extends WindowAdapter implements ActionListener{
 	Menu menuClientes = new Menu("Clientes");
 	Menu menuEmpleados = new Menu("Empleados");
 	Menu menuProductos = new Menu("Productos");
+	Menu menuCompra = new Menu("Compra");
 	Menu menuAyuda = new Menu("Ayuda");
 
-	// Crear menú item dentro del menú Clientes
+	// Crear Items dentro del menú Clientes
 	MenuItem mnimenuClientesAlta = new MenuItem("Alta");
 	MenuItem mnimenuClientesMod = new MenuItem("Modificación");
 	MenuItem mnimenuClientesBaja = new MenuItem("Baja");
 	MenuItem mnimenuClientesConsulta = new MenuItem("Consulta");
 
-	// Crear menú item dentro del menú Clientes
+	// Crear Items dentro del menú Empleados
 	MenuItem mnimenuEmpleadosAlta = new MenuItem("Alta");
 	MenuItem mnimenuEmpleadosMod = new MenuItem("Modificación");
 	MenuItem mnimenuEmpleadosBaja = new MenuItem("Baja");
 	MenuItem mnimenuEmpleadosConsulta = new MenuItem("Consulta");
 
-	// Crear menú item dentro del menú Clientes
+	// Crear Items dentro del menú Productos
 	MenuItem mnimenuProductosAlta = new MenuItem("Alta");
 	MenuItem mnimenuProductosMod = new MenuItem("Modificación");
 	MenuItem mnimenuProductosBaja = new MenuItem("Baja");
 	MenuItem mnimenuProductosConsulta = new MenuItem("Consulta");
+	
+	// Crear Items dentro del menú Compra
+	MenuItem mnimenuCompraAlta = new MenuItem("Alta");
+	MenuItem mnimenuCompraConsulta = new MenuItem("Consulta");
 
-	// Crear menú item dentro del menú Ayuda
+	// Crear Item dentro del menú Ayuda
 	MenuItem mnimenuAyudaVer = new MenuItem("Ver ayuda");
 	
 	// Usuario
@@ -59,6 +64,7 @@ public class MenuPrincipal extends WindowAdapter implements ActionListener{
 		barraMenu.add(menuClientes);
 		barraMenu.add(menuEmpleados);
 		barraMenu.add(menuProductos);
+		barraMenu.add(menuCompra);
 		barraMenu.add(menuAyuda);
 
 		// Añadir al menú Clientes los item para que se vean
@@ -79,6 +85,10 @@ public class MenuPrincipal extends WindowAdapter implements ActionListener{
 		menuProductos.add(mnimenuProductosBaja);
 		menuProductos.add(mnimenuProductosConsulta);
 
+		// Añadir al menú Compra los item para que se vean
+		menuCompra.add(mnimenuCompraAlta);
+		menuCompra.add(mnimenuCompraConsulta);
+		
 		// Añadir al menú Ayuda los item para que se vean
 		menuAyuda.add(mnimenuAyudaVer);
 		
@@ -100,11 +110,14 @@ public class MenuPrincipal extends WindowAdapter implements ActionListener{
 		mnimenuProductosBaja.addActionListener(this);
 		mnimenuProductosConsulta.addActionListener(this);
 		
+		// Listeners de Compra
+		mnimenuCompraAlta.addActionListener(this);
+		mnimenuCompraConsulta.addActionListener(this);
+		
 		// Listeners de Ayuda
 		mnimenuAyudaVer.addActionListener(this);
 		
 		// Establecer tamaño a la ventana y localización en pantalla
-		//miMenu.setLocation(600,600);
 		miMenu.setSize(500,300);
 		// No permitir maximizarlo, cambiar tamaño
 		miMenu.setResizable(false);
@@ -115,7 +128,7 @@ public class MenuPrincipal extends WindowAdapter implements ActionListener{
 		// Establecer al medio la ventana, dependiendo de cual sea la resolución.
 		miMenu.setLocationRelativeTo(null);
 		miMenu.addWindowListener(this);
-		// No hacer visible el menú ya que tiene que se tiene iniciar el la otra clase de Programa_Gestion (Inicio de sesión)
+		// No hacer visible el menú
 		miMenu.setVisible(true);
 	}
 
@@ -191,6 +204,16 @@ public class MenuPrincipal extends WindowAdapter implements ActionListener{
 		
 		else if (mnimenuProductosConsulta.equals(arg0.getSource())) {
 			new ConsultaProductos();
+			miMenu.setVisible(false);
+		}
+		
+		else if (mnimenuCompraAlta.equals(arg0.getSource())) {
+			new AltaCompra();
+			miMenu.setVisible(false);
+		}
+		
+		else if (mnimenuCompraConsulta.equals(arg0.getSource())) {
+			new ConsultaCompra();
 			miMenu.setVisible(false);
 		}
 		
