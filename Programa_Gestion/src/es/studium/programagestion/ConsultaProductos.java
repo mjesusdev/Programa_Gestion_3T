@@ -56,7 +56,7 @@ public class ConsultaProductos extends Frame implements ActionListener, WindowLi
 	static String login = "admin";
 	static String password = "Studium2018;";
 	static String sentencia = "SELECT idProducto AS 'Nº', contenidototalProducto AS 'Contenido', nombreProducto AS 'Nombre',\r\n" + 
-			"marcaProducto AS 'Marca', precioProducto AS 'Precio', fechacaducidadProducto AS 'Fecha de Caducidad' FROM productos;";
+			"marcaProducto AS 'Marca', CONCAT(precioProducto, '€') AS 'Precio', DATE_FORMAT(fechacaducidadProducto,'%d/%m/%Y') AS 'Fecha de Caducidad' FROM productos;";
 	static Connection connection = null;
 	static Statement statement = null;
 	static ResultSet rs = null;
