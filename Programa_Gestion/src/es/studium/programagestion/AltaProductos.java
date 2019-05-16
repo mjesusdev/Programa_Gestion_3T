@@ -1,9 +1,23 @@
 package es.studium.programagestion;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Button;
+import java.awt.Frame;
+import java.awt.Image;
+import java.awt.Label;
+import java.awt.Panel;
+import java.awt.TextField;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.JOptionPane;
 
@@ -43,10 +57,8 @@ public class AltaProductos extends Frame implements ActionListener, WindowListen
 
 	AltaProductos()
 	{
-		// Almacenamos en mipantalla el sistema nativo de pantallas, el tamaño por defecto de la pantalla, nos servira para poner el icono
-		Toolkit mipantalla = Toolkit.getDefaultToolkit();
-
 		setTitle("Alta Productos");
+		colocarIcono();
 		pnlSuperior.add(lblAlta);
 		pnlComponentes.add(lblNombre);
 		pnlComponentes.add(txtNombre);
@@ -76,11 +88,6 @@ public class AltaProductos extends Frame implements ActionListener, WindowListen
 		add(pnlComponentes, BorderLayout.CENTER);
 		add(pnlBotones, BorderLayout.SOUTH);
 		
-		// Establecer un icono a la aplicación
-		Image miIcono = mipantalla.getImage("src//farmacia.png");
-		// Colocar Icono
-		setIconImage(miIcono);
-
 		setSize(280,270);
 		setLocationRelativeTo(null);
 		btnAlta.addActionListener(this);
@@ -88,6 +95,12 @@ public class AltaProductos extends Frame implements ActionListener, WindowListen
 		addWindowListener(this);
 		setResizable(false);
 		setVisible(true);
+	}
+	
+	public void colocarIcono() {
+		Toolkit mipantalla = Toolkit.getDefaultToolkit();
+		Image miIcono = mipantalla.getImage("src//farmacia.png");
+		setIconImage(miIcono);
 	}
 
 	@Override
@@ -98,6 +111,9 @@ public class AltaProductos extends Frame implements ActionListener, WindowListen
 		String ContenidoTotal = txtContenidoTotal.getText();
 		String FechaCaducidad = txtFechaCaducidad.getText();
 
+		String quitarbarra [] = FechaCaducidad.split("/");
+		String fechacaducidadamericana = quitarbarra[2] + "-" + quitarbarra[1] + "-" + quitarbarra[0];
+		
 		if (btnAlta.equals(arg0.getSource())) {
 			try
 			{
@@ -105,7 +121,7 @@ public class AltaProductos extends Frame implements ActionListener, WindowListen
 				connection = DriverManager.getConnection(url, login, password);
 				//Crear una sentencia
 				statement = connection.createStatement();
-				sentencia = "INSERT INTO productos VALUES(NULL, '"+ContenidoTotal+"', '"+Nombre+"', '"+Marca+"', '"+Precio+"', '"+FechaCaducidad+"');";
+				sentencia = "INSERT INTO productos VALUES(NULL, '"+ContenidoTotal+"', '"+Nombre+"', '"+Marca+"', '"+Precio+"', '"+fechacaducidadamericana+"');";
 				// Ejecutar la sentencia
 				statement.executeUpdate(sentencia);
 				
@@ -115,7 +131,6 @@ public class AltaProductos extends Frame implements ActionListener, WindowListen
 				try {
 					gm.registrar("administrador]" + "["+sentencia+"");
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
