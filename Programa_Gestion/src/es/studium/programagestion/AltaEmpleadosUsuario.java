@@ -51,22 +51,20 @@ public class AltaEmpleadosUsuario extends Frame implements ActionListener, Windo
 	
 	AltaEmpleadosUsuario()
 	{
-		// Almacenamos en mipantalla el sistema nativo de pantallas, el tamaño por defecto de la pantalla, nos servira para poner el icono
-		Toolkit mipantalla = Toolkit.getDefaultToolkit();
-		
 		setTitle("Alta Empleados");
+		colocarIcono();
 		pnlSuperior.add(lblAlta);
-		// Aplicarle una fuente a la etiqueta y tamaño
-		lblAlta.setFont(new java.awt.Font("Times New Roman", 1, 18)); 
 		pnlComponentes.add(lblNombre);
-		lblNombre.setFont(new java.awt.Font("Times New Roman", 0, 14));
 		pnlComponentes.add(txtNombre);
 		pnlComponentes.add(lblApellidos);
-		lblApellidos.setFont(new java.awt.Font("Times New Roman", 0, 14));
 		pnlComponentes.add(txtApellidos);
 		pnlBotones.add(btnAlta);
-		btnAlta.setFont(new java.awt.Font("Times New Roman", 0, 14));
 		pnlBotones.add(btnLimpiar);
+		// Aplicarle una fuente a la etiqueta y tamaño
+		lblAlta.setFont(new java.awt.Font("Times New Roman", 1, 18));
+		lblNombre.setFont(new java.awt.Font("Times New Roman", 0, 14));
+		lblApellidos.setFont(new java.awt.Font("Times New Roman", 0, 14));
+		btnAlta.setFont(new java.awt.Font("Times New Roman", 0, 14)); 
 		btnLimpiar.setFont(new java.awt.Font("Times New Roman", 0, 14));
 		
 		// Añadir los paneles
@@ -74,18 +72,19 @@ public class AltaEmpleadosUsuario extends Frame implements ActionListener, Windo
 		add(pnlComponentes, BorderLayout.CENTER);
 		add(pnlBotones, BorderLayout.SOUTH);
 
-		// Establecer un icono a la aplicación
-		Image miIcono = mipantalla.getImage("src//farmacia.png");
-		// Colocar Icono
-		setIconImage(miIcono);
 		setSize(270,180);
 		setLocationRelativeTo(null);
-		// Añadir Listeners
 		btnAlta.addActionListener(this);
 		btnLimpiar.addActionListener(this);
 		addWindowListener(this);
 		setResizable(false);
 		setVisible(true);
+	}
+	
+	public void colocarIcono() {
+		Toolkit mipantalla = Toolkit.getDefaultToolkit();
+		Image miIcono = mipantalla.getImage("src//farmacia.png");
+		setIconImage(miIcono);
 	}
 	
 	@Override
@@ -96,7 +95,7 @@ public class AltaEmpleadosUsuario extends Frame implements ActionListener, Windo
 		if (btnAlta.equals(arg0.getSource())) {
 			// Si están vacíos los campos
 			if (NombreEmpleado.equals("") | ApellidosEmpleado.equals("")) {
-				JOptionPane.showMessageDialog(null, "Error, en el Alta", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Error en el Alta", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			
 			else
@@ -128,7 +127,7 @@ public class AltaEmpleadosUsuario extends Frame implements ActionListener, Windo
 				
 				catch (SQLException sqle)
 				{
-					JOptionPane.showMessageDialog(null, "Error, en el Alta", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Error en el Alta", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 				
 				finally

@@ -30,7 +30,7 @@ public class BajaClientes extends Frame implements ActionListener, WindowListene
 
 	// Crear componentes 
 	Label lblBaja = new Label("Baja Clientes");
-	Choice chcSeleccion = new Choice();
+	Choice chcSeleccionarCliente = new Choice();
 	Button btnBaja = new Button("Baja");
 
 	// Paneles 
@@ -44,7 +44,7 @@ public class BajaClientes extends Frame implements ActionListener, WindowListene
 	Label lblConfirmacion = new Label("¿Estás seguro de realizar la Baja?");
 	Button btnSi = new Button("Sí");
 	Button btnNo = new Button("No");
-	
+
 	// Base de Datos
 	String driver = "com.mysql.jdbc.Driver";
 	String url = "jdbc:mysql://localhost:3306/farmaciapr2?autoReconnect=true&useSSL=false";
@@ -57,15 +57,13 @@ public class BajaClientes extends Frame implements ActionListener, WindowListene
 
 	BajaClientes()
 	{
-		// Almacenamos en mipantalla el sistema nativo de pantallas, el tamaño por defecto de la pantalla, nos servira para poner el icono
-		Toolkit mipantalla = Toolkit.getDefaultToolkit();
-
 		setTitle("Baja Clientes");
+		colocarIcono();
 		pnlSuperior.add(lblBaja);
 		lblBaja.setFont(new java.awt.Font("Times New Roman", 1, 18)); 
-		chcSeleccion.add("Elige uno...");
+		chcSeleccionarCliente.add("Seleccione cliente a dar de Baja");
 		insertarClientes();
-		pnlChoice.add(chcSeleccion);
+		pnlChoice.add(chcSeleccionarCliente);
 		pnlBaja.add(btnBaja);
 		add(pnlSuperior, BorderLayout.NORTH);
 		add(pnlChoice, BorderLayout.CENTER);
@@ -76,9 +74,9 @@ public class BajaClientes extends Frame implements ActionListener, WindowListene
 		diainformativo.setLayout(new FlowLayout());
 		diainformativo.setBackground(Color.decode("#d9d9d9"));
 		diainformativo.add(lblConfirmacion);
-		lblConfirmacion.setFont(new java.awt.Font("Times New Roman", 0, 15)); 
 		diainformativo.add(btnSi);
 		diainformativo.add(btnNo);
+		lblConfirmacion.setFont(new java.awt.Font("Times New Roman", 0, 15)); 
 		btnSi.setFont(new java.awt.Font("Times New Roman", 0, 15));
 		btnNo.setFont(new java.awt.Font("Times New Roman", 0, 15)); 
 		diainformativo.setSize(280,110);
@@ -90,16 +88,17 @@ public class BajaClientes extends Frame implements ActionListener, WindowListene
 		diainformativo.setResizable(false);
 		diainformativo.setVisible(false);
 
-		// Establecer un icono a la aplicación
-		Image miIcono = mipantalla.getImage("src//farmacia.png");
-		// Colocar Icono
-		setIconImage(miIcono);
-
-		setSize(350,200);
+		setSize(350,250);
 		setLocationRelativeTo(null);
 		addWindowListener(this);
 		setResizable(false);
 		setVisible(true);
+	}
+
+	public void colocarIcono() {
+		Toolkit mipantalla = Toolkit.getDefaultToolkit();
+		Image miIcono = mipantalla.getImage("src//farmacia.png");
+		setIconImage(miIcono);
 	}
 
 	public void insertarClientes() {
@@ -117,7 +116,7 @@ public class BajaClientes extends Frame implements ActionListener, WindowListene
 				String dniCliente = rs.getString("dniCliente");
 				String nombreCliente = rs.getString("nombreCliente");
 				String apellidosCliente = rs.getString("apellidosCliente");
-				chcSeleccion.add(nombreCliente + " " + apellidosCliente + " " + dniCliente);
+				chcSeleccionarCliente.add(nombreCliente + " " + apellidosCliente + " " + dniCliente);
 			}
 		}
 
@@ -127,32 +126,37 @@ public class BajaClientes extends Frame implements ActionListener, WindowListene
 		}
 		catch (SQLException sqle)
 		{
-			JOptionPane.showMessageDialog(null, "Error, en la Baja", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Error en la Baja", "Error", JOptionPane.ERROR_MESSAGE);
 		}
-		finally
+		desconectar();
+	}
+
+	public void desconectar() {
+		try
 		{
-			try
+			if(connection!=null)
 			{
-				if(connection!=null)
-				{
-					connection.close();
-				}
+				connection.close();
 			}
-			catch (SQLException se)
-			{
-				System.out.println("No se puede cerrar la conexión la Base De Datos");
-			}
+		}
+		catch (SQLException sql)
+		{
+			System.out.println("No se puede cerrar la conexión la Base De Datos");
 		}
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if (btnBaja.equals(arg0.getSource())){
-			diainformativo.setVisible(true);
+			if (chcSeleccionarCliente.getSelectedItem().equals("Seleccione cliente a dar de Baja")) {
+				JOptionPane.showMessageDialog(null, "No puede seleccionar ese elemento, ya que es informativo", "Error", JOptionPane.INFORMATION_MESSAGE);
+			}else{
+				diainformativo.setVisible(true);
+			}
 		}
 
 		else if (btnSi.equals(arg0.getSource())) {
-			String [] eliminarespacios = chcSeleccion.getSelectedItem().split(" ");
+			String [] eliminarespacios = chcSeleccionarCliente.getSelectedItem().split(" ");
 
 			String dniCliente = eliminarespacios[3];
 
@@ -162,7 +166,6 @@ public class BajaClientes extends Frame implements ActionListener, WindowListene
 				//Crear una sentencia
 				sentencia = "DELETE FROM clientes WHERE dniCliente = '"+dniCliente+"';";
 				statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
-				System.out.println(sentencia);
 				statement.executeUpdate(sentencia);
 			}
 
@@ -172,22 +175,9 @@ public class BajaClientes extends Frame implements ActionListener, WindowListene
 			}
 			catch (SQLException sqle)
 			{
-				JOptionPane.showMessageDialog(null, "Error, en la Baja", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Error en la Baja", "Error", JOptionPane.ERROR_MESSAGE);
 			}
-			finally
-			{
-				try
-				{
-					if(connection!=null)
-					{
-						connection.close();
-					}
-				}
-				catch (SQLException se)
-				{
-					System.out.println("No se puede cerrar la conexión la Base De Datos");
-				}
-			}
+			desconectar();
 
 			Guardar_Movimientos gm = new Guardar_Movimientos();
 			try {
@@ -196,7 +186,7 @@ public class BajaClientes extends Frame implements ActionListener, WindowListene
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 			JOptionPane.showMessageDialog(null, "Baja Correcta", "Baja Realizada", JOptionPane.OK_CANCEL_OPTION);
 		}
 

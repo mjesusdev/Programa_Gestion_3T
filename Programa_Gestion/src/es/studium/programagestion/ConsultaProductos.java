@@ -42,7 +42,7 @@ public class ConsultaProductos extends Frame implements ActionListener, WindowLi
 
 	Label lblConsulta = new Label("Consulta Productos");
 
-	Button btnImprimir = new Button("Imprimir");
+	Button btnImprimir = new Button("Imprimir PDF");
 
 	JTable tablaProductos = new JTable();
 
@@ -151,7 +151,8 @@ public class ConsultaProductos extends Frame implements ActionListener, WindowLi
 				documento.setMargins(50f, 50f, 50f, 50f);
 				documento.open();
 
-				Paragraph titulo = new Paragraph("**Consulta Productos**", FontFactory.getFont(FontFactory.TIMES_ROMAN,18, Font.BOLD, BaseColor.BLACK));
+				Paragraph titulo = new Paragraph("**Consulta Productos**", FontFactory.getFont(FontFactory.TIMES_ROMAN,18, Font.BOLD, 
+						BaseColor.BLACK));
 				titulo.setAlignment(Paragraph.ALIGN_CENTER);
 				documento.add(titulo);
 

@@ -1,12 +1,17 @@
 package es.studium.programagestion;
 
-import com.itextpdf.text.*;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.pdf.*;
-
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Button;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Image;
-import java.awt.event.*;
+import java.awt.Label;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -22,13 +27,22 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+
 public class ConsultaClientes extends Frame implements ActionListener, WindowListener{
 
 	private static final long serialVersionUID = 1L;
 
 	Label lblConsulta = new Label("Consulta Clientes");
 
-	Button btnImprimir = new Button("Imprimir");
+	Button btnImprimir = new Button("Imprimir PDF");
 
 	JTable tablaClientes = new JTable();
 
@@ -154,7 +168,7 @@ public class ConsultaClientes extends Frame implements ActionListener, WindowLis
 	            }
 				
 	            // Extraer filas y columnas de la tabla
-	            for (int rows = 0; rows < tablaClientes.getRowCount() - 1; rows++) {
+	            for (int rows = 0; rows < tablaClientes.getRowCount(); rows++) {
 	                for (int cols = 0; cols < tablaClientes.getColumnCount(); cols++) {
 	                    pdfTable.addCell(tablaClientes.getModel().getValueAt(rows, cols).toString());
 	                }

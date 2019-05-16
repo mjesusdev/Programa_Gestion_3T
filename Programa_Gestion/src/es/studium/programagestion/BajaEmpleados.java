@@ -1,9 +1,26 @@
 package es.studium.programagestion;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Button;
+import java.awt.Choice;
+import java.awt.Color;
+import java.awt.Dialog;
+import java.awt.FlowLayout;
+import java.awt.Frame;
+import java.awt.Image;
+import java.awt.Label;
+import java.awt.Panel;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.JOptionPane;
 
@@ -13,7 +30,7 @@ public class BajaEmpleados extends Frame implements ActionListener, WindowListen
 
 	// Crear componentes 
 	Label lblBaja = new Label("Baja Empleados");
-	Choice chcSeleccion = new Choice();
+	Choice chcSeleccionarEmpleado = new Choice();
 	Button btnBaja = new Button("Baja");
 
 	// Paneles 
@@ -46,9 +63,9 @@ public class BajaEmpleados extends Frame implements ActionListener, WindowListen
 		setTitle("Baja Empleados");
 		pnlSuperior.add(lblBaja);
 		lblBaja.setFont(new java.awt.Font("Times New Roman", 1, 18)); 
-		chcSeleccion.add("Elija uno...");
+		chcSeleccionarEmpleado.add("Seleccione empleado a dar de Baja");
 		insertarEmpleados();
-		pnlChoice.add(chcSeleccion);
+		pnlChoice.add(chcSeleccionarEmpleado);
 		pnlBaja.add(btnBaja);
 		add(pnlSuperior, BorderLayout.NORTH);
 		add(pnlChoice, BorderLayout.CENTER);
@@ -77,7 +94,7 @@ public class BajaEmpleados extends Frame implements ActionListener, WindowListen
 		Image miIcono = mipantalla.getImage("src//farmacia.png");
 		// Colocar Icono
 		setIconImage(miIcono);
-		setSize(350,200);
+		setSize(350,220);
 		addWindowListener(this);
 		setLocationRelativeTo(null);
 		setResizable(false);
@@ -99,7 +116,7 @@ public class BajaEmpleados extends Frame implements ActionListener, WindowListen
 				int idEmpleado = rs.getInt("idEmpleado");
 				String nombreEmpleado = rs.getString("nombreEmpleado");
 				String apellidosEmpleado = rs.getString("apellidosEmpleado");
-				chcSeleccion.add(idEmpleado + " " + nombreEmpleado + " " + apellidosEmpleado);
+				chcSeleccionarEmpleado.add(idEmpleado + " " + nombreEmpleado + " " + apellidosEmpleado);
 			}
 		}
 
@@ -130,11 +147,15 @@ public class BajaEmpleados extends Frame implements ActionListener, WindowListen
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if (btnBaja.equals(arg0.getSource())){
-			diainformativo.setVisible(true);
+			if (chcSeleccionarEmpleado.getSelectedItem().equals("Seleccione empleado a dar de Baja")) {
+				JOptionPane.showMessageDialog(null, "No puede seleccionar ese elemento, ya que es informativo", "Error", JOptionPane.INFORMATION_MESSAGE);
+			}else{
+				diainformativo.setVisible(true);
+			}
 		}
 
 		else if (btnSi.equals(arg0.getSource())) {
-			String [] eliminarespacios = chcSeleccion.getSelectedItem().split(" ");
+			String [] eliminarespacios = chcSeleccionarEmpleado.getSelectedItem().split(" ");
 
 			String idEmpleado = eliminarespacios[0];
 
@@ -144,7 +165,6 @@ public class BajaEmpleados extends Frame implements ActionListener, WindowListen
 				//Crear una sentencia
 				sentencia = "DELETE FROM empleados WHERE idEmpleado = '"+idEmpleado+"';";
 				statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
-				System.out.println(sentencia);
 				statement.executeUpdate(sentencia);
 			}
 

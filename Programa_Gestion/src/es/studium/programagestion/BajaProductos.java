@@ -1,4 +1,4 @@
-package es.studium.programagestion;
+	package es.studium.programagestion;
 
 import java.awt.BorderLayout;
 import java.awt.Button;
@@ -57,10 +57,8 @@ public class BajaProductos extends Frame implements ActionListener, WindowListen
 
 	BajaProductos()
 	{
-		// Almacenamos en mipantalla el sistema nativo de pantallas, el tamaño por defecto de la pantalla, nos servirá para poner el icono
-		Toolkit mipantalla = Toolkit.getDefaultToolkit();
-
 		setTitle("Baja Productos");
+		colocarIcono();
 		pnlSuperior.add(lblBaja);
 		lblBaja.setFont(new java.awt.Font("Times New Roman", 1, 18));
 		chcSeleccionarProducto.add("Seleccione producto a dar de Baja");
@@ -89,17 +87,18 @@ public class BajaProductos extends Frame implements ActionListener, WindowListen
 		diainformativo.setLocationRelativeTo(null);
 		diainformativo.setResizable(false);
 		diainformativo.setVisible(false);	
-
-		// Establecer un icono a la aplicación
-		Image miIcono = mipantalla.getImage("src//farmacia.png");
-		// Colocar Icono
-		setIconImage(miIcono);
-
+		
 		setSize(300,250);
 		addWindowListener(this);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
+	}
+	
+	public void colocarIcono() {
+		Toolkit mipantalla = Toolkit.getDefaultToolkit();
+		Image miIcono = mipantalla.getImage("src//farmacia.png");
+		setIconImage(miIcono);
 	}
 
 	public void insertarProductos() {
@@ -115,11 +114,10 @@ public class BajaProductos extends Frame implements ActionListener, WindowListen
 			rs = statement.executeQuery(sentencia);
 			while (rs.next()) {
 				int idProducto = rs.getInt("idProducto");
-				int contenidototalProducto = rs.getInt("contenidototalProducto");
 				String nombreProducto = rs.getString("nombreProducto");
 				String marcaProducto = rs.getString("marcaProducto");
 				String precioProducto = rs.getString("precioProducto");
-				chcSeleccionarProducto.add(idProducto + " " + contenidototalProducto + " " + nombreProducto + " " + marcaProducto + " " + precioProducto);
+				chcSeleccionarProducto.add(idProducto + " " + nombreProducto + " " + marcaProducto + " " + precioProducto + "€");
 			}
 		}
 
@@ -169,7 +167,6 @@ public class BajaProductos extends Frame implements ActionListener, WindowListen
 				//Crear una sentencia
 				sentencia = "DELETE FROM productos WHERE idProducto = '"+idProducto+"';";
 				statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
-				System.out.println(sentencia);
 				statement.executeUpdate(sentencia);
 			}
 
@@ -211,14 +208,20 @@ public class BajaProductos extends Frame implements ActionListener, WindowListen
 
 	@Override
 	public void windowActivated(WindowEvent arg0) {}
+	
 	@Override
 	public void windowClosed(WindowEvent arg0) {}
+	
 	@Override
 	public void windowDeactivated(WindowEvent arg0) {}
+	
 	@Override
 	public void windowDeiconified(WindowEvent arg0) {}
+	
 	@Override
 	public void windowIconified(WindowEvent arg0) {}
+	
 	@Override
 	public void windowOpened(WindowEvent arg0) {}
+	
 }

@@ -42,7 +42,7 @@ public class ConsultaCompra extends Frame implements ActionListener, WindowListe
 
 	Label lblConsulta = new Label("Consulta Compra");
 
-	Button btnImprimir = new Button("Imprimir");
+	Button btnImprimir = new Button("Imprimir PDF");
 
 	JTable tablaCompra = new JTable();
 
@@ -168,7 +168,7 @@ public class ConsultaCompra extends Frame implements ActionListener, WindowListe
 	            }
 				
 	            // Extraer filas y columnas de la tabla
-	            for (int rows = 0; rows < tablaCompra.getRowCount() - 1; rows++) {
+	            for (int rows = 0; rows < tablaCompra.getRowCount(); rows++) {
 	                for (int cols = 0; cols < tablaCompra.getColumnCount(); cols++) {
 	                    pdfTable.addCell(tablaCompra.getModel().getValueAt(rows, cols).toString());
 	                }

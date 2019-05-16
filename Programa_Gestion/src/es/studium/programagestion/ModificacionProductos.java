@@ -1,7 +1,19 @@
 package es.studium.programagestion;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Button;
+import java.awt.Choice;
+import java.awt.Dialog;
+import java.awt.Frame;
+import java.awt.Image;
+import java.awt.Label;
+import java.awt.Panel;
+import java.awt.TextField;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -102,7 +114,7 @@ public class ModificacionProductos extends Frame implements ActionListener, Wind
 		DialogoMod.addWindowListener(this);
 		DialogoMod.setVisible(false);
 
-		setSize(350,170);
+		setSize(350,220);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
@@ -129,8 +141,11 @@ public class ModificacionProductos extends Frame implements ActionListener, Wind
 				int contenidototalProducto = rs.getInt("contenidototalProducto");
 				float precioProducto = rs.getFloat("precioProducto");
 				String fechacaducidadProducto = rs.getString("fechacaducidadProducto");
+				String quitarbarra [] = fechacaducidadProducto.split("-");
+				// Cambia el - por / además de cambiar el orden para insetarlo en la BD
+				String fechacaducidadamericana = quitarbarra[2] + "/" + quitarbarra[1] + "/" + quitarbarra[0];
 				seleccionarProducto.add(idProducto + " " + nombreProducto + " " + marcaProducto + " " + precioProducto
-						+ " " + contenidototalProducto  + " " + fechacaducidadProducto);
+						+ " " + contenidototalProducto  + " " + fechacaducidadamericana);
 			}
 		} 
 
@@ -186,17 +201,21 @@ public class ModificacionProductos extends Frame implements ActionListener, Wind
 		
 		else if (btnRealizarModificacion.equals(arg0.getSource())) {
 			String [] escoger = seleccionarProducto.getSelectedItem().split(" ");
-
 			String idProducto = escoger[0];
-
+			
+			String fecha = txtFechaCaducidad.getText();
+			String [] fechaCaducidad = fecha.split("/");
+			
+			// Cambia la / por - además de cambiar el orden para insetarlo en la BD
+			String fechacaducidadamericana = fechaCaducidad[2] + "-" + fechaCaducidad[1] + "-" + fechaCaducidad[0];
+			
 			try{
 				Class.forName(driver);				
 				connection = DriverManager.getConnection(url, login, password);
 				statement = connection.createStatement();
 				sentencia = "UPDATE productos SET contenidototalProducto= '"+txtContenidoTotal.getText()+"', nombreProducto= '"+txtNombre.getText()+"', "
 						+ "marcaProducto='"+txtMarca.getText()+"', precioProducto= '"+txtPrecio.getText()+"', "
-								+ "fechacaducidadProducto= '"+txtFechaCaducidad.getText()+"' WHERE idProducto = '"+idProducto+"';";
-				System.out.println(sentencia);
+								+ "fechacaducidadProducto= '"+fechacaducidadamericana+"' WHERE idProducto = '"+idProducto+"';";
 				statement.executeUpdate(sentencia);
 			} 
 

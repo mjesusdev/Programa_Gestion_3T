@@ -1,9 +1,25 @@
 package es.studium.programagestion;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Button;
+import java.awt.Choice;
+import java.awt.Dialog;
+import java.awt.Frame;
+import java.awt.Image;
+import java.awt.Label;
+import java.awt.Panel;
+import java.awt.TextField;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.JOptionPane;
 
@@ -50,7 +66,6 @@ public class ModificacionEmpleados extends Frame implements ActionListener, Wind
 	{
 		setTitle("Modificación Empleados");
 		colocarIcono();
-
 		pnlChoice.add(seleccionarEmpleado);
 		pnlBoton.add(btnModificacion);
 		seleccionarEmpleado.add("Seleccione empleado a modificar");
@@ -85,7 +100,7 @@ public class ModificacionEmpleados extends Frame implements ActionListener, Wind
 		DialogoMod.addWindowListener(this);
 		DialogoMod.setVisible(false);
 
-		setSize(300,170);
+		setSize(350,210);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
@@ -147,7 +162,8 @@ public class ModificacionEmpleados extends Frame implements ActionListener, Wind
 				txtNombre.setText(nombreEmpleado);
 
 				String apellidosEmpleado = escoger[2];
-				txtApellidos.setText(apellidosEmpleado);
+				String apellidosEmpleado2 = escoger[3];
+				txtApellidos.setText(apellidosEmpleado + " " + apellidosEmpleado2);
 
 				this.setVisible(false);
 				DialogoMod.setVisible(true);
@@ -165,7 +181,6 @@ public class ModificacionEmpleados extends Frame implements ActionListener, Wind
 				sentencia = "UPDATE empleados SET nombreEmpleado= '"+txtNombre.getText()+"', "
 						+ "apellidosEmpleado= '"+txtApellidos.getText()+"' "
 						+ "WHERE idEmpleado = '"+idEmpleado+"';";
-				System.out.println(sentencia);
 				statement.executeUpdate(sentencia);
 			} 
 

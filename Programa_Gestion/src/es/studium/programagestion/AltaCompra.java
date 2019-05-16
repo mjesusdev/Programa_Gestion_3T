@@ -109,7 +109,7 @@ public class AltaCompra extends Frame implements WindowListener, ActionListener{
 		}
 		catch (SQLException sqle)
 		{
-			JOptionPane.showMessageDialog(null, "Error, en el Alta", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Error en el Alta", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		desconectar();
 	}
@@ -143,7 +143,7 @@ public class AltaCompra extends Frame implements WindowListener, ActionListener{
 		}
 		catch (SQLException sqle)
 		{
-			JOptionPane.showMessageDialog(null, "Error, en el Alta", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Error en el Alta", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		desconectar();
 	}

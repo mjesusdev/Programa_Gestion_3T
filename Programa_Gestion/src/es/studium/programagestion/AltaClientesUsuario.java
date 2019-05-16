@@ -1,9 +1,23 @@
 package es.studium.programagestion;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Button;
+import java.awt.Frame;
+import java.awt.Image;
+import java.awt.Label;
+import java.awt.Panel;
+import java.awt.TextField;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.JOptionPane;
 
@@ -39,24 +53,22 @@ public class AltaClientesUsuario extends Frame implements ActionListener, Window
 	
 	AltaClientesUsuario()
 	{
-		// Almacenamos en mipantalla el sistema nativo de pantallas, el tamaño por defecto de la pantalla, nos servira para poner el icono
-		Toolkit mipantalla = Toolkit.getDefaultToolkit();
-		
 		setTitle("Alta Clientes");
+		colocarIcono();
 		pnlSuperior.add(lblAlta);
-		lblAlta.setFont(new java.awt.Font("Times New Roman", 1, 18)); 
 		pnlComponentes.add(lblNombre);
-		lblNombre.setFont(new java.awt.Font("Times New Roman", 0, 14)); 
 		pnlComponentes.add(txtNombre);
 		pnlComponentes.add(lblApellidos);
-		lblApellidos.setFont(new java.awt.Font("Times New Roman", 0, 14)); 
 		pnlComponentes.add(txtApellidos);
 		pnlComponentes.add(lblDNI);
-		lblDNI.setFont(new java.awt.Font("Times New Roman", 0, 14)); 
 		pnlComponentes.add(txtDNI);
 		pnlBotones.add(btnAlta);
-		btnAlta.setFont(new java.awt.Font("Times New Roman", 0, 14)); 
 		pnlBotones.add(btnLimpiar);
+		lblAlta.setFont(new java.awt.Font("Times New Roman", 1, 18)); 
+		lblNombre.setFont(new java.awt.Font("Times New Roman", 0, 14)); 
+		lblApellidos.setFont(new java.awt.Font("Times New Roman", 0, 14)); 
+		lblDNI.setFont(new java.awt.Font("Times New Roman", 0, 14)); 
+		btnAlta.setFont(new java.awt.Font("Times New Roman", 0, 14)); 
 		btnLimpiar.setFont(new java.awt.Font("Times New Roman", 0, 14)); 
 
 		// Añadir los paneles
@@ -64,21 +76,19 @@ public class AltaClientesUsuario extends Frame implements ActionListener, Window
 		add(pnlComponentes, BorderLayout.CENTER);
 		add(pnlBotones, BorderLayout.SOUTH);
 		
-		// Establecer un icono a la aplicación
-		Image miIcono = mipantalla.getImage("src//farmacia.png");
-		// Colocar Icono
-		setIconImage(miIcono);
-		
-		// Tamaño al frame principal AltaClientes
 		setSize(250,210);
-		// Localización al centro de la pantalla
 		setLocationRelativeTo(null);
-		// Añadir los Listeners 
 		addWindowListener(this);
 		btnAlta.addActionListener(this);
 		btnLimpiar.addActionListener(this);
 		setResizable(false);
 		setVisible(true);
+	}
+	
+	public void colocarIcono() {
+		Toolkit mipantalla = Toolkit.getDefaultToolkit();
+		Image miIcono = mipantalla.getImage("src//farmacia.png");
+		setIconImage(miIcono);
 	}
 
 	@Override
@@ -89,7 +99,7 @@ public class AltaClientesUsuario extends Frame implements ActionListener, Window
 
 		if (btnAlta.equals(arg0.getSource())) {
 			if (Nombre.equals("") | Apellidos.equals("") | DNI.equals("")) {
-				JOptionPane.showMessageDialog(null, "Error, en el Alta por favor corrija los errores", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Error, por favor corrija los errores", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			
 			else

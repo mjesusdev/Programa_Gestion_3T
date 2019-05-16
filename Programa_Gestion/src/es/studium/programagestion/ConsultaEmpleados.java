@@ -1,6 +1,12 @@
 package es.studium.programagestion;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Button;
+import java.awt.FlowLayout;
+import java.awt.Frame;
+import java.awt.Image;
+import java.awt.Label;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -36,7 +42,7 @@ public class ConsultaEmpleados extends Frame implements ActionListener, WindowLi
 
 	Label lblConsulta = new Label("Consulta Empleados");
 
-	Button btnImprimir = new Button("Imprimir");
+	Button btnImprimir = new Button("Imprimir PDF");
 
 	JTable tablaEmpleados = new JTable();
 
@@ -160,7 +166,7 @@ public class ConsultaEmpleados extends Frame implements ActionListener, WindowLi
 				}
 
 				// Extraer filas y columnas de la tabla
-				for (int rows = 0; rows < tablaEmpleados.getRowCount() - 1; rows++) {
+				for (int rows = 0; rows < tablaEmpleados.getRowCount(); rows++) {
 					for (int cols = 0; cols < tablaEmpleados.getColumnCount(); cols++) {
 						pdfTable.addCell(tablaEmpleados.getModel().getValueAt(rows, cols).toString());
 					}

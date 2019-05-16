@@ -129,7 +129,7 @@ public class AltaProductosUsuario extends Frame implements ActionListener, Windo
 			}
 			catch (SQLException sqle)
 			{
-				JOptionPane.showMessageDialog(null, "Error, en el Alta", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Error en el Alta", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 
 			finally

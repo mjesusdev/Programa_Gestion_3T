@@ -37,10 +37,8 @@ public class AltaEmpleados extends Frame implements ActionListener, WindowListen
 	
 	AltaEmpleados()
 	{
-		// Almacenamos en mipantalla el sistema nativo de pantallas, el tamaño por defecto de la pantalla, nos servira para poner el icono
-		Toolkit mipantalla = Toolkit.getDefaultToolkit();
-		
 		setTitle("Alta Empleados");
+		colocarIcono();
 		pnlSuperior.add(lblAlta);
 		// Aplicarle una fuente a la etiqueta y tamaño
 		lblAlta.setFont(new java.awt.Font("Times New Roman", 1, 18)); 
@@ -60,10 +58,6 @@ public class AltaEmpleados extends Frame implements ActionListener, WindowListen
 		add(pnlComponentes, BorderLayout.CENTER);
 		add(pnlBotones, BorderLayout.SOUTH);
 
-		// Establecer un icono a la aplicación
-		Image miIcono = mipantalla.getImage("src//farmacia.png");
-		// Colocar Icono
-		setIconImage(miIcono);
 		setSize(270,180);
 		setLocationRelativeTo(null);
 		// Añadir Listeners
@@ -74,6 +68,12 @@ public class AltaEmpleados extends Frame implements ActionListener, WindowListen
 		setVisible(true);
 	}
 	
+	public void colocarIcono() {
+		Toolkit mipantalla = Toolkit.getDefaultToolkit();
+		Image miIcono = mipantalla.getImage("src//farmacia.png");
+		setIconImage(miIcono);
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		String NombreEmpleado = txtNombre.getText();
@@ -82,7 +82,7 @@ public class AltaEmpleados extends Frame implements ActionListener, WindowListen
 		if (btnAlta.equals(arg0.getSource())) {
 			// Si están vacíos los campos
 			if (NombreEmpleado.equals("") | ApellidosEmpleado.equals("")) {
-				JOptionPane.showMessageDialog(null, "Error, en el Alta", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Error en el Alta", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			
 			else
@@ -114,7 +114,7 @@ public class AltaEmpleados extends Frame implements ActionListener, WindowListen
 				
 				catch (SQLException sqle)
 				{
-					JOptionPane.showMessageDialog(null, "Error, en el Alta", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Error en el Alta", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 				
 				finally

@@ -1,9 +1,25 @@
 package es.studium.programagestion;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Button;
+import java.awt.Choice;
+import java.awt.Dialog;
+import java.awt.Frame;
+import java.awt.Image;
+import java.awt.Label;
+import java.awt.Panel;
+import java.awt.TextField;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.JOptionPane;
 
@@ -22,7 +38,7 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 	// Crear diálogo
 	Dialog DialogoMod = new Dialog(this, true);
 
-	// Crear componentes
+	// Crear componentes para el diálogo que va después del Frame Principal
 	Label lblModificacion = new Label("Modificación Clientes");
 	Label lblNombre = new Label("Nombre:  ");
 	Label lblApellidos = new Label("Apellidos:");
@@ -92,7 +108,7 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 		DialogoMod.addWindowListener(this);
 		DialogoMod.setVisible(false);
 
-		setSize(300,150);
+		setSize(350,220);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
@@ -127,7 +143,6 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 		catch(SQLException e) {
 			System.out.println("Se produjo un error al conectar con la BD");
 		}
-
 		desconectar();
 	}
 
@@ -149,11 +164,12 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 			}else{
 				String [] escoger = seleccionarCliente.getSelectedItem().split(" ");
 
-				String nombreCliente = escoger[1];
+				String nombreCliente = escoger[0];
 				txtNombre.setText(nombreCliente);
 
-				String apellidosCliente = escoger[2];
-				txtApellidos.setText(apellidosCliente);
+				String apellidoCliente = escoger[1];
+				String apellidoCliente2 = escoger[2];
+				txtApellidos.setText(apellidoCliente + " " + apellidoCliente2);
 
 				String dniCliente = escoger[3];
 				txtDNI.setText(dniCliente);
@@ -174,7 +190,6 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 				statement = connection.createStatement();
 				sentencia = "UPDATE clientes SET dniCliente= '"+txtDNI.getText()+"', nombreCliente= '"+txtNombre.getText()+"', "
 						+ "apellidosCliente='"+txtApellidos.getText()+"' WHERE dniCliente = '"+dniCliente+"';";
-				System.out.println(sentencia);
 				statement.executeUpdate(sentencia);
 			} 
 
