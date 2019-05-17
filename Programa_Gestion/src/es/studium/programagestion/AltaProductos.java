@@ -112,6 +112,7 @@ public class AltaProductos extends Frame implements ActionListener, WindowListen
 		String FechaCaducidad = txtFechaCaducidad.getText();
 
 		String quitarbarra [] = FechaCaducidad.split("/");
+			
 		String fechacaducidadamericana = quitarbarra[2] + "-" + quitarbarra[1] + "-" + quitarbarra[0];
 		
 		if (btnAlta.equals(arg0.getSource())) {
@@ -135,12 +136,10 @@ public class AltaProductos extends Frame implements ActionListener, WindowListen
 				}
 			}
 
-			catch (ClassNotFoundException cnfe)
-			{
+			catch (ClassNotFoundException cnfe){
 				System.out.println("Error 1: "+cnfe.getMessage());
 			}
-			catch (SQLException sqle)
-			{
+			catch (SQLException sqle){
 				JOptionPane.showMessageDialog(null, "Error en el Alta", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			

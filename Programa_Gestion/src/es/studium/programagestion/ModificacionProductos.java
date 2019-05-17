@@ -178,44 +178,59 @@ public class ModificacionProductos extends Frame implements ActionListener, Wind
 			}else{
 				String [] escoger = seleccionarProducto.getSelectedItem().split(" ");
 
-				String nombreProducto = escoger[1];
-				String nombreProductoseguido = escoger[2];
-				txtNombre.setText(nombreProducto + " " + nombreProductoseguido);
+				try {
+					String nombreProducto = escoger[1];
+					String nombreProductoseguido = escoger[2];
+					txtNombre.setText(nombreProducto + " " + nombreProductoseguido);
+				}
+
+				catch(ArrayIndexOutOfBoundsException oe) {
+					JOptionPane.showMessageDialog(null, "Arregle los errores que se producen, "
+							+ "ya sea por el nombre del Producto que debe ser compuesto, realice una baja de ese producto", 
+							"Error", JOptionPane.ERROR_MESSAGE);
+				}
 
 				String marcaProducto = escoger[3];
 				txtMarca.setText(marcaProducto);
-				
+
 				String precioProducto = escoger[4];
 				txtPrecio.setText(precioProducto);
 
 				String contenidototalProducto = escoger[5];
 				txtContenidoTotal.setText(contenidototalProducto);
-				
-				String fechacaducidadProducto = escoger[6];
-				txtFechaCaducidad.setText(fechacaducidadProducto);
-				
+
+				try {
+					String fechacaducidadProducto = escoger[6];
+					txtFechaCaducidad.setText(fechacaducidadProducto);
+				}
+				catch(ArrayIndexOutOfBoundsException oe) {
+					JOptionPane.showMessageDialog(null, "Arregle los errores que se producen, "
+							+ "ya sea por el nombre del Producto que debe ser compuesto, realice una baja de ese producto", 
+							"Error", JOptionPane.ERROR_MESSAGE);
+				}
+
 				this.setVisible(false);
 				DialogoMod.setVisible(true);
 			}
 		}
-		
+
 		else if (btnRealizarModificacion.equals(arg0.getSource())) {
 			String [] escoger = seleccionarProducto.getSelectedItem().split(" ");
 			String idProducto = escoger[0];
-			
+
 			String fecha = txtFechaCaducidad.getText();
 			String [] fechaCaducidad = fecha.split("/");
-			
+
 			// Cambia la / por - además de cambiar el orden para insetarlo en la BD
 			String fechacaducidadamericana = fechaCaducidad[2] + "-" + fechaCaducidad[1] + "-" + fechaCaducidad[0];
-			
+
 			try{
 				Class.forName(driver);				
 				connection = DriverManager.getConnection(url, login, password);
 				statement = connection.createStatement();
 				sentencia = "UPDATE productos SET contenidototalProducto= '"+txtContenidoTotal.getText()+"', nombreProducto= '"+txtNombre.getText()+"', "
 						+ "marcaProducto='"+txtMarca.getText()+"', precioProducto= '"+txtPrecio.getText()+"', "
-								+ "fechacaducidadProducto= '"+fechacaducidadamericana+"' WHERE idProducto = '"+idProducto+"';";
+						+ "fechacaducidadProducto= '"+fechacaducidadamericana+"' WHERE idProducto = '"+idProducto+"';";
 				statement.executeUpdate(sentencia);
 			} 
 
@@ -244,7 +259,7 @@ public class ModificacionProductos extends Frame implements ActionListener, Wind
 
 			txtMarca.selectAll();
 			txtMarca.setText("");
-			
+
 			txtPrecio.selectAll();
 			txtPrecio.setText("");
 
