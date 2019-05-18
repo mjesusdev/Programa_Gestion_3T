@@ -11,14 +11,12 @@ public class AyudaUsuario extends WindowAdapter{
 
 	Frame ayudaPrograma = new Frame("Ayuda");
 
-	Toolkit mipantalla = Toolkit.getDefaultToolkit();
-
 	AyudaUsuario()
 	{
-		colocarIcono();
 		ayudaPrograma.setSize(400,200);
 		ayudaPrograma.setLocationRelativeTo(null);
-		ejecutarArchivoAyuda();
+		colocarIcono();
+		cargarAyudaPrograma();
 		ayudaPrograma.addWindowListener(this);
 		ayudaPrograma.setResizable(false);
 		ayudaPrograma.setVisible(true);
@@ -26,11 +24,12 @@ public class AyudaUsuario extends WindowAdapter{
 
 	public void colocarIcono() {
 		Toolkit mipantalla = Toolkit.getDefaultToolkit();
-		Image miIcono = mipantalla.getImage("src//farmacia.png");
+		Image miIcono = mipantalla.getImage("farmacia.png");
 		ayudaPrograma.setIconImage(miIcono);
 	}
 	
-	public void ejecutarArchivoAyuda() {
+	public void cargarAyudaPrograma() {
+		// Iniciar ayuda
 		try 
 		{
 			Runtime.getRuntime().exec("hh.exe ayuda.chm");
@@ -40,7 +39,7 @@ public class AyudaUsuario extends WindowAdapter{
 			e.printStackTrace();
 		}
 	}
-
+	
 	@Override
 	public void windowClosing(WindowEvent e) {
 		ayudaPrograma.setVisible(false);
