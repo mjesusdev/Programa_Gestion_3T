@@ -187,7 +187,7 @@ public class ConsultaCompra extends Frame implements ActionListener, WindowListe
 				// Cerramos el objeto
 				documento.close();
 				
-				JOptionPane.showMessageDialog(null, "Se imprimió la tabla Clientes en PDF", "Consulta Exportada", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Se imprimió la tabla Compra en PDF", "Consulta Exportada", JOptionPane.INFORMATION_MESSAGE);
 			}catch (DocumentException e) {
 				e.printStackTrace();
 			}catch (FileNotFoundException e) {

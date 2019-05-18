@@ -177,3 +177,12 @@ marcaProducto AS 'Marca', CONCAT(precioProducto, '€') AS 'Precio', DATE_FORMAT(f
 [18/05/2019 11:15:18][administrador][Login]
 [18/05/2019 11:15:22][administrador][SELECT idProducto AS 'Nº', contenidototalProducto AS 'Contenido', nombreProducto AS 'Nombre',
 marcaProducto AS 'Marca', CONCAT(precioProducto, '€') AS 'Precio', DATE_FORMAT(fechacaducidadProducto,'%d/%m/%Y') AS 'Fecha de Caducidad' FROM productos;]
+[18/05/2019 11:42:54][administrador][Login]
+[18/05/2019 11:43:28][administrador][SELECT idEmpleado AS 'Nº Empleado', nombreEmpleado AS 'Nombre', apellidosEmpleado AS 'Apellidos' FROM empleados;]
+[18/05/2019 11:43:48][administrador][SELECT idProducto AS 'Nº', contenidototalProducto AS 'Contenido', nombreProducto AS 'Nombre',
+marcaProducto AS 'Marca', CONCAT(precioProducto, '€') AS 'Precio', DATE_FORMAT(fechacaducidadProducto,'%d/%m/%Y') AS 'Fecha de Caducidad' FROM productos;]
+[18/05/2019 11:46:23][administrador][Login]
+[18/05/2019 11:46:57][administrador][Login]
+[18/05/2019 11:47:12][administrador][Login]
+[18/05/2019 11:48:40][administrador][Login]
+[18/05/2019 11:49:05][administrador][SELECT idCompra AS 'Nº De Compra', idProductoFK AS 'Producto', dniClienteFK AS 'DNI' FROM compra ORDER BY 1;]
