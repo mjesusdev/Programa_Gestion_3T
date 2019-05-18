@@ -2,55 +2,48 @@ package es.studium.programagestion;
 
 import java.awt.Frame;
 import java.awt.Image;
-import java.awt.TextArea;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.io.IOException;
 
-public class AyudaUsuario implements WindowListener{
+public class AyudaUsuario extends WindowAdapter{
 
-	Frame ayuda = new Frame("Ayuda");
+	Frame ayudaPrograma = new Frame("Ayuda");
 
 	Toolkit mipantalla = Toolkit.getDefaultToolkit();
-	
-	TextArea txtAyuda = new TextArea("Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
-			+ "\n" + "Duis efficitur iaculis risus, sed pellentesque felis. "
-			+ "\n" + "Donec quis arcu leo."
-			+ "\n" + "Pellentesque molestie in risus sit amet vestibulum. "
-			+ "\n" + "Maecenas volutpat malesuada turpis.");
 
 	AyudaUsuario()
 	{
-		ayuda.add(txtAyuda);
-		txtAyuda.setEditable(false);
-		ayuda.setSize(400,200);
-		Image miIcono = mipantalla.getImage("src//farmacia.png");
-		// Colocar Icono
-		ayuda.setIconImage(miIcono);
-		ayuda.setLocationRelativeTo(null);
-		ayuda.addWindowListener(this);
-		ayuda.setResizable(false);
-		ayuda.setVisible(true);
+		colocarIcono();
+		ayudaPrograma.setSize(400,200);
+		ayudaPrograma.setLocationRelativeTo(null);
+		ejecutarArchivoAyuda();
+		ayudaPrograma.addWindowListener(this);
+		ayudaPrograma.setResizable(false);
+		ayudaPrograma.setVisible(true);
 	}
 
-	@Override
-	public void windowClosing(WindowEvent e) {
-		if (ayuda.isActive()) {
-			ayuda.dispose();
-			new MenuPrincipalUsuario();
+	public void colocarIcono() {
+		Toolkit mipantalla = Toolkit.getDefaultToolkit();
+		Image miIcono = mipantalla.getImage("src//farmacia.png");
+		ayudaPrograma.setIconImage(miIcono);
+	}
+	
+	public void ejecutarArchivoAyuda() {
+		try 
+		{
+			Runtime.getRuntime().exec("hh.exe ayuda.chm");
+		}
+		catch (IOException e) 
+		{
+			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void windowActivated(WindowEvent arg0) {}
-	@Override
-	public void windowClosed(WindowEvent arg0) {}
-	@Override
-	public void windowDeactivated(WindowEvent arg0) {}
-	@Override
-	public void windowDeiconified(WindowEvent arg0) {}
-	@Override
-	public void windowIconified(WindowEvent arg0) {}
-	@Override
-	public void windowOpened(WindowEvent arg0) {}
+	public void windowClosing(WindowEvent e) {
+		ayudaPrograma.setVisible(false);
+		new MenuPrincipal(null);
+	}
 }
