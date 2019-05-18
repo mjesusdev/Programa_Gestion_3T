@@ -184,13 +184,13 @@ public class ConsultaEmpleados extends Frame implements ActionListener, WindowLi
 
 				// Cerramos el objeto
 				documento.close();
-
+				
+				JOptionPane.showMessageDialog(null, "Se imprimió la tabla Empleados en PDF", "Consulta Exportada", JOptionPane.INFORMATION_MESSAGE);
 			}catch (DocumentException e) {
 				e.printStackTrace();
 			}catch (FileNotFoundException e) {
 				JOptionPane.showMessageDialog(null, "Problemas con el Fichero, puede ser que este abierto por otro programa o algo por el estilo", "Error Fatal", JOptionPane.ERROR_MESSAGE);
 			}
-			JOptionPane.showMessageDialog(null, "Se imprimió la tabla Empleados en PDF", "Consulta Exportada", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 

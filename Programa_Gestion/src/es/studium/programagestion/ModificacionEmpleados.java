@@ -182,6 +182,7 @@ public class ModificacionEmpleados extends Frame implements ActionListener, Wind
 						+ "apellidosEmpleado= '"+txtApellidos.getText()+"' "
 						+ "WHERE idEmpleado = '"+idEmpleado+"';";
 				statement.executeUpdate(sentencia);
+				JOptionPane.showMessageDialog(null, "Modificación Correcta", "Éxito en la Modificación", JOptionPane.INFORMATION_MESSAGE);
 			} 
 
 			catch (ClassNotFoundException e) {
@@ -189,12 +190,11 @@ public class ModificacionEmpleados extends Frame implements ActionListener, Wind
 			}
 
 			catch(SQLException e) {
-				System.out.println("Se produjo un error al conectar con la BD");
+				JOptionPane.showMessageDialog(null, "Revise los errores que haya tenido por favor", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 
 			desconectar();
-			JOptionPane.showMessageDialog(null, "Modificación Correcta", "Éxito en la Modificación", JOptionPane.INFORMATION_MESSAGE);
-
+			
 			Guardar_Movimientos f = new Guardar_Movimientos();
 			try {
 				f.registrar("administrador]" + "["+sentencia+"");

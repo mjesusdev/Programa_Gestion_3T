@@ -162,7 +162,7 @@ public class ConsultaProductos extends Frame implements ActionListener, WindowLi
 				documento.add(saltolinea1);
 
 				PdfPTable pdfTable = new PdfPTable(tablaProductos.getColumnCount());
-					
+
 				// Añadir nombre de las columnas
 				for (int i = 0; i < tablaProductos.getColumnCount(); i++) {
 					pdfTable.addCell(tablaProductos.getColumnName(i));
@@ -187,14 +187,13 @@ public class ConsultaProductos extends Frame implements ActionListener, WindowLi
 
 				// Cerramos el objeto
 				documento.close();
-
+				
+				JOptionPane.showMessageDialog(null, "Se imprimió la tabla Productos en PDF", "Consulta Exportada", JOptionPane.INFORMATION_MESSAGE);
 			}catch (DocumentException e) {
 				e.printStackTrace();
 			}catch (FileNotFoundException e) {
 				JOptionPane.showMessageDialog(null, "Problemas con el Fichero, puede ser que este abierto por otro programa o algo por el estilo", "Error Fatal", JOptionPane.ERROR_MESSAGE);
 			}
-			
-			JOptionPane.showMessageDialog(null, "Se imprimió la tabla Productos en PDF", "Consulta Exportada", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
@@ -208,7 +207,7 @@ public class ConsultaProductos extends Frame implements ActionListener, WindowLi
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 			this.setVisible(false);
 			new MenuPrincipal(null);
 		}

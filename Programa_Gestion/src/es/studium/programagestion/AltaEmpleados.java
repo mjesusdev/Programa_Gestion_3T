@@ -1,9 +1,23 @@
 package es.studium.programagestion;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Button;
+import java.awt.Frame;
+import java.awt.Image;
+import java.awt.Label;
+import java.awt.Panel;
+import java.awt.TextField;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.JOptionPane;
 
@@ -40,17 +54,17 @@ public class AltaEmpleados extends Frame implements ActionListener, WindowListen
 		setTitle("Alta Empleados");
 		colocarIcono();
 		pnlSuperior.add(lblAlta);
-		// Aplicarle una fuente a la etiqueta y tamaño
-		lblAlta.setFont(new java.awt.Font("Times New Roman", 1, 18)); 
 		pnlComponentes.add(lblNombre);
-		lblNombre.setFont(new java.awt.Font("Times New Roman", 0, 14));
 		pnlComponentes.add(txtNombre);
 		pnlComponentes.add(lblApellidos);
-		lblApellidos.setFont(new java.awt.Font("Times New Roman", 0, 14));
 		pnlComponentes.add(txtApellidos);
 		pnlBotones.add(btnAlta);
-		btnAlta.setFont(new java.awt.Font("Times New Roman", 0, 14));
 		pnlBotones.add(btnLimpiar);
+		// Aplicarle una fuente a la etiqueta y tamaño
+		lblAlta.setFont(new java.awt.Font("Times New Roman", 1, 18));
+		lblNombre.setFont(new java.awt.Font("Times New Roman", 0, 14));
+		lblApellidos.setFont(new java.awt.Font("Times New Roman", 0, 14));
+		btnAlta.setFont(new java.awt.Font("Times New Roman", 0, 14)); 
 		btnLimpiar.setFont(new java.awt.Font("Times New Roman", 0, 14));
 		
 		// Añadir los paneles
@@ -60,7 +74,6 @@ public class AltaEmpleados extends Frame implements ActionListener, WindowListen
 
 		setSize(270,180);
 		setLocationRelativeTo(null);
-		// Añadir Listeners
 		btnAlta.addActionListener(this);
 		btnLimpiar.addActionListener(this);
 		addWindowListener(this);
@@ -102,7 +115,6 @@ public class AltaEmpleados extends Frame implements ActionListener, WindowListen
 					try {
 						gm.registrar("admin]" + "["+sentencia+"");
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}

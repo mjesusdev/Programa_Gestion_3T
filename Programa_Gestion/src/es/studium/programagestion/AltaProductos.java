@@ -87,7 +87,7 @@ public class AltaProductos extends Frame implements ActionListener, WindowListen
 		add(pnlSuperior, BorderLayout.NORTH);
 		add(pnlComponentes, BorderLayout.CENTER);
 		add(pnlBotones, BorderLayout.SOUTH);
-		
+
 		setSize(280,270);
 		setLocationRelativeTo(null);
 		btnAlta.addActionListener(this);
@@ -96,7 +96,7 @@ public class AltaProductos extends Frame implements ActionListener, WindowListen
 		setResizable(false);
 		setVisible(true);
 	}
-	
+
 	public void colocarIcono() {
 		Toolkit mipantalla = Toolkit.getDefaultToolkit();
 		Image miIcono = mipantalla.getImage("src//farmacia.png");
@@ -112,49 +112,53 @@ public class AltaProductos extends Frame implements ActionListener, WindowListen
 		String FechaCaducidad = txtFechaCaducidad.getText();
 
 		String quitarbarra [] = FechaCaducidad.split("/");
-			
+
 		String fechacaducidadamericana = quitarbarra[2] + "-" + quitarbarra[1] + "-" + quitarbarra[0];
-		
+
 		if (btnAlta.equals(arg0.getSource())) {
-			try
-			{
-				Class.forName(driver);
-				connection = DriverManager.getConnection(url, login, password);
-				//Crear una sentencia
-				statement = connection.createStatement();
-				sentencia = "INSERT INTO productos VALUES(NULL, '"+ContenidoTotal+"', '"+Nombre+"', '"+Marca+"', '"+Precio+"', '"+fechacaducidadamericana+"');";
-				// Ejecutar la sentencia
-				statement.executeUpdate(sentencia);
-				
-				JOptionPane.showMessageDialog(null, "El Alta se ha realizado", "Alta Correcta", JOptionPane.INFORMATION_MESSAGE);
-
-				Guardar_Movimientos gm = new Guardar_Movimientos();
-				try {
-					gm.registrar("administrador]" + "["+sentencia+"");
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-
-			catch (ClassNotFoundException cnfe){
-				System.out.println("Error 1: "+cnfe.getMessage());
-			}
-			catch (SQLException sqle){
-				JOptionPane.showMessageDialog(null, "Error en el Alta", "Error", JOptionPane.ERROR_MESSAGE);
-			}
-			
-			finally
-			{
+			if (Nombre.equals("") | Marca.equals("") | Precio.equals("") | ContenidoTotal.equals("") | FechaCaducidad.equals("")) {
+				JOptionPane.showMessageDialog(null, "Error, por favor corrija los errores", "Error", JOptionPane.ERROR_MESSAGE);
+			}else{
 				try
 				{
-					if(connection!=null)
-					{
-						connection.close();
+					Class.forName(driver);
+					connection = DriverManager.getConnection(url, login, password);
+					//Crear una sentencia
+					statement = connection.createStatement();
+					sentencia = "INSERT INTO productos VALUES(NULL, '"+ContenidoTotal+"', '"+Nombre+"', '"+Marca+"', '"+Precio+"', '"+fechacaducidadamericana+"');";
+					// Ejecutar la sentencia
+					statement.executeUpdate(sentencia);
+
+					JOptionPane.showMessageDialog(null, "El Alta se ha realizado", "Alta Correcta", JOptionPane.INFORMATION_MESSAGE);
+
+					Guardar_Movimientos gm = new Guardar_Movimientos();
+					try {
+						gm.registrar("administrador]" + "["+sentencia+"");
+					} catch (IOException e) {
+						e.printStackTrace();
 					}
 				}
-				catch (SQLException se)
+
+				catch (ClassNotFoundException cnfe){
+					System.out.println("Error 1: "+cnfe.getMessage());
+				}
+				catch (SQLException sqle){
+					JOptionPane.showMessageDialog(null, "Error en el Alta", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+
+				finally
 				{
-					System.out.println("No se puede cerrar la conexión la Base De Datos");
+					try
+					{
+						if(connection!=null)
+						{
+							connection.close();
+						}
+					}
+					catch (SQLException se)
+					{
+						System.out.println("No se puede cerrar la conexión la Base De Datos");
+					}
 				}
 			}
 		}
@@ -182,14 +186,19 @@ public class AltaProductos extends Frame implements ActionListener, WindowListen
 
 	@Override
 	public void windowActivated(WindowEvent arg0) {}
+
 	@Override
 	public void windowClosed(WindowEvent arg0) {}
+
 	@Override
 	public void windowDeactivated(WindowEvent arg0) {}
+
 	@Override
 	public void windowDeiconified(WindowEvent arg0) {}
+
 	@Override
 	public void windowIconified(WindowEvent arg0) {}
+
 	@Override
 	public void windowOpened(WindowEvent arg0) {}
 }

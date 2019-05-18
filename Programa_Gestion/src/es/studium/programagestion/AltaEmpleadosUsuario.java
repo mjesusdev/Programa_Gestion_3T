@@ -115,7 +115,6 @@ public class AltaEmpleadosUsuario extends Frame implements ActionListener, Windo
 					try {
 						gm.registrar("usuario]" + "["+sentencia+"");
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
