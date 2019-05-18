@@ -186,3 +186,5 @@ marcaProducto AS 'Marca', CONCAT(precioProducto, '€') AS 'Precio', DATE_FORMAT(f
 [18/05/2019 11:47:12][administrador][Login]
 [18/05/2019 11:48:40][administrador][Login]
 [18/05/2019 11:49:05][administrador][SELECT idCompra AS 'Nº De Compra', idProductoFK AS 'Producto', dniClienteFK AS 'DNI' FROM compra ORDER BY 1;]
+[18/05/2019 13:00:13][administrador][Login]
+[18/05/2019 13:00:14][administrador][Ayuda]

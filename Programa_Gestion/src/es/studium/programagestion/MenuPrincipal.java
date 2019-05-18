@@ -218,6 +218,7 @@ public class MenuPrincipal extends WindowAdapter implements ActionListener{
 		}
 		
 		else if (mnimenuAyudaVer.equals(arg0.getSource())) {
+			// Guardar en el Log
 			Guardar_Movimientos f = new Guardar_Movimientos();
 			try {
 				f.registrar("administrador]" + "[Ayuda");
@@ -225,7 +226,15 @@ public class MenuPrincipal extends WindowAdapter implements ActionListener{
 				e.printStackTrace();
 			}		
 			
-			new Ayuda();
+			// Iniciar ayuda
+			try 
+			{
+				Runtime.getRuntime().exec("hh.exe ayuda.chm");
+			}
+			catch (IOException e) 
+			{
+				e.printStackTrace();
+			}
 			miMenu.setVisible(false);
 		}	
 	}
