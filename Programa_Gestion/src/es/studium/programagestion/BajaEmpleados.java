@@ -91,7 +91,7 @@ public class BajaEmpleados extends Frame implements ActionListener, WindowListen
 		diainformativo.setVisible(false);
 
 		// Establecer un icono a la aplicación
-		Image miIcono = mipantalla.getImage("src//farmacia.png");
+		Image miIcono = mipantalla.getImage("farmacia.png");
 		// Colocar Icono
 		setIconImage(miIcono);
 		setSize(350,220);

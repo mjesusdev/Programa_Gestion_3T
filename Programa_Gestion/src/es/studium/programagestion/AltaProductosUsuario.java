@@ -99,7 +99,7 @@ public class AltaProductosUsuario extends Frame implements ActionListener, Windo
 
 	public void colocarIcono() {
 		Toolkit mipantalla = Toolkit.getDefaultToolkit();
-		Image miIcono = mipantalla.getImage("src//farmacia.png");
+		Image miIcono = mipantalla.getImage("farmacia.png");
 		setIconImage(miIcono);
 	}
 

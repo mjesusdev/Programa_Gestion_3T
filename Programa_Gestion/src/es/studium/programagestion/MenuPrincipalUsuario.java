@@ -58,7 +58,7 @@ public class MenuPrincipalUsuario extends WindowAdapter implements ActionListene
 
 	public void colocarIcono() {
 		Toolkit mipantalla = Toolkit.getDefaultToolkit();
-		Image miIcono = mipantalla.getImage("src//farmacia.png");
+		Image miIcono = mipantalla.getImage("farmacia.png");
 		MenuUsuario.setIconImage(miIcono);
 	}
 	

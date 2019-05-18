@@ -122,7 +122,7 @@ public class MenuPrincipal extends WindowAdapter implements ActionListener{
 		// No permitir maximizarlo, cambiar tamaño
 		miMenu.setResizable(false);
 		// Establecer un icono a la aplicación
-		Image miIcono = mipantalla.getImage("src//farmacia.png");
+		Image miIcono = mipantalla.getImage("farmacia.png");
 		// Colocar Icono
 		miMenu.setIconImage(miIcono);
 		// Establecer al medio la ventana, dependiendo de cual sea la resolución.

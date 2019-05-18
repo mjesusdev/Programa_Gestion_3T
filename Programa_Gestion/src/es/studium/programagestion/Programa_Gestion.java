@@ -173,7 +173,7 @@ public class Programa_Gestion implements WindowListener, ActionListener{
 		pnlCentral2.add(btnAceptar2);
 
 		// Establecer un icono a la aplicación
-		Image miIcono = mipantalla.getImage("src//farmacia.png");
+		Image miIcono = mipantalla.getImage("farmacia.png");
 		// Colocar Icono
 		miPrograma.setIconImage(miIcono);
 

@@ -1,4 +1,4 @@
-	package es.studium.programagestion;
+package es.studium.programagestion;
 
 import java.awt.BorderLayout;
 import java.awt.Button;
@@ -97,7 +97,7 @@ public class BajaProductos extends Frame implements ActionListener, WindowListen
 	
 	public void colocarIcono() {
 		Toolkit mipantalla = Toolkit.getDefaultToolkit();
-		Image miIcono = mipantalla.getImage("src//farmacia.png");
+		Image miIcono = mipantalla.getImage("farmacia.png");
 		setIconImage(miIcono);
 	}
 
