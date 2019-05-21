@@ -128,7 +128,6 @@ public class AltaProductosUsuario extends Frame implements ActionListener, Windo
 					sentencia = "INSERT INTO productos VALUES(NULL, '"+ContenidoTotal+"', '"+Nombre+"', '"+Marca+"', '"+Precio+"', '"+fechacaducidadamericana+"');";
 					// Ejecutar la sentencia
 					statement.executeUpdate(sentencia);
-
 					JOptionPane.showMessageDialog(null, "El Alta se ha realizado", "Alta Correcta", JOptionPane.INFORMATION_MESSAGE);
 
 					Guardar_Movimientos gm = new Guardar_Movimientos();
@@ -140,7 +139,7 @@ public class AltaProductosUsuario extends Frame implements ActionListener, Windo
 				}
 
 				catch (ClassNotFoundException cnfe){
-					System.out.println("Error 1: "+cnfe.getMessage());
+					JOptionPane.showMessageDialog(null, "Hay un problema al cargar el driver", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 				catch (SQLException sqle){
 					JOptionPane.showMessageDialog(null, "Error en el Alta", "Error", JOptionPane.ERROR_MESSAGE);
@@ -184,21 +183,10 @@ public class AltaProductosUsuario extends Frame implements ActionListener, Windo
 		}
 	}
 
-	@Override
 	public void windowActivated(WindowEvent arg0) {}
-
-	@Override
 	public void windowClosed(WindowEvent arg0) {}
-
-	@Override
 	public void windowDeactivated(WindowEvent arg0) {}
-
-	@Override
 	public void windowDeiconified(WindowEvent arg0) {}
-
-	@Override
 	public void windowIconified(WindowEvent arg0) {}
-
-	@Override
 	public void windowOpened(WindowEvent arg0) {}
 }

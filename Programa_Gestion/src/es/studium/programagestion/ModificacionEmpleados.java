@@ -218,7 +218,7 @@ public class ModificacionEmpleados extends Frame implements ActionListener, Wind
 	public void windowClosing(WindowEvent arg0) {
 		if (this.isActive()) {
 			setVisible(false);
-			new MenuPrincipal(null);
+			new MenuPrincipal();
 		}
 		else if(DialogoMod.isActive()) {
 			DialogoMod.setVisible(false);
@@ -226,16 +226,10 @@ public class ModificacionEmpleados extends Frame implements ActionListener, Wind
 		}
 	}
 
-	@Override
 	public void windowActivated(WindowEvent arg0) {}
-	@Override
 	public void windowClosed(WindowEvent arg0) {}
-	@Override
 	public void windowDeactivated(WindowEvent arg0) {}
-	@Override
 	public void windowDeiconified(WindowEvent arg0) {}
-	@Override
 	public void windowIconified(WindowEvent arg0) {}
-	@Override
 	public void windowOpened(WindowEvent arg0) {}
 }

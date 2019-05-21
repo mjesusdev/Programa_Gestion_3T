@@ -172,7 +172,7 @@ public class BajaProductos extends Frame implements ActionListener, WindowListen
 
 			catch (ClassNotFoundException cnfe)
 			{
-				System.out.println("Error 1: "+cnfe.getMessage());
+				JOptionPane.showMessageDialog(null, "Hay un problema al cargar el driver", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			catch (SQLException sqle)
 			{
@@ -199,29 +199,17 @@ public class BajaProductos extends Frame implements ActionListener, WindowListen
 	public void windowClosing(WindowEvent arg0) {
 		if (this.isActive()) {
 			setVisible(false);
-			new MenuPrincipal(null);
+			new MenuPrincipal();
 		}else if(diainformativo.isActive()){
 			diainformativo.setVisible(false);
 			this.setVisible(true);
 		}
 	}
 
-	@Override
 	public void windowActivated(WindowEvent arg0) {}
-	
-	@Override
 	public void windowClosed(WindowEvent arg0) {}
-	
-	@Override
 	public void windowDeactivated(WindowEvent arg0) {}
-	
-	@Override
 	public void windowDeiconified(WindowEvent arg0) {}
-	
-	@Override
 	public void windowIconified(WindowEvent arg0) {}
-	
-	@Override
 	public void windowOpened(WindowEvent arg0) {}
-	
 }

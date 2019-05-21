@@ -39,7 +39,6 @@ public class AltaEmpleadosUsuario extends Frame implements ActionListener, Windo
 	Panel pnlComponentes = new Panel();
 	Panel pnlBotones = new Panel();
 	
-	// Necesario para conectar con la BD
 	String driver = "com.mysql.jdbc.Driver";
 	String url = "jdbc:mysql://localhost:3306/farmaciapr2?autoReconnect=true&useSSL=false";
 	String login = "admin";
@@ -93,7 +92,6 @@ public class AltaEmpleadosUsuario extends Frame implements ActionListener, Windo
 		String ApellidosEmpleado = txtApellidos.getText();
 
 		if (btnAlta.equals(arg0.getSource())) {
-			// Si están vacíos los campos
 			if (NombreEmpleado.equals("") | ApellidosEmpleado.equals("")) {
 				JOptionPane.showMessageDialog(null, "Error en el Alta", "Error", JOptionPane.ERROR_MESSAGE);
 			}
@@ -121,7 +119,7 @@ public class AltaEmpleadosUsuario extends Frame implements ActionListener, Windo
 				
 				catch (ClassNotFoundException cnfe)
 				{
-					System.out.println("Error 1: "+cnfe.getMessage());
+					JOptionPane.showMessageDialog(null, "Hay un problema al cargar el driver", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 				
 				catch (SQLException sqle)
@@ -140,18 +138,15 @@ public class AltaEmpleadosUsuario extends Frame implements ActionListener, Windo
 					}
 					catch (SQLException se)
 					{
-						System.out.println("No se puede cerrar la conexión la Base De Datos");
+						JOptionPane.showMessageDialog(null, "No se puede cerrar la conexión con la BD", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
 		}
 		
 		if (btnLimpiar.equals(arg0.getSource())){
-			// Seleccionar contenido del textField Nombre y limpiarlo
 			txtNombre.selectAll();
 			txtNombre.setText("");
-
-			// Seleccionar contenido del textField APELLIDOS Y limpiarlo
 			txtApellidos.selectAll();
 			txtApellidos.setText("");
 		}
@@ -165,21 +160,10 @@ public class AltaEmpleadosUsuario extends Frame implements ActionListener, Windo
 		}
 	}
 
-	@Override
 	public void windowActivated(WindowEvent arg0) {}
-
-	@Override
 	public void windowClosed(WindowEvent arg0) {}
-
-	@Override
 	public void windowDeactivated(WindowEvent arg0) {}
-
-	@Override
 	public void windowDeiconified(WindowEvent arg0) {}
-
-	@Override
 	public void windowIconified(WindowEvent arg0) {}
-
-	@Override
 	public void windowOpened(WindowEvent arg0) {}
 }

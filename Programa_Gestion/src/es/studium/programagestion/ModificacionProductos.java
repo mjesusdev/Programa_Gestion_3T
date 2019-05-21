@@ -236,7 +236,7 @@ public class ModificacionProductos extends Frame implements ActionListener, Wind
 			} 
 
 			catch (ClassNotFoundException e) {
-				System.out.println("Se produjo un error al cargar el Driver");
+				JOptionPane.showMessageDialog(null, "Hay un problema al cargar el driver", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 
 			catch(SQLException e) {
@@ -275,7 +275,7 @@ public class ModificacionProductos extends Frame implements ActionListener, Wind
 	public void windowClosing(WindowEvent arg0) {
 		if (this.isActive()) {
 			this.setVisible(false);
-			new MenuPrincipal(null);
+			new MenuPrincipal();
 		}
 
 		else if(DialogoMod.isActive()){

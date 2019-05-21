@@ -171,7 +171,7 @@ public class BajaClientes extends Frame implements ActionListener, WindowListene
 
 			catch (ClassNotFoundException cnfe)
 			{
-				System.out.println("Error 1: "+cnfe.getMessage());
+				JOptionPane.showMessageDialog(null, "No se puedo cargar el Driver", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			catch (SQLException sqle)
 			{
@@ -200,7 +200,7 @@ public class BajaClientes extends Frame implements ActionListener, WindowListene
 	public void windowClosing(WindowEvent arg0) {
 		if (this.isActive()) {
 			setVisible(false);
-			new MenuPrincipal(null);
+			new MenuPrincipal();
 		}else if(diainformativo.isActive()){
 			diainformativo.setVisible(false);
 			this.setVisible(true);

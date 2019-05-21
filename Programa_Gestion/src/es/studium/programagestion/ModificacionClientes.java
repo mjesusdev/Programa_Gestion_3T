@@ -137,11 +137,11 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 		} 
 
 		catch (ClassNotFoundException e) {
-			System.out.println("Se produjo un error al cargar el Driver");
+			JOptionPane.showMessageDialog(null, "Hay un problema al cargar el driver", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 
 		catch(SQLException e) {
-			System.out.println("Se produjo un error al conectar con la BD");
+			JOptionPane.showMessageDialog(null, "No se puede conectar con la BD", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		desconectar();
 	}
@@ -195,7 +195,7 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 			} 
 
 			catch (ClassNotFoundException e) {
-				System.out.println("Se produjo un error al cargar el Driver");
+				JOptionPane.showMessageDialog(null, "Hay un problema al cargar el driver", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 
 			catch(SQLException e) {
@@ -231,7 +231,7 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 	public void windowClosing(WindowEvent arg0) {
 		if (this.isActive()) {
 			setVisible(false);
-			new MenuPrincipal(null);
+			new MenuPrincipal();
 		}
 		else if(DialogoMod.isActive()) {
 			DialogoMod.setVisible(false);
@@ -239,16 +239,10 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 		}
 	}
 
-	@Override
 	public void windowActivated(WindowEvent arg0) {}
-	@Override
 	public void windowClosed(WindowEvent arg0) {}
-	@Override
 	public void windowDeactivated(WindowEvent arg0) {}
-	@Override
 	public void windowDeiconified(WindowEvent arg0) {}
-	@Override
 	public void windowIconified(WindowEvent arg0) {}
-	@Override
 	public void windowOpened(WindowEvent arg0) {}
 }

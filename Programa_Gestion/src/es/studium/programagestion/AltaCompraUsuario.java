@@ -21,7 +21,7 @@ import java.sql.Statement;
 
 import javax.swing.JOptionPane;
 
-public class AltaCompra extends Frame implements WindowListener, ActionListener{
+public class AltaCompraUsuario extends Frame implements WindowListener, ActionListener{
 
 	private static final long serialVersionUID = 1L;
 
@@ -48,7 +48,7 @@ public class AltaCompra extends Frame implements WindowListener, ActionListener{
 	static Statement statement = null;
 	static ResultSet rs = null;
 
-	AltaCompra()
+	AltaCompraUsuario()
 	{
 		setTitle("Alta Compra");
 		colocarIcono();
@@ -93,7 +93,6 @@ public class AltaCompra extends Frame implements WindowListener, ActionListener{
 			sentencia = "SELECT * FROM clientes;";
 			// Ejecutar la sentencia
 			rs = statement.executeQuery(sentencia);
-
 			while(rs.next()) 
 			{
 				String dniCliente = rs.getString("dniCliente");
@@ -198,7 +197,7 @@ public class AltaCompra extends Frame implements WindowListener, ActionListener{
 	public void windowClosing(WindowEvent arg0) {
 		if (this.isActive()) {
 			this.setVisible(false);
-			new MenuPrincipal();
+			new MenuPrincipalUsuario();
 		}	
 	}
 

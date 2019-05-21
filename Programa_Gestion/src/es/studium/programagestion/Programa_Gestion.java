@@ -192,9 +192,7 @@ public class Programa_Gestion implements WindowListener, ActionListener{
 		new Programa_Gestion();
 	}
 
-	@Override
 	public void windowActivated(WindowEvent arg0) {}
-	@Override
 	public void windowClosed(WindowEvent arg0) {}
 
 	@Override
@@ -214,13 +212,9 @@ public class Programa_Gestion implements WindowListener, ActionListener{
 		}
 	}
 
-	@Override
 	public void windowDeactivated(WindowEvent arg0) {}
-	@Override
 	public void windowDeiconified(WindowEvent arg0) {}
-	@Override
 	public void windowIconified(WindowEvent arg0) {}
-	@Override
 	public void windowOpened(WindowEvent arg0) {}
 
 	@Override
@@ -242,7 +236,7 @@ public class Programa_Gestion implements WindowListener, ActionListener{
 					//Crear un objeto ResultSet para guardar lo obtenido y ejecutar la sentencia SQL
 					rs = statement.executeQuery(sentencia);
 					if(rs.next()){
-						new MenuPrincipal(null);
+						new MenuPrincipal();
 						miPrograma.setVisible(false);
 					}
 
@@ -252,11 +246,11 @@ public class Programa_Gestion implements WindowListener, ActionListener{
 				} 
 
 				catch (ClassNotFoundException e) {
-					System.out.println("Se produjo un error al cargar el Driver");
+					JOptionPane.showMessageDialog(null, "No se ha cargado el driver debido a que no está disponible", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 
 				catch(SQLException e) {
-					System.out.println("Se produjo un error al conectar con la BD");
+					JOptionPane.showMessageDialog(null, "Se ha producido un error al conectarse con la BD", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 
 				// Bloque para intentar cerrar la conexión la BD
@@ -265,7 +259,7 @@ public class Programa_Gestion implements WindowListener, ActionListener{
 						connection.close();
 					}	
 				}catch(SQLException sqle) {
-					System.out.println("No se puede cerrar la conexión con la Base de Datos");
+					JOptionPane.showMessageDialog(null, "Se ha producido un problema al acceder a la Base de Datos o similar", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 
@@ -296,7 +290,7 @@ public class Programa_Gestion implements WindowListener, ActionListener{
 				}
 
 				catch(SQLException e) {
-					System.out.println("Se produjo un error al conectar con la BD");
+					JOptionPane.showMessageDialog(null, "Se ha producido un error al conectarse con la BD", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 
 				// Bloque para intentar cerrar la conexión la BD
@@ -305,7 +299,7 @@ public class Programa_Gestion implements WindowListener, ActionListener{
 						connection.close();
 					}	
 				}catch(SQLException sqle) {
-					System.out.println("No se puede cerrar la conexión con la Base de Datos");
+					JOptionPane.showMessageDialog(null, "No se puede cerrar la conexión con la BD", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 

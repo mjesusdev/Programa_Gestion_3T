@@ -10,12 +10,12 @@ import java.util.Date;
 
 public class Guardar_Movimientos 
 {
-	// método para guardar la fecha, el usuario de la clase Programa_Gestion
+	// Método para guardar los movimientos que realiza el usuario en el Programa de Gestión
 	public void registrar(String texto) throws IOException 
 	{
 		Date date = new Date();
 		
-		//Obtenerhora y la fecha y la hora y la saca por pantalla con formato:
+		// Obtenerhora y la fecha y la hora y la saca por pantalla con formato:
 		DateFormat hourdateFormat = new SimpleDateFormat("[dd/MM/yyyy HH:mm:ss]");
 		
 		// Comunicación con el fichero 

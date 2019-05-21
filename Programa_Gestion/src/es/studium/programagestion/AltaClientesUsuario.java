@@ -35,12 +35,12 @@ public class AltaClientesUsuario extends Frame implements ActionListener, Window
 	TextField txtDNI = new TextField(15         );
 	Button btnAlta = new Button("Alta");
 	Button btnLimpiar = new Button("Limpiar");
-	
+
 	// Paneles
 	Panel pnlSuperior = new Panel();
 	Panel pnlComponentes = new Panel();
 	Panel pnlBotones = new Panel();
-	
+
 	// Necesario para conectar con la BD
 	String driver = "com.mysql.jdbc.Driver";
 	String url = "jdbc:mysql://localhost:3306/farmaciapr2?autoReconnect=true&useSSL=false";
@@ -50,7 +50,7 @@ public class AltaClientesUsuario extends Frame implements ActionListener, Window
 	Connection connection = null;
 	Statement statement = null;
 	ResultSet rs = null;
-	
+
 	AltaClientesUsuario()
 	{
 		setTitle("Alta Clientes");
@@ -75,7 +75,7 @@ public class AltaClientesUsuario extends Frame implements ActionListener, Window
 		add(pnlSuperior, BorderLayout.NORTH);
 		add(pnlComponentes, BorderLayout.CENTER);
 		add(pnlBotones, BorderLayout.SOUTH);
-		
+
 		setSize(250,210);
 		setLocationRelativeTo(null);
 		addWindowListener(this);
@@ -84,7 +84,7 @@ public class AltaClientesUsuario extends Frame implements ActionListener, Window
 		setResizable(false);
 		setVisible(true);
 	}
-	
+
 	public void colocarIcono() {
 		Toolkit mipantalla = Toolkit.getDefaultToolkit();
 		Image miIcono = mipantalla.getImage("farmacia.png");
@@ -101,7 +101,7 @@ public class AltaClientesUsuario extends Frame implements ActionListener, Window
 			if (Nombre.equals("") | Apellidos.equals("") | DNI.equals("")) {
 				JOptionPane.showMessageDialog(null, "Error, por favor corrija los errores", "Error", JOptionPane.ERROR_MESSAGE);
 			}
-			
+
 			else
 			{
 				try
@@ -119,14 +119,13 @@ public class AltaClientesUsuario extends Frame implements ActionListener, Window
 					try {
 						gm.registrar("usuario]" + "["+sentencia+"");
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
-				
+
 				catch (ClassNotFoundException cnfe)
 				{
-					System.out.println("Error 1: "+cnfe.getMessage());
+					JOptionPane.showMessageDialog(null, "Hay un problema al cargar el driver", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 				catch (SQLException sqle)
 				{
@@ -143,7 +142,7 @@ public class AltaClientesUsuario extends Frame implements ActionListener, Window
 					}
 					catch (SQLException se)
 					{
-						System.out.println("No se puede cerrar la conexión la Base De Datos");
+						JOptionPane.showMessageDialog(null, "No se puede cerrar la conexión con la BD", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
@@ -172,21 +171,10 @@ public class AltaClientesUsuario extends Frame implements ActionListener, Window
 		}
 	}
 
-	@Override
 	public void windowActivated(WindowEvent arg0) {}
-
-	@Override
 	public void windowClosed(WindowEvent arg0) {}
-
-	@Override
 	public void windowDeactivated(WindowEvent arg0) {}
-
-	@Override
 	public void windowDeiconified(WindowEvent arg0) {}
-
-	@Override
 	public void windowIconified(WindowEvent arg0) {}
-
-	@Override
 	public void windowOpened(WindowEvent arg0) {}
 }

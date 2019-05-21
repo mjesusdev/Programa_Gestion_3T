@@ -180,25 +180,14 @@ public class AltaProductos extends Frame implements ActionListener, WindowListen
 	public void windowClosing(WindowEvent arg0) {
 		if (this.isActive()) {
 			this.setVisible(false);
-			new MenuPrincipal(null);
+			new MenuPrincipal();
 		}
 	}
 
-	@Override
 	public void windowActivated(WindowEvent arg0) {}
-
-	@Override
 	public void windowClosed(WindowEvent arg0) {}
-
-	@Override
 	public void windowDeactivated(WindowEvent arg0) {}
-
-	@Override
 	public void windowDeiconified(WindowEvent arg0) {}
-
-	@Override
 	public void windowIconified(WindowEvent arg0) {}
-
-	@Override
 	public void windowOpened(WindowEvent arg0) {}
 }

@@ -43,6 +43,6 @@ public class AyudaUsuario extends WindowAdapter{
 	@Override
 	public void windowClosing(WindowEvent e) {
 		ayudaPrograma.setVisible(false);
-		new MenuPrincipal(null);
+		new MenuPrincipal();
 	}
 }

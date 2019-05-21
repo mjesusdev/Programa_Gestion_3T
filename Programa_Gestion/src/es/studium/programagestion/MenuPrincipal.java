@@ -16,8 +16,6 @@ public class MenuPrincipal extends WindowAdapter implements ActionListener{
 
 	Frame miMenu = new Frame("Menú Principal");
 	
-	Toolkit mipantalla = Toolkit.getDefaultToolkit();
-	
 	// Crear barra de Menú
 	MenuBar barraMenu = new MenuBar();
 
@@ -53,12 +51,9 @@ public class MenuPrincipal extends WindowAdapter implements ActionListener{
 	// Crear Item dentro del menú Ayuda
 	MenuItem mnimenuAyudaVer = new MenuItem("Ver ayuda");
 	
-	// Usuario
-	String usuario;
-
-	MenuPrincipal(String u)
+	MenuPrincipal()
 	{
-		usuario = u;
+		colocarIcono();
 		// Añadir la barra de Menú
 		miMenu.setMenuBar(barraMenu);
 		barraMenu.add(menuClientes);
@@ -121,10 +116,7 @@ public class MenuPrincipal extends WindowAdapter implements ActionListener{
 		miMenu.setSize(500,300);
 		// No permitir maximizarlo, cambiar tamaño
 		miMenu.setResizable(false);
-		// Establecer un icono a la aplicación
-		Image miIcono = mipantalla.getImage("farmacia.png");
-		// Colocar Icono
-		miMenu.setIconImage(miIcono);
+		
 		// Establecer al medio la ventana, dependiendo de cual sea la resolución.
 		miMenu.setLocationRelativeTo(null);
 		miMenu.addWindowListener(this);
@@ -132,17 +124,22 @@ public class MenuPrincipal extends WindowAdapter implements ActionListener{
 		miMenu.setVisible(true);
 	}
 
+	public void colocarIcono() {
+		Toolkit mipantalla = Toolkit.getDefaultToolkit();
+		Image miIcono = mipantalla.getImage("farmacia.png");
+		miMenu.setIconImage(miIcono);
+	}
+	
 	@Override
 	public void windowClosing(WindowEvent e) {
-		// Cierra la ventana
-		System.exit(0);
-		
 		Guardar_Movimientos f = new Guardar_Movimientos();
 		try {
 			f.registrar("administrador]" + "[Logout");
 		} catch (IOException ie) {
 			ie.printStackTrace();
 		}	
+		
+		System.exit(0);
 	}
 
 	@Override
@@ -218,7 +215,6 @@ public class MenuPrincipal extends WindowAdapter implements ActionListener{
 		}
 		
 		else if (mnimenuAyudaVer.equals(arg0.getSource())) {
-			// Guardar en el Log
 			Guardar_Movimientos f = new Guardar_Movimientos();
 			try {
 				f.registrar("administrador]" + "[Ayuda");

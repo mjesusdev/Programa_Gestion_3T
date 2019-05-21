@@ -29,11 +29,15 @@ import javax.swing.table.DefaultTableModel;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
 
 public class ConsultaEmpleados extends Frame implements ActionListener, WindowListener{
@@ -116,12 +120,12 @@ public class ConsultaEmpleados extends Frame implements ActionListener, WindowLi
 
 		catch (ClassNotFoundException cnfe)
 		{
-			System.out.println("Error 1: "+cnfe.getMessage());
+			JOptionPane.showMessageDialog(null, "No se ha cargado el driver debido a que no está disponible", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 
 		catch (SQLException sqle)
 		{
-			System.out.println("Error 2: "+sqle.getMessage());
+			JOptionPane.showMessageDialog(null, "Se ha producido un problema al acceder a la Base de Datos o similar", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 
 		finally
@@ -135,7 +139,7 @@ public class ConsultaEmpleados extends Frame implements ActionListener, WindowLi
 			}
 			catch (SQLException e)
 			{
-				System.out.println("Error 3: "+e.getMessage());
+				JOptionPane.showMessageDialog(null, "No se puede cerrar la conexión con la BD", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		return null;
@@ -146,7 +150,7 @@ public class ConsultaEmpleados extends Frame implements ActionListener, WindowLi
 		if(btnImprimir.equals(arg0.getSource())){
 			try {
 				Document documento = new Document(PageSize.LETTER);
-				PdfWriter.getInstance(documento, new FileOutputStream("ConsultaEmpleados.pdf"));
+				PdfWriter writer = PdfWriter.getInstance(documento, new FileOutputStream("ConsultaEmpleados.pdf"));
 				documento.setMargins(50f, 50f, 50f, 50f);
 				documento.open();
 
@@ -174,20 +178,24 @@ public class ConsultaEmpleados extends Frame implements ActionListener, WindowLi
 				// Añadir la tabla
 				documento.add(pdfTable);
 
-				Paragraph saltolinea2 = new Paragraph();
-				saltolinea2.add("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-				documento.add(saltolinea2);
+	            class HeaderFooterPageEvent extends PdfPageEventHelper {
 
-				Paragraph author = new Paragraph("By: Manuel Jesús Ojeda Salvador 1-DAW");
-				author.setAlignment(Paragraph.ALIGN_CENTER);
-				documento.add(author);
+	                public void onEndPage(PdfWriter writer, Document document) {
+	                    ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("By: Manuel Jesús Ojeda Salvador 1-DAW"), 150, 30, 0);
+	                    ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("Página " + document.getPageNumber()), 550, 30, 0);
+	                }
+	            }
+	            
+	            // Llamar a la clase que escribe en el final
+	            HeaderFooterPageEvent event = new HeaderFooterPageEvent(); 
+				writer.setPageEvent(event);
 
 				// Cerramos el objeto
 				documento.close();
 				
 				JOptionPane.showMessageDialog(null, "Se imprimió la tabla Empleados en PDF", "Consulta Exportada", JOptionPane.INFORMATION_MESSAGE);
 			}catch (DocumentException e) {
-				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Se ha producido un problema con el documento", "Error", JOptionPane.ERROR_MESSAGE);
 			}catch (FileNotFoundException e) {
 				JOptionPane.showMessageDialog(null, "Problemas con el Fichero, puede ser que este abierto por otro programa o algo por el estilo", "Error Fatal", JOptionPane.ERROR_MESSAGE);
 			}
@@ -204,9 +212,8 @@ public class ConsultaEmpleados extends Frame implements ActionListener, WindowLi
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
 			this.setVisible(false);
-			new MenuPrincipal(null);
+			new MenuPrincipal();
 		}
 	}
 

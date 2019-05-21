@@ -168,7 +168,7 @@ public class AltaClientes extends Frame implements ActionListener, WindowListene
 	public void windowClosing(WindowEvent arg0) {
 		if(this.isActive()) {
 			this.setVisible(false);
-			new MenuPrincipal(null);
+			new MenuPrincipal();
 		}
 	}
 

@@ -113,7 +113,7 @@ public class AltaEmpleados extends Frame implements ActionListener, WindowListen
 
 					Guardar_Movimientos gm = new Guardar_Movimientos();
 					try {
-						gm.registrar("admin]" + "["+sentencia+"");
+						gm.registrar("administrador]" + "["+sentencia+"");
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -121,7 +121,7 @@ public class AltaEmpleados extends Frame implements ActionListener, WindowListen
 				
 				catch (ClassNotFoundException cnfe)
 				{
-					System.out.println("Error 1: "+cnfe.getMessage());
+					JOptionPane.showMessageDialog(null, "No se puede cargar el Driver", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 				
 				catch (SQLException sqle)
@@ -140,7 +140,7 @@ public class AltaEmpleados extends Frame implements ActionListener, WindowListen
 					}
 					catch (SQLException se)
 					{
-						System.out.println("No se puede cerrar la conexión la Base De Datos");
+						JOptionPane.showMessageDialog(null, "No se puede cerrar la conexión la Base De Datos", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
@@ -161,7 +161,7 @@ public class AltaEmpleados extends Frame implements ActionListener, WindowListen
 	public void windowClosing(WindowEvent arg0) {
 		if (this.isActive()) {
 			this.setVisible(false);
-			new MenuPrincipal(null);
+			new MenuPrincipal();
 		}
 	}
 
