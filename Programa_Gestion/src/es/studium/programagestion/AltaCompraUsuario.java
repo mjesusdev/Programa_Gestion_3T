@@ -70,7 +70,7 @@ public class AltaCompraUsuario extends Frame implements WindowListener, ActionLi
 		add(pnlProductos, BorderLayout.CENTER);
 		add(pnlAlta, BorderLayout.SOUTH);
 		btnAlta.addActionListener(this);
-		setSize(450,400);
+		setSize(600,440);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		addWindowListener(this);

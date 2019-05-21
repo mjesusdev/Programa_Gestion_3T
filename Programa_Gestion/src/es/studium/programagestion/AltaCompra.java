@@ -51,6 +51,7 @@ public class AltaCompra extends Frame implements WindowListener, ActionListener{
 	AltaCompra()
 	{
 		setTitle("Alta Compra");
+		
 		colocarIcono();
 		setLayout(new GridLayout(4,2));
 		rellenarDetallesClientes(elegirCliente);
@@ -70,7 +71,7 @@ public class AltaCompra extends Frame implements WindowListener, ActionListener{
 		add(pnlProductos, BorderLayout.CENTER);
 		add(pnlAlta, BorderLayout.SOUTH);
 		btnAlta.addActionListener(this);
-		setSize(450,400);
+		setSize(600,440);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		addWindowListener(this);
