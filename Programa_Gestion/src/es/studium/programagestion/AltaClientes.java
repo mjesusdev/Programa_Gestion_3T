@@ -126,7 +126,7 @@ public class AltaClientes extends Frame implements ActionListener, WindowListene
 				
 				catch (ClassNotFoundException cnfe)
 				{
-					System.out.println("Error 1: "+cnfe.getMessage());
+					JOptionPane.showMessageDialog(null, "El driver no se ha cargado correctamente", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 				catch (SQLException sqle)
 				{
@@ -143,7 +143,7 @@ public class AltaClientes extends Frame implements ActionListener, WindowListene
 					}
 					catch (SQLException se)
 					{
-						System.out.println("No se puede cerrar la conexión la Base De Datos");
+						JOptionPane.showMessageDialog(null, "No se puede cerrar la conexión con la BD", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
@@ -172,21 +172,10 @@ public class AltaClientes extends Frame implements ActionListener, WindowListene
 		}
 	}
 
-	@Override
 	public void windowActivated(WindowEvent arg0) {}
-
-	@Override
 	public void windowClosed(WindowEvent arg0) {}
-
-	@Override
 	public void windowDeactivated(WindowEvent arg0) {}
-
-	@Override
 	public void windowDeiconified(WindowEvent arg0) {}
-
-	@Override
 	public void windowIconified(WindowEvent arg0) {}
-
-	@Override
 	public void windowOpened(WindowEvent arg0) {}
 }

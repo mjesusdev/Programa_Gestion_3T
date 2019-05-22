@@ -66,11 +66,8 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 
 	ModificacionClientes()
 	{
-		// Título e icono
 		setTitle("Modificación Clientes");
 		colocarIcono();
-
-		// Añadir elementos
 		pnlChoice.add(seleccionarCliente);
 		pnlBoton.add(btnModificacion);
 		seleccionarCliente.add("Seleccione cliente a modificar");
@@ -80,7 +77,6 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 		add(pnlBoton, "Center");
 		// Añadir Windowlistener
 		addWindowListener(this);
-		// Añadir Actionlistener al botón de Modificación 
 		btnModificacion.addActionListener(this);
 
 		// Diálogo donde se realiza la modificación
@@ -141,7 +137,7 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 		}
 
 		catch(SQLException e) {
-			JOptionPane.showMessageDialog(null, "No se puede conectar con la BD", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Se ha producido un error, por favor revise lo que ha escrito", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		desconectar();
 	}
@@ -152,7 +148,7 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 				connection.close();
 			}	
 		}catch(SQLException sqle) {
-			System.out.println("No se puede cerrar la conexión con la Base de Datos");
+			JOptionPane.showMessageDialog(null, "No se puede cerrar la conexión con la BD", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -174,7 +170,6 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 				String dniCliente = escoger[3];
 				txtDNI.setText(dniCliente);
 
-				this.setVisible(false);
 				DialogoMod.setVisible(true);
 			}
 		}

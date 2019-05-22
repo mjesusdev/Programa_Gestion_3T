@@ -129,14 +129,12 @@ public class ModificacionEmpleados extends Frame implements ActionListener, Wind
 		} 
 
 		catch (ClassNotFoundException e) {
-			System.out.println("Se produjo un error al cargar el Driver");
+			JOptionPane.showMessageDialog(null, "Hay un problema al cargar el driver", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 
 		catch(SQLException e) {
-			System.out.println("Se produjo un error al conectar con la BD");
+			JOptionPane.showMessageDialog(null, "Se ha producido un error, por favor revise lo que ha escrito", "Error", JOptionPane.ERROR_MESSAGE);
 		}
-
-		// Llamar al método cierra la conexión con la BD
 		desconectar();
 	}
 
@@ -146,7 +144,7 @@ public class ModificacionEmpleados extends Frame implements ActionListener, Wind
 				connection.close();
 			}	
 		}catch(SQLException sqle) {
-			System.out.println("No se puede cerrar la conexión con la Base de Datos");
+			JOptionPane.showMessageDialog(null, "No se puede cerrar la conexión con la BD", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -165,7 +163,6 @@ public class ModificacionEmpleados extends Frame implements ActionListener, Wind
 				String apellidosEmpleado2 = escoger[3];
 				txtApellidos.setText(apellidosEmpleado + " " + apellidosEmpleado2);
 
-				this.setVisible(false);
 				DialogoMod.setVisible(true);
 			}
 		}
@@ -186,7 +183,7 @@ public class ModificacionEmpleados extends Frame implements ActionListener, Wind
 			} 
 
 			catch (ClassNotFoundException e) {
-				System.out.println("Se produjo un error al cargar el Driver");
+				JOptionPane.showMessageDialog(null, "Hay un problema al cargar el driver", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 
 			catch(SQLException e) {

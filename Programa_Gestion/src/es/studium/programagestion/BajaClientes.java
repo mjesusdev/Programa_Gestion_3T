@@ -122,7 +122,7 @@ public class BajaClientes extends Frame implements ActionListener, WindowListene
 
 		catch (ClassNotFoundException cnfe)
 		{
-			System.out.println("Error 1: "+cnfe.getMessage());
+			JOptionPane.showMessageDialog(null, "No se ha podido cargar el driver", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		catch (SQLException sqle)
 		{
@@ -141,7 +141,7 @@ public class BajaClientes extends Frame implements ActionListener, WindowListene
 		}
 		catch (SQLException sql)
 		{
-			System.out.println("No se puede cerrar la conexión la Base De Datos");
+			JOptionPane.showMessageDialog(null, "No se puede cerrar la conexión con la BD", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -157,7 +157,7 @@ public class BajaClientes extends Frame implements ActionListener, WindowListene
 
 		else if (btnSi.equals(arg0.getSource())) {
 			String [] eliminarespacios = chcSeleccionarCliente.getSelectedItem().split(" ");
-
+			
 			String dniCliente = eliminarespacios[3];
 
 			try {
@@ -183,7 +183,6 @@ public class BajaClientes extends Frame implements ActionListener, WindowListene
 			try {
 				gm.registrar("administrador]" + "["+sentencia+"");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -207,16 +206,10 @@ public class BajaClientes extends Frame implements ActionListener, WindowListene
 		}
 	}
 
-	@Override
 	public void windowActivated(WindowEvent arg0) {}
-	@Override
 	public void windowClosed(WindowEvent arg0) {}
-	@Override
 	public void windowDeactivated(WindowEvent arg0) {}
-	@Override
 	public void windowDeiconified(WindowEvent arg0) {}
-	@Override
 	public void windowIconified(WindowEvent arg0) {}
-	@Override
 	public void windowOpened(WindowEvent arg0) {}
 }
