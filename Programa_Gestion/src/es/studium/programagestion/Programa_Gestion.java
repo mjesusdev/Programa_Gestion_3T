@@ -233,7 +233,6 @@ public class Programa_Gestion implements WindowListener, ActionListener{
 				rs = statement.executeQuery(sentencia);
 				rs.next();
 				int tipoUsuario = rs.getInt("tipoUsuario");
-				System.out.println(tipoUsuario);
 				if (tipoUsuario==0) {
 					miPrograma.setVisible(false);
 					new MenuPrincipal();

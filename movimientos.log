@@ -31,3 +31,4 @@ marcaProducto AS 'Marca', CONCAT(precioProducto, '€') AS 'Precio', DATE_FORMAT(f
 [22/05/2019 11:36:16][usuario][Login]
 [22/05/2019 11:36:38][usuario][Login]
 [22/05/2019 11:36:40][usuario][Login]
+[22/05/2019 11:42:16][usuario][Logout]

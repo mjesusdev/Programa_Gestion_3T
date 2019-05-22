@@ -155,41 +155,41 @@ public class ConsultaClientes extends Frame implements ActionListener, WindowLis
 				PdfWriter writer = PdfWriter.getInstance(documento, new FileOutputStream("ConsultaClientes.pdf"));
 				documento.setMargins(50f, 50f, 50f, 50f);
 				documento.open();
-				
+
 				Paragraph titulo = new Paragraph("**Consulta Clientes**", FontFactory.getFont(FontFactory.TIMES_ROMAN,18, Font.BOLD, BaseColor.BLACK));
 				titulo.setAlignment(Paragraph.ALIGN_CENTER);
 				documento.add(titulo);
-				
+
 				Paragraph saltolinea1 = new Paragraph();
 				saltolinea1.add("\n\n");
-				
-				documento.add(saltolinea1);
-				
-				PdfPTable pdfTable = new PdfPTable(tablaClientes.getColumnCount());
-				
-				for (int i = 0; i < tablaClientes.getColumnCount(); i++) {
-	                pdfTable.addCell(tablaClientes.getColumnName(i));
-	            }
-				
-	            // Extraer filas y columnas de la tabla
-	            for (int rows = 0; rows < tablaClientes.getRowCount(); rows++) {
-	                for (int cols = 0; cols < tablaClientes.getColumnCount(); cols++) {
-	                    pdfTable.addCell(tablaClientes.getModel().getValueAt(rows, cols).toString());
-	                }
-	            }
-	            // Añadir la tabla
-	            documento.add(pdfTable);
-				
-	            class HeaderFooterPageEvent extends PdfPageEventHelper {
 
-	                public void onEndPage(PdfWriter writer, Document document) {
-	                    ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("By: Manuel Jesús Ojeda Salvador 1-DAW"), 150, 30, 0);
-	                    ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("Página " + document.getPageNumber()), 550, 30, 0);
-	                }
-	            }
-	            
-	            // Llamar a la clase que escribe en el final
-	            HeaderFooterPageEvent event = new HeaderFooterPageEvent(); 
+				documento.add(saltolinea1);
+
+				PdfPTable pdfTable = new PdfPTable(tablaClientes.getColumnCount());
+
+				for (int i = 0; i < tablaClientes.getColumnCount(); i++) {
+					pdfTable.addCell(tablaClientes.getColumnName(i));
+				}
+
+				// Extraer filas y columnas de la tabla
+				for (int rows = 0; rows < tablaClientes.getRowCount(); rows++) {
+					for (int cols = 0; cols < tablaClientes.getColumnCount(); cols++) {
+						pdfTable.addCell(tablaClientes.getModel().getValueAt(rows, cols).toString());
+					}
+				}
+				// Añadir la tabla
+				documento.add(pdfTable);
+
+				class HeaderFooterPageEvent extends PdfPageEventHelper {
+
+					public void onEndPage(PdfWriter writer, Document document) {
+						ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("By: Manuel Jesús Ojeda Salvador 1-DAW"), 150, 30, 0);
+						ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("Página " + document.getPageNumber()), 550, 30, 0);
+					}
+				}
+
+				// Llamar a la clase que escribe en el final
+				HeaderFooterPageEvent event = new HeaderFooterPageEvent(); 
 				writer.setPageEvent(event);
 				// Cerramos el objeto
 				documento.close();
@@ -199,7 +199,7 @@ public class ConsultaClientes extends Frame implements ActionListener, WindowLis
 			}catch (FileNotFoundException e) {
 				JOptionPane.showMessageDialog(null, "Problemas con el Fichero, puede ser que este abierto por otro programa o algo por el estilo", "Error Fatal", JOptionPane.ERROR_MESSAGE);
 			}
-			
+
 		}
 	}
 
@@ -210,7 +210,6 @@ public class ConsultaClientes extends Frame implements ActionListener, WindowLis
 			try {
 				gm.registrar("administrador]" + "["+sentencia+"");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			this.setVisible(false);
@@ -218,16 +217,10 @@ public class ConsultaClientes extends Frame implements ActionListener, WindowLis
 		}
 	}
 
-	@Override
 	public void windowActivated(WindowEvent arg0) {}
-	@Override
 	public void windowClosed(WindowEvent arg0) {}
-	@Override
 	public void windowDeactivated(WindowEvent arg0) {}
-	@Override
 	public void windowDeiconified(WindowEvent arg0) {}
-	@Override
 	public void windowIconified(WindowEvent arg0) {}
-	@Override
 	public void windowOpened(WindowEvent arg0) {}
 }
