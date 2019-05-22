@@ -221,97 +221,54 @@ public class Programa_Gestion implements WindowListener, ActionListener{
 	public void actionPerformed(ActionEvent arg0) {
 		if (btnLogin.equals(arg0.getSource())){
 
-			String usuario = txtUsuario.getText();
+			sentencia = "SELECT tipoUsuario FROM usuarios WHERE nombreUsuario = '"+txtUsuario.getText()+"' AND claveUsuario = MD5('" + txtClave.getText()+"');";
 
-			if (usuario.equals("administrador")) {
-				sentencia = "SELECT * FROM usuarios WHERE nombreUsuario = '"+txtUsuario.getText()+"' AND claveUsuario = MD5('" + txtClave.getText()+"');";
-
-				//Cargar los controladores para el acceso a la BD
-				try{
-					Class.forName(driver);				
-					//Establecer la conexión con la BD Empresa
-					connection = DriverManager.getConnection(url, login, password);
-					//Crear una sentencia
-					statement = connection.createStatement();
-					//Crear un objeto ResultSet para guardar lo obtenido y ejecutar la sentencia SQL
-					rs = statement.executeQuery(sentencia);
-					if(rs.next()){
-						new MenuPrincipal();
-						miPrograma.setVisible(false);
-					}
-
-					else{
-						JOptionPane.showMessageDialog(null, "Se ha esquivocado en el usuario o la contraseña", "Error", JOptionPane.ERROR_MESSAGE);
-					}
-				} 
-
-				catch (ClassNotFoundException e) {
-					JOptionPane.showMessageDialog(null, "No se ha cargado el driver debido a que no está disponible", "Error", JOptionPane.ERROR_MESSAGE);
+			try{
+				Class.forName(driver);				
+				//Establecer la conexión con la BD Empresa
+				connection = DriverManager.getConnection(url, login, password);
+				//Crear una sentencia
+				statement = connection.createStatement();
+				//Crear un objeto ResultSet para guardar lo obtenido y ejecutar la sentencia SQL
+				rs = statement.executeQuery(sentencia);
+				rs.next();
+				int tipoUsuario = rs.getInt("tipoUsuario");
+				System.out.println(tipoUsuario);
+				if (tipoUsuario==0) {
+					miPrograma.setVisible(false);
+					new MenuPrincipal();
+				}else{
+					miPrograma.setVisible(false);
+					new MenuPrincipalUsuario();
 				}
+			} 
 
-				catch(SQLException e) {
-					JOptionPane.showMessageDialog(null, "Se ha producido un error al conectarse con la BD", "Error", JOptionPane.ERROR_MESSAGE);
-				}
-
-				// Bloque para intentar cerrar la conexión la BD
-				try {
-					if (connection!=null) {
-						connection.close();
-					}	
-				}catch(SQLException sqle) {
-					JOptionPane.showMessageDialog(null, "Se ha producido un problema al acceder a la Base de Datos o similar", "Error", JOptionPane.ERROR_MESSAGE);
-				}
+			catch (ClassNotFoundException e) {
+				JOptionPane.showMessageDialog(null, "No se ha cargado el driver debido a que no está disponible", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 
-			else {
-				sentencia = "SELECT * FROM usuarios WHERE nombreUsuario = '"+txtUsuario.getText()+"' AND claveUsuario = MD5('" + txtClave.getText()+"');";
-
-				//Cargar los controladores para el acceso a la BD
-				try{
-					Class.forName(driver);				
-					//Establecer la conexión con la BD Empresa
-					connection = DriverManager.getConnection(url, login, password);
-					//Crear una sentencia
-					statement = connection.createStatement();
-					//Crear un objeto ResultSet para guardar lo obtenido y ejecutar la sentencia SQL
-					rs = statement.executeQuery(sentencia);
-					if(rs.next()){
-						new MenuPrincipalUsuario();
-						miPrograma.setVisible(false);
-					}
-
-					else{
-						JOptionPane.showMessageDialog(null, "Se ha esquivocado en el usuario o la contraseña", "Error", JOptionPane.ERROR_MESSAGE);
-					}
-				} 
-
-				catch (ClassNotFoundException e) {
-					System.out.println("Se produjo un error al cargar el Driver");
-				}
-
-				catch(SQLException e) {
-					JOptionPane.showMessageDialog(null, "Se ha producido un error al conectarse con la BD", "Error", JOptionPane.ERROR_MESSAGE);
-				}
-
-				// Bloque para intentar cerrar la conexión la BD
-				try {
-					if (connection!=null) {
-						connection.close();
-					}	
-				}catch(SQLException sqle) {
-					JOptionPane.showMessageDialog(null, "No se puede cerrar la conexión con la BD", "Error", JOptionPane.ERROR_MESSAGE);
-				}
+			catch(SQLException e) {
+				JOptionPane.showMessageDialog(null, "Se ha producido un error al conectarse con la BD", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 
-			// Crear objeto de la clase Fecha_Y_Hora para poder trabajar con el para guardar lo que se pone en el usuario (texto)
-			Guardar_Movimientos f = new Guardar_Movimientos();
+			// Bloque para intentar cerrar la conexión la BD
 			try {
-				// Llamando al método de fecha y mandarle lo que se escribe en el texto de inicio de sesión 
-				f.registrar(txtUsuario.getText()+"]"+"[Login");
-			}catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				if (connection!=null) {
+					connection.close();
+				}	
+			}catch(SQLException sqle) {
+				JOptionPane.showMessageDialog(null, "Se ha producido un problema al acceder a la Base de Datos o similar", "Error", JOptionPane.ERROR_MESSAGE);
 			}
+		}
+
+		// Crear objeto de la clase Fecha_Y_Hora para poder trabajar con el para guardar lo que se pone en el usuario (texto)
+		Guardar_Movimientos f = new Guardar_Movimientos();
+		try {
+			// Llamando al método de fecha y mandarle lo que se escribe en el texto de inicio de sesión 
+			f.registrar(txtUsuario.getText()+"]"+"[Login");
+		}catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		if (btnLimpiar.equals(arg0.getSource())){
