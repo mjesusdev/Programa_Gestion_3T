@@ -215,6 +215,7 @@ public class BajaEmpleados extends Frame implements ActionListener, WindowListen
 			new MenuPrincipal();
 		}else if(diainformativo.isActive()){
 			diainformativo.setVisible(false);
+			this.dispose();
 			new BajaEmpleados();
 		}
 	}
