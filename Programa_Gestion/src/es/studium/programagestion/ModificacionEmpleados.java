@@ -156,14 +156,22 @@ public class ModificacionEmpleados extends Frame implements ActionListener, Wind
 			}else{
 				String [] escoger = seleccionarEmpleado.getSelectedItem().split(" ");
 
-				String nombreEmpleado = escoger[1];
-				txtNombre.setText(nombreEmpleado);
-
-				String apellidosEmpleado = escoger[2];
-				String apellidosEmpleado2 = escoger[3];
-				txtApellidos.setText(apellidosEmpleado + " " + apellidosEmpleado2);
-
-				DialogoMod.setVisible(true);
+				try {
+					// Escoger elementos por posiciones
+					String nombreEmpleado = escoger[1];
+					txtNombre.setText(nombreEmpleado);
+					String apellidosEmpleado = escoger[2];
+					String apellidosEmpleado2 = escoger[3];
+					txtApellidos.setText(apellidosEmpleado + " " + apellidosEmpleado2);
+					
+					this.setVisible(false);
+					DialogoMod.setVisible(true);
+				}
+				catch(ArrayIndexOutOfBoundsException oe) {
+					JOptionPane.showMessageDialog(null, "Arregle los errores que se producen, "
+							+ "ya sea por el nombre del Producto que debe ser compuesto, realice una baja de ese producto", 
+							"Error", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		}
 
@@ -191,7 +199,7 @@ public class ModificacionEmpleados extends Frame implements ActionListener, Wind
 			}
 
 			desconectar();
-			
+
 			Guardar_Movimientos f = new Guardar_Movimientos();
 			try {
 				f.registrar("administrador]" + "["+sentencia+"");

@@ -139,7 +139,7 @@ public class BajaEmpleados extends Frame implements ActionListener, WindowListen
 			}
 			catch (SQLException se)
 			{
-				System.out.println("No se puede cerrar la conexión la Base De Datos");
+				JOptionPane.showMessageDialog(null, "No se puede cerrar la conexión con la BD", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
@@ -187,7 +187,7 @@ public class BajaEmpleados extends Frame implements ActionListener, WindowListen
 				}
 				catch (SQLException se)
 				{
-					System.out.println("No se puede cerrar la conexión la Base De Datos");
+					JOptionPane.showMessageDialog(null, "No se puede cerrar la conexión con la BD", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 
@@ -215,7 +215,7 @@ public class BajaEmpleados extends Frame implements ActionListener, WindowListen
 			new MenuPrincipal();
 		}else if(diainformativo.isActive()){
 			diainformativo.setVisible(false);
-			this.setVisible(true);
+			new BajaEmpleados();
 		}
 	}
 

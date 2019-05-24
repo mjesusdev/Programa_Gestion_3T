@@ -202,7 +202,7 @@ public class BajaClientes extends Frame implements ActionListener, WindowListene
 			new MenuPrincipal();
 		}else if(diainformativo.isActive()){
 			diainformativo.setVisible(false);
-			this.setVisible(true);
+			new BajaClientes();
 		}
 	}
 

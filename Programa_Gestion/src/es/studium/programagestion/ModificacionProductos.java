@@ -80,9 +80,8 @@ public class ModificacionProductos extends Frame implements ActionListener, Wind
 		introducirProductos(seleccionarProducto);
 		add(pnlChoice, "North");
 		add(pnlBoton, "Center");
-		// Añadir Windowlistener
+		// Añadir Listeners
 		addWindowListener(this);
-		// Añadir Actionlistener al botón de Modificación 
 		btnModificacion.addActionListener(this);
 
 		// Diálogo donde se realiza la modificación
@@ -150,7 +149,7 @@ public class ModificacionProductos extends Frame implements ActionListener, Wind
 		} 
 
 		catch (ClassNotFoundException e) {
-			System.out.println("Se produjo un error al cargar el Driver");
+			JOptionPane.showMessageDialog(null, "Hay un problema al cargar el driver", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 
 		catch(SQLException e) {
@@ -166,7 +165,7 @@ public class ModificacionProductos extends Frame implements ActionListener, Wind
 				connection.close();
 			}	
 		}catch(SQLException sqle) {
-			System.out.println("No se puede cerrar la conexión con la Base de Datos");
+			JOptionPane.showMessageDialog(null, "No se puede cerrar la conexión con la BD", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -182,35 +181,28 @@ public class ModificacionProductos extends Frame implements ActionListener, Wind
 					String nombreProducto = escoger[1];
 					String nombreProductoseguido = escoger[2];
 					txtNombre.setText(nombreProducto + " " + nombreProductoseguido);
-				}
+									
+					String marcaProducto = escoger[3];
+					txtMarca.setText(marcaProducto);
 
-				catch(ArrayIndexOutOfBoundsException oe) {
-					JOptionPane.showMessageDialog(null, "Arregle los errores que se producen, "
-							+ "ya sea por el nombre del Producto que debe ser compuesto, realice una baja de ese producto", 
-							"Error", JOptionPane.ERROR_MESSAGE);
-				}
+					String precioProducto = escoger[4];
+					txtPrecio.setText(precioProducto);
 
-				String marcaProducto = escoger[3];
-				txtMarca.setText(marcaProducto);
+					String contenidototalProducto = escoger[5];
+					txtContenidoTotal.setText(contenidototalProducto);
 
-				String precioProducto = escoger[4];
-				txtPrecio.setText(precioProducto);
-
-				String contenidototalProducto = escoger[5];
-				txtContenidoTotal.setText(contenidototalProducto);
-
-				try {
 					String fechacaducidadProducto = escoger[6];
 					txtFechaCaducidad.setText(fechacaducidadProducto);
+					
+					this.setVisible(false);
+					DialogoMod.setVisible(true);
 				}
+
 				catch(ArrayIndexOutOfBoundsException oe) {
 					JOptionPane.showMessageDialog(null, "Arregle los errores que se producen, "
 							+ "ya sea por el nombre del Producto que debe ser compuesto, realice una baja de ese producto", 
 							"Error", JOptionPane.ERROR_MESSAGE);
 				}
-
-				this.setVisible(false);
-				DialogoMod.setVisible(true);
 			}
 		}
 
@@ -280,25 +272,14 @@ public class ModificacionProductos extends Frame implements ActionListener, Wind
 
 		else if(DialogoMod.isActive()){
 			DialogoMod.setVisible(false);
-			setVisible(true);
+			new ModificacionProductos();
 		}
 	}
 
-	@Override
 	public void windowActivated(WindowEvent arg0) {}
-
-	@Override
 	public void windowClosed(WindowEvent arg0) {}
-
-	@Override
 	public void windowDeactivated(WindowEvent arg0) {}
-
-	@Override
 	public void windowDeiconified(WindowEvent arg0) {}
-
-	@Override
 	public void windowIconified(WindowEvent arg0) {}
-
-	@Override
 	public void windowOpened(WindowEvent arg0) {}
 }

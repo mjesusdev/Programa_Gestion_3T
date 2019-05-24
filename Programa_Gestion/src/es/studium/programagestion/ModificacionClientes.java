@@ -160,17 +160,23 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 			}else{
 				String [] escoger = seleccionarCliente.getSelectedItem().split(" ");
 
-				String nombreCliente = escoger[0];
-				txtNombre.setText(nombreCliente);
+				try {
+					String nombreCliente = escoger[0];
+					txtNombre.setText(nombreCliente);
+					String apellidoCliente = escoger[1];
+					String apellidoCliente2 = escoger[2];
+					txtApellidos.setText(apellidoCliente + " " + apellidoCliente2);
+					String dniCliente = escoger[3];
+					txtDNI.setText(dniCliente);
 
-				String apellidoCliente = escoger[1];
-				String apellidoCliente2 = escoger[2];
-				txtApellidos.setText(apellidoCliente + " " + apellidoCliente2);
-
-				String dniCliente = escoger[3];
-				txtDNI.setText(dniCliente);
-
-				DialogoMod.setVisible(true);
+					this.setVisible(false);
+					DialogoMod.setVisible(true);
+				}
+				catch(ArrayIndexOutOfBoundsException oe) {
+					JOptionPane.showMessageDialog(null, "Arregle los errores que se producen, "
+							+ "ya sea por el nombre del Producto que debe ser compuesto, realice una baja de ese producto", 
+							"Error", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		}
 
@@ -230,7 +236,7 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 		}
 		else if(DialogoMod.isActive()) {
 			DialogoMod.setVisible(false);
-			setVisible(true);
+			new ModificacionClientes();
 		}
 	}
 
