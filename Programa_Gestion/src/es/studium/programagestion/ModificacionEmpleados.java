@@ -28,10 +28,12 @@ public class ModificacionEmpleados extends Frame implements ActionListener, Wind
 	private static final long serialVersionUID = 1L;
 
 	// Crear componentes
+	Label lblInstrucciones = new Label("Escoja empleado a modificar");
 	Choice seleccionarEmpleado = new Choice();
 	Button btnModificacion = new Button("Modificación");
 
 	// Panel para el Choice y el botón
+	Panel pnlInstrucciones = new Panel();
 	Panel pnlChoice = new Panel();
 	Panel pnlBoton = new Panel();
 
@@ -66,13 +68,16 @@ public class ModificacionEmpleados extends Frame implements ActionListener, Wind
 	{
 		setTitle("Modificación Empleados");
 		colocarIcono();
+		pnlInstrucciones.add(lblInstrucciones);
+		lblInstrucciones.setFont(new java.awt.Font("Times New Roman", 1, 18));
 		pnlChoice.add(seleccionarEmpleado);
 		pnlBoton.add(btnModificacion);
 		seleccionarEmpleado.add("Seleccione empleado a modificar");
 		// Llamar al método que añade los empleados
 		introducirEmpleados(seleccionarEmpleado);
-		add(pnlChoice, "North");
-		add(pnlBoton, "Center");	
+		add(pnlInstrucciones, BorderLayout.NORTH);
+		add(pnlChoice, BorderLayout.CENTER);
+		add(pnlBoton, BorderLayout.SOUTH);
 		// Añadir Listeners
 		addWindowListener(this);
 		btnModificacion.addActionListener(this);
@@ -169,7 +174,7 @@ public class ModificacionEmpleados extends Frame implements ActionListener, Wind
 				}
 				catch(ArrayIndexOutOfBoundsException oe) {
 					JOptionPane.showMessageDialog(null, "Arregle los errores que se producen, "
-							+ "ya sea por el nombre del Producto que debe ser compuesto, realice una baja de ese producto", 
+							+ "ya sea por los apellidos del Empleado que debe ser 2, realice una baja de ese empleado", 
 							"Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
