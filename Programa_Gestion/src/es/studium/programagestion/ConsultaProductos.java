@@ -52,6 +52,7 @@ public class ConsultaProductos extends Frame implements ActionListener, WindowLi
 
 	String [] titulos= {};
 
+	// Objeto del paquete table que nos servirá para imprimir la tabla a PDF y rellenarla
 	DefaultTableModel modelo = new DefaultTableModel();
 
 	// Base de Datos
@@ -73,7 +74,10 @@ public class ConsultaProductos extends Frame implements ActionListener, WindowLi
 		setLayout(new FlowLayout());
 		add(lblConsulta);
 		tablaProductos = new JTable(rellenarTabla(),titulos);
+		// Aplicarle a la tabla el modelo
 		tablaProductos.setModel(modelo);
+		tablaProductos.setEnabled(false);
+		// Añadir a la tabla un Panel de Scroll en el CENTRO
 		add(new JScrollPane(tablaProductos), BorderLayout.CENTER);
 		add(btnImprimir);
 		setSize(510,590);
@@ -98,6 +102,7 @@ public class ConsultaProductos extends Frame implements ActionListener, WindowLi
 			statement = connection.createStatement();						
 			rs = statement.executeQuery(sentencia);
 
+			// Objeto ResultSetMetaData para coger información de las columnas de las tablas
 			ResultSetMetaData rsMd = rs.getMetaData();
 			// Guardar en una variable las columnas que hay
 			int cantidadColumnas = rsMd.getColumnCount();
@@ -150,15 +155,19 @@ public class ConsultaProductos extends Frame implements ActionListener, WindowLi
 	public void actionPerformed(ActionEvent arg0) {
 		if(btnImprimir.equals(arg0.getSource())){
 			try {
+				// Crear el documento
 				Document documento = new Document(PageSize.LETTER);
+				// Utilizar la clase PdfWriter para escribir en el propio documento 
 				PdfWriter writer = PdfWriter.getInstance(documento, new FileOutputStream("ConsultaProductos.pdf"));
 				documento.setMargins(50f, 50f, 50f, 50f);
 				documento.open();
 
+				// Aplicar un título y centrarlo
 				Paragraph titulo = new Paragraph("**Consulta Productos**", FontFactory.getFont(FontFactory.TIMES_ROMAN,18, Font.BOLD, BaseColor.BLACK));
 				titulo.setAlignment(Paragraph.ALIGN_CENTER);
 				documento.add(titulo);
 
+				// Saltos de línea
 				Paragraph saltolinea1 = new Paragraph();
 				saltolinea1.add("\n\n");
 
@@ -180,6 +189,10 @@ public class ConsultaProductos extends Frame implements ActionListener, WindowLi
 				// Añadir la tabla
 				documento.add(pdfTable);
 
+				/*
+					Clase que hereda de la clase PdfPageEventHelper, nos servirá para escribir al final del documento
+					la información sobre el autor y la página
+				*/
 				class HeaderFooterPageEvent extends PdfPageEventHelper {
 
 					public void onEndPage(PdfWriter writer, Document document) {
