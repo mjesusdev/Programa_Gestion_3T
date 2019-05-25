@@ -28,10 +28,12 @@ public class ModificacionProductos extends Frame implements ActionListener, Wind
 	private static final long serialVersionUID = 1L;
 
 	// Crear componentes
+	Label lblInstrucciones = new Label("Escoja producto a modificar");
 	Choice seleccionarProducto = new Choice();
 	Button btnModificacion = new Button("Modificación");
 
 	// Panel para el Choice y el botón
+	Panel pnlInstrucciones = new Panel();
 	Panel pnlChoice = new Panel();
 	Panel pnlBoton = new Panel();
 
@@ -72,14 +74,16 @@ public class ModificacionProductos extends Frame implements ActionListener, Wind
 	{
 		setTitle("Modificación Productos");
 		colocarIcono();
-
+		pnlInstrucciones.add(lblInstrucciones);
+		lblInstrucciones.setFont(new java.awt.Font("Times New Roman", 1, 18));
 		// Añadir elementos
 		pnlChoice.add(seleccionarProducto);
 		pnlBoton.add(btnModificacion);
 		seleccionarProducto.add("Seleccione producto a modificar");
 		introducirProductos(seleccionarProducto);
-		add(pnlChoice, "North");
-		add(pnlBoton, "Center");
+		add(pnlInstrucciones, BorderLayout.NORTH);
+		add(pnlChoice, BorderLayout.CENTER);
+		add(pnlBoton, BorderLayout.SOUTH);
 		// Añadir Listeners
 		addWindowListener(this);
 		btnModificacion.addActionListener(this);
@@ -105,7 +109,7 @@ public class ModificacionProductos extends Frame implements ActionListener, Wind
 		pnlModificacion.setFont(new java.awt.Font("Times New Roman", 1, 18));
 		pnlComponentes.setFont(new java.awt.Font("Times New Roman", 0, 14));
 		pnlBotones.setFont(new java.awt.Font("Times New Roman", 0, 14));
-		DialogoMod.setSize(280,250);
+		DialogoMod.setSize(290,260);
 		DialogoMod.setResizable(false);
 		DialogoMod.setLocationRelativeTo(null);
 		btnRealizarModificacion.addActionListener(this);

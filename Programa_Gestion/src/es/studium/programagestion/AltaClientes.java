@@ -76,7 +76,7 @@ public class AltaClientes extends Frame implements ActionListener, WindowListene
 		add(pnlComponentes, BorderLayout.CENTER);
 		add(pnlBotones, BorderLayout.SOUTH);
 		
-		setSize(270,225);
+		setSize(290,245);
 		setLocationRelativeTo(null);
 		addWindowListener(this);
 		btnAlta.addActionListener(this);

@@ -28,10 +28,12 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 	private static final long serialVersionUID = 1L;
 
 	// Crear componentes
+	Label lblInstrucciones = new Label("Escoja cliente a modificar");
 	Choice seleccionarCliente = new Choice();
 	Button btnModificacion = new Button("Modificación");
 
 	// Panel para el Choice y el botón
+	Panel pnlInstrucciones = new Panel();
 	Panel pnlChoice = new Panel();
 	Panel pnlBoton = new Panel();
 
@@ -68,13 +70,16 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 	{
 		setTitle("Modificación Clientes");
 		colocarIcono();
+		pnlInstrucciones.add(lblInstrucciones);
+		lblInstrucciones.setFont(new java.awt.Font("Times New Roman", 1, 18));
 		pnlChoice.add(seleccionarCliente);
 		pnlBoton.add(btnModificacion);
 		seleccionarCliente.add("Seleccione cliente a modificar");
 		// Llamar al método que selecciona los Clientes
 		introducirClientes(seleccionarCliente);
-		add(pnlChoice, "North");
-		add(pnlBoton, "Center");
+		add(pnlInstrucciones, BorderLayout.NORTH);
+		add(pnlChoice, BorderLayout.CENTER);
+		add(pnlBoton, BorderLayout.SOUTH);
 		// Añadir Windowlistener
 		addWindowListener(this);
 		btnModificacion.addActionListener(this);
@@ -96,7 +101,7 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 		pnlModificacion.setFont(new java.awt.Font("Times New Roman", 1, 18));
 		pnlComponentes.setFont(new java.awt.Font("Times New Roman", 0, 14));
 		pnlBotones.setFont(new java.awt.Font("Times New Roman", 0, 14));
-		DialogoMod.setSize(250,230);
+		DialogoMod.setSize(290,240);
 		DialogoMod.setResizable(false);
 		DialogoMod.setLocationRelativeTo(null);
 		btnRealizarModificacion.addActionListener(this);
@@ -104,7 +109,7 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 		DialogoMod.addWindowListener(this);
 		DialogoMod.setVisible(false);
 
-		setSize(350,220);
+		setSize(350,250);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
@@ -174,7 +179,7 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 				}
 				catch(ArrayIndexOutOfBoundsException oe) {
 					JOptionPane.showMessageDialog(null, "Arregle los errores que se producen, "
-							+ "ya sea por el nombre del Producto que debe ser compuesto, realice una baja de ese producto", 
+							+ "ya sea por los apellidos que deben ser 2, realice una baja de ese cliente", 
 							"Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
@@ -182,9 +187,8 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 
 		else if (btnRealizarModificacion.equals(ae.getSource())) {
 			String [] escoger = seleccionarCliente.getSelectedItem().split(" ");
-
 			String dniCliente = escoger[3];
-
+			
 			try{
 				Class.forName(driver);				
 				connection = DriverManager.getConnection(url, login, password);
