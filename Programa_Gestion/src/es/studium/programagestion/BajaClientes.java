@@ -157,7 +157,7 @@ public class BajaClientes extends Frame implements ActionListener, WindowListene
 
 		else if (btnSi.equals(arg0.getSource())) {
 			String [] eliminarespacios = chcSeleccionarCliente.getSelectedItem().split(" ");
-			
+
 			String dniCliente = eliminarespacios[3];
 
 			try {
@@ -167,6 +167,7 @@ public class BajaClientes extends Frame implements ActionListener, WindowListene
 				sentencia = "DELETE FROM clientes WHERE dniCliente = '"+dniCliente+"';";
 				statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
 				statement.executeUpdate(sentencia);
+				JOptionPane.showMessageDialog(null, "Baja Correcta", "Baja Realizada", JOptionPane.OK_CANCEL_OPTION);
 			}
 
 			catch (ClassNotFoundException cnfe)
@@ -185,8 +186,6 @@ public class BajaClientes extends Frame implements ActionListener, WindowListene
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
-			JOptionPane.showMessageDialog(null, "Baja Correcta", "Baja Realizada", JOptionPane.OK_CANCEL_OPTION);
 		}
 
 		else if (btnNo.equals(arg0.getSource())) {

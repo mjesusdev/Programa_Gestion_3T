@@ -12,7 +12,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 
-
 public class MenuPrincipalUsuario extends WindowAdapter implements ActionListener{
 
 	Frame MenuUsuario = new Frame("Menú Principal");
@@ -82,7 +81,7 @@ public class MenuPrincipalUsuario extends WindowAdapter implements ActionListene
 		} catch (IOException ie) {
 			ie.printStackTrace();
 		}
-		
+
 		System.exit(0);
 	}
 
@@ -109,7 +108,7 @@ public class MenuPrincipalUsuario extends WindowAdapter implements ActionListene
 			new AltaCompraUsuario();
 			MenuUsuario.setVisible(false);
 		}
-		
+
 		else if(mnimenuAyudaVer.equals(arg0.getSource())) {
 			Guardar_Movimientos f = new Guardar_Movimientos();
 			try {

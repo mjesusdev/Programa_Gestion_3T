@@ -166,6 +166,7 @@ public class BajaEmpleados extends Frame implements ActionListener, WindowListen
 				sentencia = "DELETE FROM empleados WHERE idEmpleado = '"+idEmpleado+"';";
 				statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
 				statement.executeUpdate(sentencia);
+				JOptionPane.showMessageDialog(null, "Baja Correcta", "Baja Realizada", JOptionPane.OK_CANCEL_OPTION);
 			}
 
 			catch (ClassNotFoundException cnfe)
@@ -198,11 +199,9 @@ public class BajaEmpleados extends Frame implements ActionListener, WindowListen
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
-			JOptionPane.showMessageDialog(null, "Baja Correcta", "Baja Realizada", JOptionPane.OK_CANCEL_OPTION);
 		}
 
-		if(btnNo.equals(arg0.getSource())) {
+		else if(btnNo.equals(arg0.getSource())) {
 			diainformativo.setVisible(false);
 			setVisible(true);
 		}

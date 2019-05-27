@@ -168,7 +168,7 @@ public class ModificacionEmpleados extends Frame implements ActionListener, Wind
 					String apellidosEmpleado = escoger[2];
 					String apellidosEmpleado2 = escoger[3];
 					txtApellidos.setText(apellidosEmpleado + " " + apellidosEmpleado2);
-					
+
 					this.setVisible(false);
 					DialogoMod.setVisible(true);
 				}

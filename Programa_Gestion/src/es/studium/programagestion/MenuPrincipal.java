@@ -15,7 +15,7 @@ import java.io.IOException;
 public class MenuPrincipal extends WindowAdapter implements ActionListener{
 
 	Frame miMenu = new Frame("Menú Principal");
-	
+
 	// Crear barra de Menú
 	MenuBar barraMenu = new MenuBar();
 
@@ -43,14 +43,14 @@ public class MenuPrincipal extends WindowAdapter implements ActionListener{
 	MenuItem mnimenuProductosMod = new MenuItem("Modificación");
 	MenuItem mnimenuProductosBaja = new MenuItem("Baja");
 	MenuItem mnimenuProductosConsulta = new MenuItem("Consulta");
-	
+
 	// Crear Items dentro del menú Compra
 	MenuItem mnimenuCompraAlta = new MenuItem("Alta");
 	MenuItem mnimenuCompraConsulta = new MenuItem("Consulta");
 
 	// Crear Item dentro del menú Ayuda
 	MenuItem mnimenuAyudaVer = new MenuItem("Ver ayuda");
-	
+
 	MenuPrincipal()
 	{
 		colocarIcono();
@@ -83,40 +83,40 @@ public class MenuPrincipal extends WindowAdapter implements ActionListener{
 		// Añadir al menú Compra los item para que se vean
 		menuCompra.add(mnimenuCompraAlta);
 		menuCompra.add(mnimenuCompraConsulta);
-		
+
 		// Añadir al menú Ayuda los item para que se vean
 		menuAyuda.add(mnimenuAyudaVer);
-		
+
 		// Action Listeners para los MenuITEM de Clientes
 		mnimenuClientesAlta.addActionListener(this);
 		mnimenuClientesMod.addActionListener(this);
 		mnimenuClientesBaja.addActionListener(this);
 		mnimenuClientesConsulta.addActionListener(this);
-		
+
 		// Listeners de Empleados
 		mnimenuEmpleadosAlta.addActionListener(this);
 		mnimenuEmpleadosMod.addActionListener(this);
 		mnimenuEmpleadosBaja.addActionListener(this);
 		mnimenuEmpleadosConsulta.addActionListener(this);
-		
+
 		// Listeners de Productos
 		mnimenuProductosAlta.addActionListener(this);
 		mnimenuProductosMod.addActionListener(this);
 		mnimenuProductosBaja.addActionListener(this);
 		mnimenuProductosConsulta.addActionListener(this);
-		
+
 		// Listeners de Compra
 		mnimenuCompraAlta.addActionListener(this);
 		mnimenuCompraConsulta.addActionListener(this);
-		
+
 		// Listeners de Ayuda
 		mnimenuAyudaVer.addActionListener(this);
-		
+
 		// Establecer tamaño a la ventana y localización en pantalla
 		miMenu.setSize(500,300);
 		// No permitir maximizarlo, cambiar tamaño
 		miMenu.setResizable(false);
-		
+
 		// Establecer al medio la ventana, dependiendo de cual sea la resolución.
 		miMenu.setLocationRelativeTo(null);
 		miMenu.addWindowListener(this);
@@ -129,7 +129,7 @@ public class MenuPrincipal extends WindowAdapter implements ActionListener{
 		Image miIcono = mipantalla.getImage("farmacia.png");
 		miMenu.setIconImage(miIcono);
 	}
-	
+
 	@Override
 	public void windowClosing(WindowEvent e) {
 		Guardar_Movimientos f = new Guardar_Movimientos();
@@ -138,7 +138,7 @@ public class MenuPrincipal extends WindowAdapter implements ActionListener{
 		} catch (IOException ie) {
 			ie.printStackTrace();
 		}	
-		
+
 		System.exit(0);
 	}
 
@@ -148,72 +148,72 @@ public class MenuPrincipal extends WindowAdapter implements ActionListener{
 			new AltaClientes();
 			miMenu.setVisible(false);
 		}
-		
+
 		else if (mnimenuClientesMod.equals(arg0.getSource())) {
 			new ModificacionClientes();
 			miMenu.setVisible(false);
 		}
-		
+
 		else if (mnimenuClientesBaja.equals(arg0.getSource())) {
 			new BajaClientes();
 			miMenu.setVisible(false);
 		}
-		
+
 		else if (mnimenuClientesConsulta.equals(arg0.getSource())) {
 			new ConsultaClientes();
 			miMenu.setVisible(false);
 		}
-		
+
 		else if (mnimenuEmpleadosAlta.equals(arg0.getSource())) {
 			new AltaEmpleados();
 			miMenu.setVisible(false);
 		}
-		
+
 		else if (mnimenuEmpleadosMod.equals(arg0.getSource())) {
 			new ModificacionEmpleados();
 			miMenu.setVisible(false);
 		}
-		
+
 		else if (mnimenuEmpleadosBaja.equals(arg0.getSource())) {
 			new BajaEmpleados();
 			miMenu.setVisible(false);
 		}
-		
+
 		else if (mnimenuEmpleadosConsulta.equals(arg0.getSource())) {
 			new ConsultaEmpleados();
 			miMenu.setVisible(false);
 		}
-		
+
 		else if (mnimenuProductosAlta.equals(arg0.getSource())) {
 			new AltaProductos();
 			miMenu.setVisible(false);
 		}
-		
+
 		else if (mnimenuProductosMod.equals(arg0.getSource())) {
 			new ModificacionProductos();
 			miMenu.setVisible(false);
 		}
-		
+
 		else if (mnimenuProductosBaja.equals(arg0.getSource())) {
 			new BajaProductos();
 			miMenu.setVisible(false);
 		}
-		
+
 		else if (mnimenuProductosConsulta.equals(arg0.getSource())) {
 			new ConsultaProductos();
 			miMenu.setVisible(false);
 		}
-		
+
 		else if (mnimenuCompraAlta.equals(arg0.getSource())) {
 			new AltaCompra();
 			miMenu.setVisible(false);
 		}
-		
+
 		else if (mnimenuCompraConsulta.equals(arg0.getSource())) {
 			new ConsultaCompra();
 			miMenu.setVisible(false);
 		}
-		
+
 		else if (mnimenuAyudaVer.equals(arg0.getSource())) {
 			Guardar_Movimientos f = new Guardar_Movimientos();
 			try {
@@ -221,7 +221,7 @@ public class MenuPrincipal extends WindowAdapter implements ActionListener{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}		
-			
+
 			new Ayuda();
 			miMenu.setVisible(false);
 		}	

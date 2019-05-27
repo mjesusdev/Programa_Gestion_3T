@@ -164,7 +164,7 @@ public class ConsultaEmpleados extends Frame implements ActionListener, WindowLi
 				documento.add(saltolinea1);
 
 				PdfPTable pdfTable = new PdfPTable(tablaEmpleados.getColumnCount());
-				
+
 				for (int i = 0; i < tablaEmpleados.getColumnCount(); i++) {
 					pdfTable.addCell(tablaEmpleados.getColumnName(i));
 				}
@@ -178,21 +178,21 @@ public class ConsultaEmpleados extends Frame implements ActionListener, WindowLi
 				// Añadir la tabla
 				documento.add(pdfTable);
 
-	            class HeaderFooterPageEvent extends PdfPageEventHelper {
+				class HeaderFooterPageEvent extends PdfPageEventHelper {
 
-	                public void onEndPage(PdfWriter writer, Document document) {
-	                    ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("By: Manuel Jesús Ojeda Salvador 1-DAW"), 150, 30, 0);
-	                    ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("Página " + document.getPageNumber()), 550, 30, 0);
-	                }
-	            }
-	            
-	            // Llamar a la clase que escribe en el final
-	            HeaderFooterPageEvent event = new HeaderFooterPageEvent(); 
+					public void onEndPage(PdfWriter writer, Document document) {
+						ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("By: Manuel Jesús Ojeda Salvador 1-DAW"), 150, 30, 0);
+						ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("Página " + document.getPageNumber()), 550, 30, 0);
+					}
+				}
+
+				// Llamar a la clase que escribe en el final
+				HeaderFooterPageEvent event = new HeaderFooterPageEvent(); 
 				writer.setPageEvent(event);
 
 				// Cerramos el objeto
 				documento.close();
-				
+
 				JOptionPane.showMessageDialog(null, "Se imprimió la tabla Empleados en PDF", "Consulta Exportada", JOptionPane.INFORMATION_MESSAGE);
 			}catch (DocumentException e) {
 				JOptionPane.showMessageDialog(null, "Se ha producido un problema con el documento", "Error", JOptionPane.ERROR_MESSAGE);

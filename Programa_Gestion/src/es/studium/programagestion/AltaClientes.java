@@ -35,12 +35,12 @@ public class AltaClientes extends Frame implements ActionListener, WindowListene
 	TextField txtDNI = new TextField(15         );
 	Button btnAlta = new Button("Alta");
 	Button btnLimpiar = new Button("Limpiar");
-	
+
 	// Paneles
 	Panel pnlSuperior = new Panel();
 	Panel pnlComponentes = new Panel();
 	Panel pnlBotones = new Panel();
-	
+
 	// Necesario para conectar con la BD
 	String driver = "com.mysql.jdbc.Driver";
 	String url = "jdbc:mysql://localhost:3306/farmaciapr2?autoReconnect=true&useSSL=false";
@@ -50,7 +50,7 @@ public class AltaClientes extends Frame implements ActionListener, WindowListene
 	Connection connection = null;
 	Statement statement = null;
 	ResultSet rs = null;
-	
+
 	AltaClientes()
 	{
 		setTitle("Alta Clientes");
@@ -75,7 +75,7 @@ public class AltaClientes extends Frame implements ActionListener, WindowListene
 		add(pnlSuperior, BorderLayout.NORTH);
 		add(pnlComponentes, BorderLayout.CENTER);
 		add(pnlBotones, BorderLayout.SOUTH);
-		
+
 		setSize(290,245);
 		setLocationRelativeTo(null);
 		addWindowListener(this);
@@ -84,7 +84,7 @@ public class AltaClientes extends Frame implements ActionListener, WindowListene
 		setResizable(false);
 		setVisible(true);
 	}
-	
+
 	public void colocarIcono() {
 		Toolkit mipantalla = Toolkit.getDefaultToolkit();
 		Image miIcono = mipantalla.getImage("farmacia.png");
@@ -101,7 +101,7 @@ public class AltaClientes extends Frame implements ActionListener, WindowListene
 			if (Nombre.equals("") | Apellidos.equals("") | DNI.equals("")) {
 				JOptionPane.showMessageDialog(null, "Error, por favor corrija los errores", "Error", JOptionPane.ERROR_MESSAGE);
 			}
-			
+
 			else
 			{
 				try
@@ -123,7 +123,7 @@ public class AltaClientes extends Frame implements ActionListener, WindowListene
 						e.printStackTrace();
 					}
 				}
-				
+
 				catch (ClassNotFoundException cnfe)
 				{
 					JOptionPane.showMessageDialog(null, "El driver no se ha cargado correctamente", "Error", JOptionPane.ERROR_MESSAGE);

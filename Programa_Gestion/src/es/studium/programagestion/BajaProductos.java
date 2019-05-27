@@ -87,14 +87,14 @@ public class BajaProductos extends Frame implements ActionListener, WindowListen
 		diainformativo.setLocationRelativeTo(null);
 		diainformativo.setResizable(false);
 		diainformativo.setVisible(false);	
-		
+
 		setSize(300,250);
 		addWindowListener(this);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
 	}
-	
+
 	public void colocarIcono() {
 		Toolkit mipantalla = Toolkit.getDefaultToolkit();
 		Image miIcono = mipantalla.getImage("farmacia.png");
@@ -160,14 +160,14 @@ public class BajaProductos extends Frame implements ActionListener, WindowListen
 			String [] eliminarespacios = chcSeleccionarProducto.getSelectedItem().split(" ");
 
 			String idProducto = eliminarespacios[0];
-
+			
 			try {
 				Class.forName(driver);
 				connection = DriverManager.getConnection(url, login, password);
-				//Crear una sentencia
 				sentencia = "DELETE FROM productos WHERE idProducto = '"+idProducto+"';";
 				statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
 				statement.executeUpdate(sentencia);
+				JOptionPane.showMessageDialog(null, "Baja Correcta", "Baja Realizada", JOptionPane.OK_CANCEL_OPTION);
 			}
 
 			catch (ClassNotFoundException cnfe)
@@ -186,7 +186,6 @@ public class BajaProductos extends Frame implements ActionListener, WindowListen
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			JOptionPane.showMessageDialog(null, "Baja Correcta", "Baja Realizada", JOptionPane.OK_CANCEL_OPTION);
 		}
 
 		else if (btnNo.equals(arg0.getSource())) {

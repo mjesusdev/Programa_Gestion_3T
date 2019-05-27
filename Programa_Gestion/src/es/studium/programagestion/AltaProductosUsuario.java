@@ -156,7 +156,7 @@ public class AltaProductosUsuario extends Frame implements ActionListener, Windo
 					}
 					catch (SQLException se)
 					{
-						System.out.println("No se puede cerrar la conexión la Base De Datos");
+						JOptionPane.showMessageDialog(null, "No se puede cerrar la conexión con la BD", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}

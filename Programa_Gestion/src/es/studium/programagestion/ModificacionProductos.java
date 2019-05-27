@@ -185,7 +185,7 @@ public class ModificacionProductos extends Frame implements ActionListener, Wind
 					String nombreProducto = escoger[1];
 					String nombreProductoseguido = escoger[2];
 					txtNombre.setText(nombreProducto + " " + nombreProductoseguido);
-									
+
 					String marcaProducto = escoger[3];
 					txtMarca.setText(marcaProducto);
 
@@ -197,7 +197,7 @@ public class ModificacionProductos extends Frame implements ActionListener, Wind
 
 					String fechacaducidadProducto = escoger[6];
 					txtFechaCaducidad.setText(fechacaducidadProducto);
-					
+
 					this.setVisible(false);
 					DialogoMod.setVisible(true);
 				}
@@ -240,7 +240,7 @@ public class ModificacionProductos extends Frame implements ActionListener, Wind
 			}
 
 			desconectar();
-			
+
 			Guardar_Movimientos f = new Guardar_Movimientos();
 			try {
 				f.registrar("administrador]" + "["+sentencia+"");

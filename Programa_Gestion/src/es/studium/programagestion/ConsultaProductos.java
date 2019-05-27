@@ -192,7 +192,7 @@ public class ConsultaProductos extends Frame implements ActionListener, WindowLi
 				/*
 					Clase que hereda de la clase PdfPageEventHelper, nos servirá para escribir al final del documento
 					la información sobre el autor y la página
-				*/
+				 */
 				class HeaderFooterPageEvent extends PdfPageEventHelper {
 
 					public void onEndPage(PdfWriter writer, Document document) {

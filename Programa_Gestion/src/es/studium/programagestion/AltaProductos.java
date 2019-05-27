@@ -140,7 +140,7 @@ public class AltaProductos extends Frame implements ActionListener, WindowListen
 				}
 
 				catch (ClassNotFoundException cnfe){
-					System.out.println("Error 1: "+cnfe.getMessage());
+					JOptionPane.showMessageDialog(null, "No se puede cargar el driver", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 				catch (SQLException sqle){
 					JOptionPane.showMessageDialog(null, "Error en el Alta", "Error", JOptionPane.ERROR_MESSAGE);
@@ -157,7 +157,7 @@ public class AltaProductos extends Frame implements ActionListener, WindowListen
 					}
 					catch (SQLException se)
 					{
-						System.out.println("No se puede cerrar la conexión la Base De Datos");
+						JOptionPane.showMessageDialog(null, "No se puede cerrar la conexión con la BD", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}

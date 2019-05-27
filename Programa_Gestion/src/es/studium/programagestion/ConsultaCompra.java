@@ -155,53 +155,53 @@ public class ConsultaCompra extends Frame implements ActionListener, WindowListe
 				PdfWriter writer = PdfWriter.getInstance(documento, new FileOutputStream("ConsultaCompra.pdf"));
 				documento.setMargins(50f, 50f, 50f, 50f);
 				documento.open();
-				
+
 				Paragraph titulo = new Paragraph("**Consulta Compra**", FontFactory.getFont(FontFactory.TIMES_ROMAN,18, Font.BOLD, BaseColor.BLACK));
 				titulo.setAlignment(Paragraph.ALIGN_CENTER);
 				documento.add(titulo);
-				
+
 				Paragraph saltolinea1 = new Paragraph();
 				saltolinea1.add("\n\n");
-				
-				documento.add(saltolinea1);
-				
-				PdfPTable pdfTable = new PdfPTable(tablaCompra.getColumnCount());
-				
-				for (int i = 0; i < tablaCompra.getColumnCount(); i++) {
-	                pdfTable.addCell(tablaCompra.getColumnName(i));
-	            }
-				
-	            // Extraer filas y columnas de la tabla
-	            for (int rows = 0; rows < tablaCompra.getRowCount(); rows++) {
-	                for (int cols = 0; cols < tablaCompra.getColumnCount(); cols++) {
-	                    pdfTable.addCell(tablaCompra.getModel().getValueAt(rows, cols).toString());
-	                }
-	            }
-	            // Añadir la tabla
-	            documento.add(pdfTable);
-	            
-	            class HeaderFooterPageEvent extends PdfPageEventHelper {
 
-	                public void onEndPage(PdfWriter writer, Document document) {
-	                    ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("By: Manuel Jesús Ojeda Salvador 1-DAW"), 150, 30, 0);
-	                    ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("Página " + document.getPageNumber()), 550, 30, 0);
-	                }
-	            }
-	            
-	            // Llamar a la clase que escribe en el final
-	            HeaderFooterPageEvent event = new HeaderFooterPageEvent(); 
+				documento.add(saltolinea1);
+
+				PdfPTable pdfTable = new PdfPTable(tablaCompra.getColumnCount());
+
+				for (int i = 0; i < tablaCompra.getColumnCount(); i++) {
+					pdfTable.addCell(tablaCompra.getColumnName(i));
+				}
+
+				// Extraer filas y columnas de la tabla
+				for (int rows = 0; rows < tablaCompra.getRowCount(); rows++) {
+					for (int cols = 0; cols < tablaCompra.getColumnCount(); cols++) {
+						pdfTable.addCell(tablaCompra.getModel().getValueAt(rows, cols).toString());
+					}
+				}
+				// Añadir la tabla
+				documento.add(pdfTable);
+
+				class HeaderFooterPageEvent extends PdfPageEventHelper {
+
+					public void onEndPage(PdfWriter writer, Document document) {
+						ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("By: Manuel Jesús Ojeda Salvador 1-DAW"), 150, 30, 0);
+						ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("Página " + document.getPageNumber()), 550, 30, 0);
+					}
+				}
+
+				// Llamar a la clase que escribe en el final
+				HeaderFooterPageEvent event = new HeaderFooterPageEvent(); 
 				writer.setPageEvent(event);
-				
+
 				// Cerramos el objeto
 				documento.close();
-				
+
 				JOptionPane.showMessageDialog(null, "Se imprimió la tabla Compra en PDF", "Consulta Exportada", JOptionPane.INFORMATION_MESSAGE);
 			}catch (DocumentException e) {
 				JOptionPane.showMessageDialog(null, "Se ha producido un problema con el documento", "Error", JOptionPane.ERROR_MESSAGE);
 			}catch (FileNotFoundException e) {
 				JOptionPane.showMessageDialog(null, "Problemas con el Fichero, puede ser que este abierto por otro programa o algo por el estilo", "Error Fatal", JOptionPane.ERROR_MESSAGE);
 			}
-			
+
 		}
 	}
 

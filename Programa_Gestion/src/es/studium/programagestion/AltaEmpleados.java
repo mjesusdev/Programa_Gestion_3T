@@ -24,7 +24,7 @@ import javax.swing.JOptionPane;
 public class AltaEmpleados extends Frame implements ActionListener, WindowListener{
 
 	private static final long serialVersionUID = 1L;
-	
+
 	// Crear componentes
 	Label lblAlta = new Label("Alta Empleados");
 	Label lblNombre = new Label("Nombre:  ");
@@ -33,12 +33,12 @@ public class AltaEmpleados extends Frame implements ActionListener, WindowListen
 	TextField txtApellidos = new TextField(15);
 	Button btnAlta = new Button("Alta");
 	Button btnLimpiar = new Button("Limpiar");
-	
+
 	// Paneles
 	Panel pnlSuperior = new Panel();
 	Panel pnlComponentes = new Panel();
 	Panel pnlBotones = new Panel();
-	
+
 	// Necesario para conectar con la BD
 	String driver = "com.mysql.jdbc.Driver";
 	String url = "jdbc:mysql://localhost:3306/farmaciapr2?autoReconnect=true&useSSL=false";
@@ -48,7 +48,7 @@ public class AltaEmpleados extends Frame implements ActionListener, WindowListen
 	Connection connection = null;
 	Statement statement = null;
 	ResultSet rs = null;
-	
+
 	AltaEmpleados()
 	{
 		setTitle("Alta Empleados");
@@ -66,7 +66,7 @@ public class AltaEmpleados extends Frame implements ActionListener, WindowListen
 		lblApellidos.setFont(new java.awt.Font("Times New Roman", 0, 14));
 		btnAlta.setFont(new java.awt.Font("Times New Roman", 0, 14)); 
 		btnLimpiar.setFont(new java.awt.Font("Times New Roman", 0, 14));
-		
+
 		// Añadir los paneles
 		add(pnlSuperior, BorderLayout.NORTH);
 		add(pnlComponentes, BorderLayout.CENTER);
@@ -80,13 +80,13 @@ public class AltaEmpleados extends Frame implements ActionListener, WindowListen
 		setResizable(false);
 		setVisible(true);
 	}
-	
+
 	public void colocarIcono() {
 		Toolkit mipantalla = Toolkit.getDefaultToolkit();
 		Image miIcono = mipantalla.getImage("farmacia.png");
 		setIconImage(miIcono);
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		String NombreEmpleado = txtNombre.getText();
@@ -97,7 +97,7 @@ public class AltaEmpleados extends Frame implements ActionListener, WindowListen
 			if (NombreEmpleado.equals("") | ApellidosEmpleado.equals("")) {
 				JOptionPane.showMessageDialog(null, "Error en el Alta", "Error", JOptionPane.ERROR_MESSAGE);
 			}
-			
+
 			else
 			{
 				try
@@ -118,17 +118,17 @@ public class AltaEmpleados extends Frame implements ActionListener, WindowListen
 						e.printStackTrace();
 					}
 				}
-				
+
 				catch (ClassNotFoundException cnfe)
 				{
 					JOptionPane.showMessageDialog(null, "No se puede cargar el Driver", "Error", JOptionPane.ERROR_MESSAGE);
 				}
-				
+
 				catch (SQLException sqle)
 				{
 					JOptionPane.showMessageDialog(null, "Error en el Alta", "Error", JOptionPane.ERROR_MESSAGE);
 				}
-				
+
 				finally
 				{
 					try
@@ -145,7 +145,7 @@ public class AltaEmpleados extends Frame implements ActionListener, WindowListen
 				}
 			}
 		}
-		
+
 		if (btnLimpiar.equals(arg0.getSource())){
 			// Seleccionar contenido del textField Nombre y limpiarlo
 			txtNombre.selectAll();
@@ -156,7 +156,7 @@ public class AltaEmpleados extends Frame implements ActionListener, WindowListen
 			txtApellidos.setText("");
 		}
 	}
-	
+
 	@Override
 	public void windowClosing(WindowEvent arg0) {
 		if (this.isActive()) {

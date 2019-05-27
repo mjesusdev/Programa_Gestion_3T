@@ -188,7 +188,7 @@ public class ModificacionClientes extends Frame implements ActionListener, Windo
 		else if (btnRealizarModificacion.equals(ae.getSource())) {
 			String [] escoger = seleccionarCliente.getSelectedItem().split(" ");
 			String dniCliente = escoger[3];
-			
+
 			try{
 				Class.forName(driver);				
 				connection = DriverManager.getConnection(url, login, password);

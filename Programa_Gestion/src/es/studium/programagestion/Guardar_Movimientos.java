@@ -14,10 +14,10 @@ public class Guardar_Movimientos
 	public void registrar(String texto) throws IOException 
 	{
 		Date date = new Date();
-		
+
 		// Obtenerhora y la fecha y la hora y la saca por pantalla con formato:
 		DateFormat hourdateFormat = new SimpleDateFormat("[dd/MM/yyyy HH:mm:ss]");
-		
+
 		// Comunicación con el fichero 
 		FileWriter fw = new FileWriter("movimientos.log", true);
 		// Paso intermedio, se usa para escribir
@@ -25,7 +25,7 @@ public class Guardar_Movimientos
 		// Último Paso cuya función es escribir en el fichero
 		PrintWriter salida = new PrintWriter(bw);
 		// Guardar en el fichero la hora y la fecha
-		salida.print("\n" + hourdateFormat.format(date)+ "["+texto+"]");
+		salida.print(hourdateFormat.format(date)+ "["+texto+"]" + "\n");
 		// Cerrar objetos, es imprescindible ya que se puede perder paquetes a la hora de pasar información.
 		salida.close();
 		bw.close();

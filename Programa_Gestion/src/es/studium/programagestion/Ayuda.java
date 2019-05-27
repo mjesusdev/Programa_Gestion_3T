@@ -27,7 +27,7 @@ public class Ayuda extends WindowAdapter{
 		Image miIcono = mipantalla.getImage("farmacia.png");
 		ayudaPrograma.setIconImage(miIcono);
 	}
-	
+
 	public void cargarAyudaPrograma() {
 		// Iniciar ayuda
 		try 
@@ -39,7 +39,7 @@ public class Ayuda extends WindowAdapter{
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void windowClosing(WindowEvent e) {
 		ayudaPrograma.setVisible(false);

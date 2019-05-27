@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -176,7 +177,13 @@ public class AltaCompraUsuario extends Frame implements WindowListener, ActionLi
 				statement = connection.createStatement();
 				sentencia = "INSERT INTO compra VALUES(NULL, '"+escogerProducto+"', '"+escogerCliente+"');";
 				statement.executeUpdate(sentencia);
-				JOptionPane.showMessageDialog(null, "Se ha realizado el Alta de Compra con éxito", "Éxito en el Alta", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Se ha realizado el Alta de Compra con éxito", "Éxito en el Alta", JOptionPane.INFORMATION_MESSAGE);
+				Guardar_Movimientos gm = new Guardar_Movimientos();
+				try {
+					gm.registrar("usuario]" + "["+sentencia+"");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 
 			catch (ClassNotFoundException cnfe)
