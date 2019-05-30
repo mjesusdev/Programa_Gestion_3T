@@ -222,8 +222,15 @@ public class MenuPrincipal extends WindowAdapter implements ActionListener{
 				e.printStackTrace();
 			}		
 
-			new Ayuda();
-			miMenu.setVisible(false);
+			// Iniciar ayuda
+			try 
+			{
+				Runtime.getRuntime().exec("hh.exe ayuda.chm");
+			}
+			catch (IOException e) 
+			{
+				e.printStackTrace();
+			}
 		}	
 	}
 }

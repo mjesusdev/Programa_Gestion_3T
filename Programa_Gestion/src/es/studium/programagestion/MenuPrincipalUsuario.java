@@ -117,8 +117,15 @@ public class MenuPrincipalUsuario extends WindowAdapter implements ActionListene
 				e.printStackTrace();
 			}		
 
-			new AyudaUsuario();
-			MenuUsuario.setVisible(false);
+			// Iniciar ayuda
+			try 
+			{
+				Runtime.getRuntime().exec("hh.exe ayuda.chm");
+			}
+			catch (IOException e) 
+			{
+				e.printStackTrace();
+			}
 		}
 	}
 }

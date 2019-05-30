@@ -203,9 +203,8 @@ public class ModificacionProductos extends Frame implements ActionListener, Wind
 				}
 
 				catch(ArrayIndexOutOfBoundsException oe) {
-					JOptionPane.showMessageDialog(null, "Arregle los errores que se producen, "
-							+ "ya sea por el nombre del Producto que debe ser compuesto, realice una baja de ese producto", 
-							"Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Realice una baja, debido a que no puede modificar el producto, "
+							+ "al no poner dos palabras en el nombre", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		}
