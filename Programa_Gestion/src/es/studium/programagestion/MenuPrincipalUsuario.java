@@ -1,10 +1,6 @@
 package es.studium.programagestion;
 
-import java.awt.Frame;
 import java.awt.Image;
-import java.awt.Menu;
-import java.awt.MenuBar;
-import java.awt.MenuItem;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,32 +8,37 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+
 public class MenuPrincipalUsuario extends WindowAdapter implements ActionListener{
 
-	Frame MenuUsuario = new Frame("Menú Principal");
+	JFrame MenuUsuario = new JFrame("Menú Principal");
 
 	// Crear barra de Menú
-	MenuBar barraMenu = new MenuBar();
+	JMenuBar barraMenu = new JMenuBar();
 
 	// Crear varios Menús
-	Menu menuClientes = new Menu("Clientes");
-	Menu menuEmpleados = new Menu("Empleados");
-	Menu menuProductos = new Menu("Productos");
-	Menu menuCompra = new Menu("Compra");
-	Menu menuAyuda = new Menu("Ayuda");
+	JMenu menuClientes = new JMenu("Clientes");
+	JMenu menuEmpleados = new JMenu("Empleados");
+	JMenu menuProductos = new JMenu("Productos");
+	JMenu menuCompra = new JMenu("Compra");
+	JMenu menuAyuda = new JMenu("Ayuda");
 
 	// Crear Menú Item
-	MenuItem mnimenuClientesAlta = new MenuItem("Alta");
-	MenuItem mnimenuEmpleadosAlta = new MenuItem("Alta");
-	MenuItem mnimenuProductosAlta = new MenuItem("Alta");
-	MenuItem mnimenuAyudaVer = new MenuItem("Ver ayuda");
-	MenuItem mnimenuCompraAlta = new MenuItem("Alta");
+	JMenuItem mnimenuClientesAlta = new JMenuItem("Alta");
+	JMenuItem mnimenuEmpleadosAlta = new JMenuItem("Alta");
+	JMenuItem mnimenuProductosAlta = new JMenuItem("Alta");
+	JMenuItem mnimenuAyudaVer = new JMenuItem("Ver ayuda");
+	JMenuItem mnimenuCompraAlta = new JMenuItem("Alta");
 
 	MenuPrincipalUsuario()
 	{
 		colocarIcono();
 		// Añadir la barra de Menú
-		MenuUsuario.setMenuBar(barraMenu);
+		MenuUsuario.setJMenuBar(barraMenu);
 		barraMenu.add(menuClientes);
 		barraMenu.add(menuEmpleados);
 		barraMenu.add(menuProductos);

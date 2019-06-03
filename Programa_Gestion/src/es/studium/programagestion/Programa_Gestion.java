@@ -1,18 +1,15 @@
 package es.studium.programagestion;
 
 import java.awt.BorderLayout;
-import java.awt.Button;
-import java.awt.Dialog;
 import java.awt.FlowLayout;
-import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Label;
-import java.awt.Panel;
 import java.awt.TextField;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.IOException;
@@ -22,69 +19,75 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
-public class Programa_Gestion implements WindowListener, ActionListener{
+public class Programa_Gestion implements WindowListener, ActionListener, KeyListener{
 
 	// Crear una ventana
-	Frame miPrograma = new Frame("Farmacia");
+	JFrame miPrograma = new JFrame("Farmacia");
 	// Crear un par de etiquetas una para el usuario y otra para la clave
-	Label lblUsuario = new Label("   Usuario:");
+	JLabel lblUsuario = new JLabel("   Usuario:");
 	// Crear dos Campos de Texto para poder escribir el usuario y la clave
 	TextField txtUsuario = new TextField(18);
-	Label lblClave = new Label("   Clave:    ");
+	JLabel lblClave = new JLabel("   Clave:    ");
 	TextField txtClave = new TextField(18);
 	// Tres botones
-	Button btnLogin = new Button("Login");
-	Button btnLimpiar = new Button("Limpiar");
-	Button btnOlvidar = new Button("Olvidé la clave");
+	JButton btnLogin = new JButton("Login");
+	JButton btnLimpiar = new JButton("Limpiar");
+	JButton btnOlvidar = new JButton("Olvidé la clave");
 
 	// Panel para olvidar la Clave
-	Panel pnlOlvidar = new Panel();
+	JPanel pnlOlvidar = new JPanel();
 
 	// Diálogo para la recuperación de la cuenta
-	Dialog recuperacion = new Dialog(miPrograma, true);
+	JDialog recuperacion = new JDialog(miPrograma, true);
 
 	// Diálogo para cuando ya se ha puesto el correo para la recuperación
-	Dialog recuperacion2 = new Dialog(miPrograma, true);
+	JDialog recuperacion2 = new JDialog(miPrograma, true);
 
 	// Diálogo para cuando ya se ha puesto el correo para la recuperación
-	Dialog recuperacionIncorrecta = new Dialog(miPrograma, true);
+	JDialog recuperacionIncorrecta = new JDialog(miPrograma, true);
 
 	// Componentes para el login incorrecto
-	Label lblIncorrecto = new Label("Datos de Login incorrectos");
-	Button btnAceptarIn = new Button("Aceptar");
+	JLabel lblIncorrecto = new JLabel("Datos de Login incorrectos");
+	JButton btnAceptarIn = new JButton("Aceptar");
 
 	// Paneles para el Frame Principal
-	Panel pnlSuperior1 = new Panel();
-	Panel pnlCentral1 = new Panel();
+	JPanel pnlSuperior1 = new JPanel();
+	JPanel pnlCentral1 = new JPanel();
 
 	// SubPanel Central 
-	Panel pnlCentralSub = new Panel();
-	Panel pnlInferior1 = new Panel();
-	Panel pnlInferior2 = new Panel();
+	JPanel pnlCentralSub = new JPanel();
+	JPanel pnlInferior1 = new JPanel();
+	JPanel pnlInferior2 = new JPanel();
 
 	// Paneles para el Diálogo
-	Panel pnlSuperior = new Panel();
-	Panel pnlCentral = new Panel();
-	Panel pnlInferior = new Panel();
+	JPanel pnlSuperior = new JPanel();
+	JPanel pnlCentral = new JPanel();
+	JPanel pnlInferior = new JPanel();
 
 	// Componentes para el diálogo
-	Label lblIndicar = new Label("Indicar tu correo electrónico");
-	TextField txtCorreo = new TextField(18);
-	Button btnAceptar = new Button("Aceptar");
+	JLabel lblIndicar = new JLabel("Indicar tu correo electrónico");
+	JTextField txtCorreo = new JTextField(18);
+	JButton btnAceptar = new JButton("Aceptar");
 
 	// Componentes para el Segundo Diálogo
-	Label lblCorreo = new Label("Se ha enviado un correo electrónico a su cuenta");
-	Button btnAceptar2 = new Button("Aceptar");
+	JLabel lblCorreo = new JLabel("Se ha enviado un correo electrónico a su cuenta");
+	JButton btnAceptar2 = new JButton("Aceptar");
 
 	// Paneles para el Segundo Diálogo
-	Panel pnlSuperior2 = new Panel();
-	Panel pnlCentral2 = new Panel();
+	JPanel pnlSuperior2 = new JPanel();
+	JPanel pnlCentral2 = new JPanel();
 
 	// Componentes para el diálogo RECUPERACIÓN INCORRECTA
-	Label lblNoExiste = new Label("No existe una cuenta con ese correo electrónico");
-	Button btnAceptarRI = new Button("Aceptar");
+	JLabel lblNoExiste = new JLabel("No existe una cuenta con ese correo electrónico");
+	JButton btnAceptarRI = new JButton("Aceptar");
 
 	// Base De datos
 	String driver = "com.mysql.jdbc.Driver";
@@ -130,7 +133,23 @@ public class Programa_Gestion implements WindowListener, ActionListener{
 		miPrograma.addWindowListener(this);
 		// Título al diálogo
 		recuperacion.setTitle("Olvidé la clave");
-		// Título al diálogo2
+		// Añadirle al diálogo RECUPERACION los siguientes componentes
+		pnlSuperior.add(lblIndicar);
+		pnlCentral.add(txtCorreo);
+		txtCorreo.setText("prueba@prueba.com");
+		pnlInferior.add(btnAceptar);
+		// Ubicación de los paneles
+		recuperacion.add(pnlSuperior, "North");
+		recuperacion.add(pnlCentral, "Center");
+		recuperacion.add(pnlInferior, "South");
+
+		// Tamaño al diálogo, localización y listener
+		recuperacion.setSize(270,160);
+		recuperacion.setResizable(false);
+		recuperacion.setLocationRelativeTo(null);
+		recuperacion.addWindowListener(this);
+		
+		// Diálogo2
 		recuperacion2.setTitle("Correcto");
 		// Título al diálogo Recuperación Incorrecta
 		recuperacionIncorrecta.setTitle("Incorrecto");
@@ -145,25 +164,11 @@ public class Programa_Gestion implements WindowListener, ActionListener{
 		recuperacionIncorrecta.add(lblNoExiste);
 		recuperacionIncorrecta.add(btnAceptarRI);
 
-		// Tamaño al diálogo, localización y listener
-		recuperacion.setSize(200,150);
-		recuperacion.setResizable(false);
-		recuperacion.setLocationRelativeTo(null);
-		recuperacion.addWindowListener(this);
 		// Tamaño al diálogo 2
 		recuperacion2.setSize(300,110);
 		recuperacion2.setResizable(false);
 		recuperacion2.setLocationRelativeTo(null);
 		recuperacion2.addWindowListener(this);
-		// Ubicación de los paneles
-		recuperacion.add(pnlSuperior, "North");
-		recuperacion.add(pnlCentral, "Center");
-		recuperacion.add(pnlInferior, "South");
-
-		// Añadirle al diálogo RECUPERACION los siguientes componentes
-		pnlSuperior.add(lblIndicar);
-		pnlCentral.add(txtCorreo);
-		pnlInferior.add(btnAceptar);
 		// Ubicación paneles en el segundo diálogo
 		recuperacion2.add(pnlSuperior2, "North");
 		recuperacion2.add(pnlCentral2, "Center");
@@ -177,6 +182,8 @@ public class Programa_Gestion implements WindowListener, ActionListener{
 		// Colocar Icono
 		miPrograma.setIconImage(miIcono);
 
+		// Añadir keyListener al TextField en el que se pone la clave 
+		txtClave.addKeyListener(this);
 		// Añadir Listeners a los botones
 		btnLogin.addActionListener(this);
 		btnLimpiar.addActionListener(this);
@@ -307,4 +314,16 @@ public class Programa_Gestion implements WindowListener, ActionListener{
 			recuperacion.setVisible(true);
 		}
 	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		int codigo = e.getKeyCode();
+		
+		if (codigo==10) {
+			btnLogin.doClick();
+		}
+	}
+
+	public void keyReleased(KeyEvent e) {}
+	public void keyTyped(KeyEvent e) {}
 }

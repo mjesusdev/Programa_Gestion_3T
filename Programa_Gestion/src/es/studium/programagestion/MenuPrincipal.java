@@ -1,10 +1,6 @@
 package es.studium.programagestion;
 
-import java.awt.Frame;
 import java.awt.Image;
-import java.awt.Menu;
-import java.awt.MenuBar;
-import java.awt.MenuItem;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,50 +8,55 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+
 public class MenuPrincipal extends WindowAdapter implements ActionListener{
 
-	Frame miMenu = new Frame("Menú Principal");
+	JFrame miMenu = new JFrame("Menú Principal");
 
 	// Crear barra de Menú
-	MenuBar barraMenu = new MenuBar();
+	JMenuBar barraMenu = new JMenuBar();
 
 	// Crear menús
-	Menu menuClientes = new Menu("Clientes");
-	Menu menuEmpleados = new Menu("Empleados");
-	Menu menuProductos = new Menu("Productos");
-	Menu menuCompra = new Menu("Compra");
-	Menu menuAyuda = new Menu("Ayuda");
+	JMenu menuClientes = new JMenu("Clientes");
+	JMenu menuEmpleados = new JMenu("Empleados");
+	JMenu menuProductos = new JMenu("Productos");
+	JMenu menuCompra = new JMenu("Compra");
+	JMenu menuAyuda = new JMenu("Ayuda");
 
 	// Crear Items dentro del menú Clientes
-	MenuItem mnimenuClientesAlta = new MenuItem("Alta");
-	MenuItem mnimenuClientesMod = new MenuItem("Modificación");
-	MenuItem mnimenuClientesBaja = new MenuItem("Baja");
-	MenuItem mnimenuClientesConsulta = new MenuItem("Consulta");
+	JMenuItem mnimenuClientesAlta = new JMenuItem("Alta");
+	JMenuItem mnimenuClientesMod = new JMenuItem("Modificación");
+	JMenuItem mnimenuClientesBaja = new JMenuItem("Baja");
+	JMenuItem mnimenuClientesConsulta = new JMenuItem("Consulta");
 
 	// Crear Items dentro del menú Empleados
-	MenuItem mnimenuEmpleadosAlta = new MenuItem("Alta");
-	MenuItem mnimenuEmpleadosMod = new MenuItem("Modificación");
-	MenuItem mnimenuEmpleadosBaja = new MenuItem("Baja");
-	MenuItem mnimenuEmpleadosConsulta = new MenuItem("Consulta");
+	JMenuItem mnimenuEmpleadosAlta = new JMenuItem("Alta");
+	JMenuItem mnimenuEmpleadosMod = new JMenuItem("Modificación");
+	JMenuItem mnimenuEmpleadosBaja = new JMenuItem("Baja");
+	JMenuItem mnimenuEmpleadosConsulta = new JMenuItem("Consulta");
 
 	// Crear Items dentro del menú Productos
-	MenuItem mnimenuProductosAlta = new MenuItem("Alta");
-	MenuItem mnimenuProductosMod = new MenuItem("Modificación");
-	MenuItem mnimenuProductosBaja = new MenuItem("Baja");
-	MenuItem mnimenuProductosConsulta = new MenuItem("Consulta");
+	JMenuItem mnimenuProductosAlta = new JMenuItem("Alta");
+	JMenuItem mnimenuProductosMod = new JMenuItem("Modificación");
+	JMenuItem mnimenuProductosBaja = new JMenuItem("Baja");
+	JMenuItem mnimenuProductosConsulta = new JMenuItem("Consulta");
 
 	// Crear Items dentro del menú Compra
-	MenuItem mnimenuCompraAlta = new MenuItem("Alta");
-	MenuItem mnimenuCompraConsulta = new MenuItem("Consulta");
+	JMenuItem mnimenuCompraAlta = new JMenuItem("Alta");
+	JMenuItem mnimenuCompraConsulta = new JMenuItem("Consulta");
 
 	// Crear Item dentro del menú Ayuda
-	MenuItem mnimenuAyudaVer = new MenuItem("Ver ayuda");
+	JMenuItem mnimenuAyudaVer = new JMenuItem("Ver ayuda");
 
 	MenuPrincipal()
 	{
 		colocarIcono();
 		// Añadir la barra de Menú
-		miMenu.setMenuBar(barraMenu);
+		miMenu.setJMenuBar(barraMenu);
 		barraMenu.add(menuClientes);
 		barraMenu.add(menuEmpleados);
 		barraMenu.add(menuProductos);
